@@ -19,4 +19,5 @@ yoshidont-mind
 
 ## Any important comments you'd like to make about your work:
 
-人事を尽くして天命を待つ (I'll do my best and leave the rest to fate.) 
+For commits prior to 'COPY code from pokemon-in-vancouver!', please refer to the other repository (pokemon-in-vancouver).
+https://github.com/yoshidont-mind/pokemon-in-vancouver
