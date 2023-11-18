@@ -621,7 +621,7 @@ def describe_current_location(map_dic, character):
     print(f"Now, you are at \"★\".")
 
 
-def get_direction(character):
+def get_user_choice(character):
     numbers_expected = ["1", "2", "3", "4", "5", "6"]
     option_menu = []
     if character['Pokemon']:
@@ -729,14 +729,14 @@ def game():
     describe_current_location(map_dic, character)
     alive_pokemon = True
     while alive_pokemon:
-        direction = get_direction(character)
-        if direction == "5":
+        user_choice = get_user_choice(character)
+        if user_choice == "5":
             open_map(map_dic, character)
             describe_current_location(map_dic, character)
-        elif direction == "6":
+        elif user_choice == "6":
             check_status(character)
             describe_current_location(map_dic, character)
-        elif direction == "7":
+        elif user_choice == "7":
             pokemon_list = ""
             for index in range(len(character['Pokemon'])):
                 pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
@@ -748,8 +748,8 @@ def game():
                 change_order(character, selected_number_int - 1)
                 print(f"\nYou brought {character['Pokemon'][0]['Name']} to the top.")
             else:
-                print("\nYou're choice is not valid. The request to change order is canceled.")
-        elif direction == "8":
+                print("\nYour choice is not valid. The request to change order is canceled.")
+        elif user_choice == "8":
             pokemon_list = ""
             for index in range(len(character['Pokemon'])):
                 pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
@@ -762,9 +762,9 @@ def game():
                       f" By-bye, {character['Pokemon'][selected_number_int - 1]['Name']}!")
                 escape_pokemon(character, selected_number_int - 1)
             else:
-                print("\nYou're choice is not valid. The request to change order is canceled.")
-        elif validate_move(map_dic, character, direction):
-            move_character(character, direction)
+                print("\nYour choice is not valid. The request to escape pokemon is canceled.")
+        elif validate_move(map_dic, character, user_choice):
+            move_character(character, user_choice)
             describe_current_location(map_dic, character)
             if map_dic[character['Location']][1]:
                 execute_event(map_dic, character)
