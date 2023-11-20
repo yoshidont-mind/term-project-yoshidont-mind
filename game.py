@@ -1,208 +1,14 @@
 import time
 import random
 
-
-def poke_dex():
-    pokemon_dic = {1: {'Name': 'Bulbasaur', 'HP': 45, 'Attack': 49, 'Defense': 49},
-                   2: {'Name': 'Charmander', 'HP': 39, 'Attack': 52, 'Defense': 43},
-                   3: {'Name': 'Squirtle', 'HP': 44, 'Attack': 48, 'Defense': 65},
-                   4: {'Name': 'Pikachu', 'HP': 35, 'Attack': 55, 'Defense': 30},
-                   5: {'Name': 'Eevee', 'HP': 55, 'Attack': 55, 'Defense': 50},
-                   6: {'Name': 'Polygon', 'HP': 65, 'Attack': 60, 'Defense': 70},
-                   7: {'Name': 'Gengar', 'HP': 60, 'Attack': 65, 'Defense': 60},
-                   8: {'Name': 'Jigglypuff', 'HP': 115, 'Attack': 45, 'Defense': 20},
-                   9: {'Name': 'Marshadow', 'HP': 90, 'Attack': 125, 'Defense': 80},
-                   10: {'Name': 'Eifie', 'HP': 65, 'Attack': 65, 'Defense': 60},
-                   11: {'Name': 'Mew', 'HP': 100, 'Attack': 100, 'Defense': 100},
-                   }
-    return pokemon_dic
-
-
-def print_pokemon(pokemon_number):
-    if pokemon_number == 1:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⡀⠈⡖⡤⠄⠀
-⠀⠀⢀⡀⠀⠀⠀⡐⠁⠀⠀⠠⠐⠂⠀⠁⠀⠀⠀⠀
-⠀⠰⡁⠐⢉⣉⣭⡍⠁⠂⠉⠘⡀⠀⠀⠀⠀⠂⠡⠀
-⢀⣊⠀⡄⠻⠿⠋⠀⠀⠀⠀⠀⢃⠀⠀⠀⠀⠀⠀⢀
-⡎⣾⠀⠁⣴⡆⠀⠡⢺⣿⣆⠀⢠⢱⣄⠀⠀⠀⠀⠈
-⡑⠟⠀⠀⠀⠀⠀⢀⣸⡿⠟⠀⠀⠈⢿⣿⡦⡀⠀⡰
-⠙⠔⠦⣤⣥⣤⣤⣤⡤⠆⠀⠀⠀⠀⢀⢀⠀⠈⠎⠀
-⠀⠀⠈⣰⡋⢉⠉⠁⠒⠂⢇⢠⡆⠀⠸⢴⣿⠀⠘⠀
-⠀⠀⠘⡿⠃⠀⠨⠒⢆⣸⣿⠁⠀⡠⡇⠈⠋⠀⠰⠀
-⠀⠀⠀⠛⠒⠒⠁⠀⠈⠷⡤⠤⠐⠀⠘⠒⠒⠖⠁⠀""")
-    elif pokemon_number == 2:
-        print("""
-⠀⠀⠀⣀⠔⠒⠒⠂⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⢰⢅⠀⠀⢀⣤⢄⢂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⣾⡆⠀⠀⠀⢸⠼⡎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⢀⢗⠂⠀⠀⡀⠈⢉⠅⠇⠀⠀⠀⠀⠀⠀⢠⣄⠀
-⠀⠈⠢⣓⠔⣲⠖⡫⠊⡘⠀⠀⠀⠀⠀⠀⠲⡟⠙⡆
-⠀⢀⢀⠠⠘⣇⠖⢄⠀⠉⠐⠠⢄⣀⡀⠀⠜⠀⠀⣁
-⠘⣏⣀⣀⣀⠃⠀⠀⠑⣀⣀⣀⣰⠼⠇⠈⠄⠀⠈⡻
-⠀⠁⠀⠀⢰⠀⠀⠀⠀⠠⠀⠡⡀⠀⠀⠀⠈⡖⠚⠀
-⠀⠀⠀⡠⠘⠀⠀⠀⠀⢀⠆⠀⠐⡀⠀⡠⠊⣠⠀⠀
-⠀⠀⢐⠀⠀⠁⡀⠀⠀⢀⠀⠀⠀⢨⠀⡠⡴⠂⠀⠀
-⠀⢀⣨⣤⠀⠀⠐⠃⠐⠚⠢⠀⠀⠈⠑⠊⠀⠀⠀⠀
-⠀⠘⠓⠋⠉⠁⠀⠀⠀⠀⠀⠓⢶⡾⠗⠀⠀⠀⠀⠀""")
-    elif pokemon_number == 3:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠤⠐⠒⠒⠂⠠⡀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠊⠀⠀⡠⢠⠂⠀⠀⠀⠡⡀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠇⠀⠀⢰⣷⣾⠀⠀⠀⠀⠀⡇⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠜⢨⠢⠔⡀⠀⠠⠘⠛⠛⠀⠀⠀⠀⢸⡇⠀
-⠀⠀⠀⢀⣀⣀⠀⠀⠀⠰⠀⠀⠀⠀⠡⡀⠀⠈⠀⠒⠂⠄⡀⢀⠀⡀⠀
-⠀⡴⠊⠀⠀⠀⠉⢆⠀⡔⢣⠀⠀⠀⠀⠐⡤⣀⠀⠀⠀⠀⠀⣀⠄⠀⠀
-⢸⠀⠀⠀⢠⠀⠀⠈⣼⠀⠀⠣⠀⠀⠀⡰⡀⠀⠉⠀⠀⠰⠉⠀⠁⠠⢄
-⢰⠀⠀⠀⠀⠇⠀⢀⢿⠀⢀⠇⡐⠀⠈⠀⠈⠐⠠⠤⠤⠤⠀⠀⠀⠀⢨
-⠀⢓⠤⠤⠊⠀⠀⢸⠀⠣⠀⡰⠁⠀⠀⡀⠀⠀⠀⠸⠀⢰⠁⠐⠂⠈⠁
-⠀⠀⠑⢀⠀⠀⠀⠈⣄⠖⠉⠑⢄⠠⠊⠀⠢⢄⣠⣃⣀⡆⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠑⠠⢀⣀⠎⠀⠀⠀⠈⡄⠀⠀⠀⢠⢃⠠⠃⠐⡀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠸⠀⠀⠀⠀⢀⠯⠉⠤⢴⡃⠁⠀⠀⠀⡇⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠰⡁⠀⠀⠀⠠⠂⠀⠀⠀⠀⠑⢄⠀⠀⢀⠲⠁⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠘⠒⠑⠔⠁⠀⠀⠀⠀⠀⠀⠀⠁⠉⠀⠀⠀⠀⠀⠀""")
-    elif pokemon_number == 4:
-        print("""
-⠸⣷⣦⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⠀⠀⠀
-⠀⠙⣿⡄⠈⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠔⠊⠉⣿⡿⠁⠀⠀⠀
-⠀⠀⠈⠣⡀⠀⠀⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠊⠁⠀⠀⣰⠟⠀⠀⠀⣀⣀
-⠀⠀⠀⠀⠈⠢⣄⠀⡈⠒⠊⠉⠁⠀⠈⠉⠑⠚⠀⠀⣀⠔⢊⣠⠤⠒⠊⠉⠀⡜
-⠀⠀⠀⠀⠀⠀⠀⡽⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠩⡔⠊⠁⠀⠀⠀⠀⠀⠀⠇
-⠀⠀⠀⠀⠀⠀⠀⡇⢠⡤⢄⠀⠀⠀⠀⠀⡠⢤⣄⠀⡇⠀⠀⠀⠀⠀⠀⠀⢰⠀
-⠀⠀⠀⠀⠀⠀⢀⠇⠹⠿⠟⠀⠀⠤⠀⠀⠻⠿⠟⠀⣇⠀⠀⡀⠠⠄⠒⠊⠁⠀
-⠀⠀⠀⠀⠀⠀⢸⣿⣿⡆⠀⠰⠤⠖⠦⠴⠀⢀⣶⣿⣿⠀⠙⢄⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢻⣿⠃⠀⠀⠀⠀⠀⠀⠀⠈⠿⡿⠛⢄⠀⠀⠱⣄⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢸⠈⠓⠦⠀⣀⣀⣀⠀⡠⠴⠊⠹⡞⣁⠤⠒⠉⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⣠⠃⠀⠀⠀⠀⡌⠉⠉⡤⠀⠀⠀⠀⢻⠿⠆⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠰⠁⡀⠀⠀⠀⠀⢸⠀⢰⠃⠀⠀⠀⢠⠀⢣⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⢶⣗⠧⡀⢳⠀⠀⠀⠀⢸⣀⣸⠀⠀⠀⢀⡜⠀⣸⢤⣶⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠈⠻⣿⣦⣈⣧⡀⠀⠀⢸⣿⣿⠀⠀⢀⣼⡀⣨⣿⡿⠁⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠈⠻⠿⠿⠓⠄⠤⠘⠉⠙⠤⢀⠾⠿⣿⠟⠋""")
-    elif pokemon_number == 5:
-        print("""
-⠀⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠠⣵⡍⣂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠸⣿⣿⣖⣂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⣹⣿⣿⡔⡆⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢀⣀⠀⠀⠀
-⠀⠫⡿⣿⣷⣽⡻⠍⠿⠗⢶⡄⡀⠀⡀⠄⣒⣤⣯⣵⣾⢟⡦⠁⠀⠀
-⠀⠀⠉⢛⡟⡉⠀⠀⠀⠀⠀⡈⢳⣮⣴⣿⣿⣿⣿⢟⡵⠋⠀⣐⠯⡄
-⠀⠀⠀⠸⢃⣤⡴⢂⠐⡈⣐⠠⢈⢹⣛⣿⣯⣭⡼⣭⠠⠔⠊⠁⠀⢣
-⠀⠀⠀⣼⢸⣿⡇⠠⠂⠔⣼⣽⡇⣼⠇⣠⠞⣍⠲⠤⢭⡐⢎⠀⠀⠈
-⠀⡠⠊⠹⡀⠍⣄⡲⢁⡈⠿⠿⢡⠿⡴⣇⠫⠴⣉⠞⣢⢙⡌⢠⡀⠀
-⠠⡅⠀⠀⡨⠒⠤⣄⣩⣁⣦⠵⠊⠀⠈⣯⣗⢧⣍⡚⣤⣋⣼⢳⡓⠀
-⠐⢷⡀⡈⠀⠊⠀⠀⠀⠂⠆⢱⠀⠀⢰⠇⢻⡽⣮⡽⢶⣛⣾⠝⠁⠀
-⠀⠀⠉⢥⡈⡀⠀⠀⠀⠀⣸⡘⣀⠤⢣⠘⠤⡟⠑⠋⠛⠂⠁⠀⠀⠀
-⠀⠀⠀⠀⢷⡲⢄⠀⣀⡴⢏⣹⣥⣾⠁⡊⢥⡇⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠈⣗⠉⢻⠃⡘⢤⣿⣿⣿⡇⠐⡰⠇⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⡛⡀⡼⠀⠐⡼⠽⠋⡧⣠⡲⠝⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠉⠁⠘⠲⠎⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
-    elif pokemon_number == 6:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⣠⠤⠛⠋⠉⠉⠉⠛⢦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⣠⠶⠓⠂⠀⠀⠠⠤⠤⠀⠀⠙⣆⠀⠀⠀⠀⠀⠀⡠⢤⠀
-⠀⠀⢀⢖⡃⠀⠀⠀⠀⢰⠀⣤⡄⠀⠀⠀⣹⠀⠀⠀⠀⢠⠔⠁⣼⠇
-⢀⡞⠉⠀⠑⣄⠀⠀⠀⠘⠀⠀⠀⠐⠀⣠⠋⠀⠀⢠⠖⠉⠀⢰⠏⠀
-⠈⠻⢄⣀⡀⢀⡇⠀⠀⠀⠀⠀⢀⡠⠟⠛⢤⣀⠜⠋⠀⠀⢠⠃⠀⠀
-⠀⣠⣴⠁⢉⣽⠟⠶⠶⠶⠾⡿⠁⡇⠀⠀⠀⠀⠳⣤⠀⢠⠇⠀⠀⠀
-⠰⣏⠈⠢⡎⠒⣄⠀⠀⢀⠶⢁⡠⠃⠀⠀⠀⠀⠀⢸⣄⠎⠀⠀⠀⠀
-⠀⠈⠑⣤⣧⠀⠈⠑⡄⣾⣴⢋⡔⢫⡉⠉⠉⠉⠉⠙⣦⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠛⣄⠀⡞⢃⡴⠋⠀⠀⢙⠦⠤⠤⠤⠤⠤⢽⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠈⠉⢹⣿⣀⠀⢀⡴⠋⠀⠀⠀⠀⣀⣤⠇⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⢸⣇⠈⣶⠊⠀⠀⣀⣠⠤⠒⠋⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⢤⣟⣤⠶⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
-    elif pokemon_number == 7:
-        print("""
-⠀⠀⠀⠀⠀⢸⠓⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢸⠀⠀⠑⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⢸⡆⠀⠀⠀⠙⢤⡷⣤⣦⣀⠤⠖⠚⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣠⡿⠢⢄⡀⠀⡇⠀⠀⠀⠀⠀⠉⠀⠀⠀⠀⠀⠸⠷⣶⠂⠀⠀⠀⣀⣀⠀⠀⠀
-⢸⣃⠀⠀⠉⠳⣷⠞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠉⠉⠉⢉⡭⠋
-⠀⠘⣆⠀⠀⠀⠁⠀⢀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠋⠀⠀
-⠀⠀⠘⣦⠆⠀⠀⢀⡎⢹⡀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⡀⣠⠔⠋⠀⠀⠀⠀
-⠀⠀⠀⡏⠀⠀⣆⠘⣄⠸⢧⠀⠀⠀⠀⢀⣠⠖⢻⠀⠀⠀⣿⢥⣄⣀⣀⣀⠀⠀
-⠀⠀⢸⠁⠀⠀⡏⢣⣌⠙⠚⠀⠀⠠⣖⡛⠀⣠⠏⠀⠀⠀⠇⠀⠀⠀⠀⢙⣣⠄
-⠀⠀⢸⡀⠀⠀⠳⡞⠈⢻⠶⠤⣄⣀⣈⣉⣉⣡⡔⠀⠀⢀⠀⠀⣀⡤⠖⠚⠀⠀
-⠀⠀⡼⣇⠀⠀⠀⠙⠦⣞⡀⠀⢀⡏⠀⢸⣣⠞⠀⠀⠀⡼⠚⠋⠁⠀⠀⠀⠀⠀
-⠀⢰⡇⠙⠀⠀⠀⠀⠀⠀⠉⠙⠚⠒⠚⠉⠀⠀⠀⠀⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⢧⡀⠀⢠⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠙⣶⣶⣿⠢⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠉⠀⠀⠀⠙⢿⣳⠞⠳⡄⠀⠀⠀⢀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠀⠀⠹⣄⣀⡤⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
-    elif pokemon_number == 8:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⡠⠖⢉⣌⢆⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣠⠚⠉⠀⠈⠉⠲⣿⣿⡜⡀⠀⠀⠀⠀
-⡔⢉⣙⣓⣒⡲⠮⡇⠀⠀⠀⠀⠀⠀⠘⡿⡇⡇⠀⠀⠀⠀
-⡇⠘⣿⣿⣿⠏⠀⠀⠠⣀⡀⠀⠀⠀⠀⡇⠈⠳⡄⠀⠀⠀
-⢹⠀⢻⣿⠇⠀⠀⣀⣀⠀⡍⠃⠀⠀⣠⣷⡟⢳⡜⡄⠀⠀
-⠈⣆⠀⠋⢀⢔⣵⣿⠋⠹⣿⠒⠒⠚⠁⣿⣿⣾⣷⢸⠤⡄
-⠀⡇⠀⠀⢸⢸⣿⣿⣶⣾⡏⡇⠀⠀⢀⡘⣝⠿⡻⢸⡰⠁
-⠀⢳⠀⠀⠈⢆⠻⢿⡿⠟⡱⠁⠰⠛⢿⡇⠀⠉⠀⡸⠁⠀
-⠀⠈⢆⠀⠀⠀⠉⠒⠒⣉⡀⠀⠀⢇⠀⡇⠀⠀⢠⠃⠀⠀
-⠀⠀⠈⠣⡀⠀⠀⠀⠀⠀⢉⡱⠀⠀⠉⠀⢀⡴⠁⠀⠀⠀
-⠀⠀⠀⠀⠈⠓⠦⣀⣉⡉⠁⢀⣀⣠⠤⠒⠥⣄⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠰⣉⣀⣀⡠⠭⠛⠀⠀⠑⠒⠤⠤⠷⠀⠀⠀""")
-    elif pokemon_number == 9:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣤⣄⣀⣴⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⢀⠀⠀⠀⠀⡀⠀⢺⣿⣿⣿⠛⠛⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠈⠀⠀⠀⢀⣧⣤⡀⢉⣿⡁⠀⣠⣰⠀⡀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢠⣾⣯⡿⣳⣿⣿⣿⣷⣻⣿⢳⡄⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢘⣿⣶⠞⡛⠻⣿⣿⡿⠟⠲⣯⠄⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢸⣿⡇⠈⣷⡄⠈⡏⠀⣼⠇⢸⡇⠀⠀⠀⠀⠀⠀⠀
-⠀⠂⠀⠀⠀⠀⠀⠸⣿⣇⠀⡹⢇⣶⣶⡼⢿⣀⣼⠇⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⣽⣿⣿⣿⣿⣿⣟⣫⡁⡀⠄⠀⠀⠀⠀⠀⠀
-⠀⠀⢀⡀⠀⠀⠀⠀⠀⠰⠛⠛⠿⠿⠟⠛⠫⠃⠉⠁⠀⠀⠀⠀⠀⠀⠀
-⠀⡆⠘⠻⠀⠀⠀⠀⢀⣰⡆⢰⣶⣆⣶⣀⣀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢣⢘⠰⡄⠀⠀⠀⠄⢸⡿⢎⢻⡿⣿⢿⡟⡬⣓⠂⠀⠀⠀⠀⠀⠀⠀⠀
-⠠⠙⠃⠀⠁⡐⠀⠃⠈⠑⠂⢯⠳⡉⠞⡹⠀⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⢀⡈⠙⠀⠀⣀⣀⣀⣀⠀⡀⣋⠔⠀⠀⣃⡁⠀⠀⠀⣀⡀⣀⠀⠀⠀⠀
-⠈⢃⣀⣀⣀⠉⠉⠉⠉⠀⠁⣩⠟⠀⠠⠙⠁⠀⡀⠀⠉⠡⠙⠃⢀⣀⢀
-⠈⠉⠉⠉⠑⠀⠀⠐⠤⠒⠀⠀⠀⠀⠁⢀⣀⢀⣀⣀⣤⣴⣷⣿⣿⣿⣾""")
-    elif pokemon_number == 10:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠴⠶⠶⣄⡀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣀⣀⡀⠘⠻⣄⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢣⣄⠘⢳⡄⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠴⠾⢛⠛⣛⡟⠀⣿⠀⠀⠀
-⠀⠀⠀⢀⡠⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⢠⠞⢀⡦⠟⠛⠛⠛⢦⡃⢸⡇⠀⠀
-⠀⠀⠀⣾⠓⠸⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠛⠋⠀⠀⠀⠀⠀⢸⡇⢸⡇⠀⠀
-⠀⠀⠀⣿⢧⡄⠙⠛⢦⡀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⡼⢻⡄⠀⠸⣁⠹⡀⠀
-⠀⠀⠀⠛⣿⣿⠤⠜⠛⠛⠒⢢⣤⠤⠖⠚⠛⠀⣉⣈⣀⡼⠂⠀⠀⢫⡄⢳⡄
-⠀⠀⠀⠀⢹⡏⣜⣢⠀⠀⠀⠈⠉⢀⣤⣴⣶⣾⣿⣿⠟⠁⠀⠀⠀⢸⣇⢸⡇
-⠀⢀⣀⡾⣯⡅⠙⠋⢁⡠⣤⡤⠐⢺⣿⣿⣿⠯⠟⠁⠀⠀⠀⠀⣸⠯⡙⡾⠃
-⢠⢟⣩⡕⣏⣡⠄⠀⠾⣧⠿⠃⠀⠈⠉⠛⢯⡀⣀⡠⠤⢤⡤⣒⣏⣼⠝⠁⠀
-⠀⠈⠉⠙⠚⠑⢤⣄⣀⣀⠀⢀⣶⡀⣤⡀⠀⢹⣉⠁⠀⠀⠀⠉⠙⡇⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠉⢹⡯⣐⠪⢩⡕⠛⠑⠒⣤⣿⠀⠀⠀⠀⠀⠀⢹⡆⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⣼⢱⠒⠋⠉⠀⠀⠀⠀⠀⣄⣤⣤⣄⠀⠀⠀⢸⣇⠀⠀
-⠀⠀⠀⠀⢀⣴⠒⠚⣅⣚⣿⣶⣠⠀⠀⠀⣶⡿⠿⣿⣿⣿⣷⣤⡄⠀⠘⣧⠀
-⠀⠀⠀⠠⡼⢳⣰⡾⠞⠋⠀⠈⣿⠀⢀⡴⠋⠀⠀⢸⣿⣿⠋⠀⢸⠁⠀⣿⠀
-⠀⠀⠀⠈⢻⣦⠏⠀⠀⠀⠀⢰⠉⠀⣶⠁⠀⠀⣠⣾⣿⡟⠁⢠⡟⠁⢰⠋⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣸⡆⢰⠋⠀⠀⠀⠉⠉⠉⠀⠀⠈⠑⢳⠋⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢣⡤⠎⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
-    elif pokemon_number == 11:
-        print("""
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡴⠞⢳⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡔⠋⠀⢰⠎⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢆⣤⡞⠃⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢠⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⢀⣀⣾⢳⠀⠀⠀⠀⢸⢠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣀⡤⠴⠊⠉⠀⠀⠈⠳⡀⠀⠀⠘⢎⠢⣀⣀⣀⠀⠀⠀⠀⠀⠀⠀
-⠳⣄⠀⠀⡠⡤⡀⠀⠘⣇⡀⠀⠀⠀⠉⠓⠒⠺⠭⢵⣦⡀⠀⠀⠀
-⠀⢹⡆⠀⢷⡇⠁⠀⠀⣸⠇⠀⠀⠀⠀⠀⢠⢤⠀⠀⠘⢷⣆⡀⠀
-⠀⠀⠘⠒⢤⡄⠖⢾⣭⣤⣄⠀⡔⢢⠀⡀⠎⣸⠀⠀⠀⠀⠹⣿⡀
-⠀⠀⢀⡤⠜⠃⠀⠀⠘⠛⣿⢸⠀⡼⢠⠃⣤⡟⠀⠀⠀⠀⠀⣿⡇
-⠀⠀⠸⠶⠖⢏⠀⠀⢀⡤⠤⠇⣴⠏⡾⢱⡏⠁⠀⠀⠀⠀⢠⣿⠃
-⠀⠀⠀⠀⠀⠈⣇⡀⠿⠀⠀⠀⡽⣰⢶⡼⠇⠀⠀⠀⠀⣠⣿⠟⠀
-⠀⠀⠀⠀⠀⠀⠈⠳⢤⣀⡶⠤⣷⣅⡀⠀⠀⠀⣀⡠⢔⠕⠁⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠫⠿⠿⠿⠛⠋⠁⠀⠀⠀⠀""")
+import characters
+import battle
+import event
 
 
 def append_pokemon(character, pokemon_number, level, hp):
     pokemon_dic = {'Number': pokemon_number,
-                   'Name': poke_dex()[pokemon_number]['Name'],
+                   'Name': characters.poke_dex()[pokemon_number]['Name'],
                    'Level': level,
                    'Max HP': calculate_max_hp(pokemon_number, level),
                    'HP': hp,
@@ -214,19 +20,19 @@ def append_pokemon(character, pokemon_number, level, hp):
 
 
 def calculate_max_hp(pokemon_number, level):
-    base_stats = poke_dex()[pokemon_number]['HP']
+    base_stats = characters.poke_dex()[pokemon_number]['HP']
     max_hp = round((base_stats * 2 + 47) * level / 100 + 10 + level)
     return max_hp
 
 
 def calculate_attack(pokemon_number, level):
-    base_stats = poke_dex()[pokemon_number]['Attack']
+    base_stats = characters.poke_dex()[pokemon_number]['Attack']
     attack = round((base_stats * 2 + 47) * level / 100 + 5)
     return attack
 
 
 def calculate_defense(pokemon_number, level):
-    base_stats = poke_dex()[pokemon_number]['Defense']
+    base_stats = characters.poke_dex()[pokemon_number]['Defense']
     defense = round((base_stats * 2 + 47) * level / 100 + 5)
     return defense
 
@@ -252,14 +58,15 @@ def adventure_preparation(map_dic, character):
         print("\nHere are four pokemons: 1) Bulbasaur, 2) Charmander, 3) Squirtle, 4) Pikachu\n")
         user_input = input("Please enter your choice:\n")
         if user_input in numbers_expected:
-            print_pokemon(int(user_input))
-            print(f"Are you sure to choose {poke_dex()[int(user_input)]['Name']}?")
+            pokemon_ascii_art = characters.poke_dex()[int(user_input)]['Ascii art']
+            print(pokemon_ascii_art)
+            print(f"Are you sure to choose {characters.poke_dex()[int(user_input)]['Name']}?")
             print("1) Yes 2) No\n")
             user_confirm = input("Please enter your choice:\n")
             if user_confirm == "1":
                 print(f"\nDr.Chris \"Good choice! {character['Name']}!\"")
                 append_pokemon(character, int(user_input), 5, calculate_max_hp(int(user_input), 5))
-                print(f"You've gotten {poke_dex()[int(user_input)]['Name']}!\n")
+                print(f"You've gotten {characters.poke_dex()[int(user_input)]['Name']}!\n")
                 make_decision = True
                 update_map_char(map_dic, character['Location'], " ")
                 update_map_value(map_dic, character['Location'], "")
@@ -408,13 +215,14 @@ def event_wilderness(character):
         my_pokemon = next_pokemon(character)
         foe_level = random.randint(2, my_pokemon['Level'] + 2)
         foe = {'Number': pokemon_number,
-               'Name': poke_dex()[pokemon_number]['Name'],
+               'Name': characters.poke_dex()[pokemon_number]['Name'],
                'Level': foe_level,
                'Max HP': calculate_max_hp(pokemon_number, foe_level),
                'HP': calculate_max_hp(pokemon_number, foe_level),
                'Attack': calculate_attack(pokemon_number, foe_level),
                'Defense': calculate_defense(pokemon_number, foe_level)}
-        print_pokemon(pokemon_number)
+        pokemon_ascii_art = characters.poke_dex()[pokemon_number]['Ascii art']
+        print(pokemon_ascii_art)
         print(f"Wild {foe['Name']} (Lv. {foe['Level']}) appeared!")
         print(f"\nLet's go, {my_pokemon['Name']}!")
         event_in_progress = True
