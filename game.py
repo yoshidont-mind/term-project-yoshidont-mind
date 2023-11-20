@@ -3,43 +3,13 @@ import time
 import event
 
 
-def go_home(character):
-    character['Location'] = (15, 1)
-    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
-    for pokemon in character['Pokemon']:
-        pokemon['HP'] = pokemon['Max HP']
-    print(f"\nPokemons have been healed!\n")
-
-
-def change_order(character, index):
-    # 選択されたindexのpokemonを先頭に持ってくる
-    selected_pokemon = character['Pokemon'].pop(index)
-    top_pokemon = character['Pokemon'].pop(0)
-    character['Pokemon'].insert(0, selected_pokemon)
-    character['Pokemon'].insert(index, top_pokemon)
-
-
-def escape_pokemon(character, index):
-    character['Pokemon'].pop(index)
-    
-
-def collect_name():
+def gather_name():
     character_name = input("\nPlease enter your name:\n")
     return character_name
 
 
 def make_character(character_name):
     return {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': []}
-
-
-def introduction(character):
-    print("\nWelcome to Pokemon's world!\n"
-          "In this world, many Pokemons are living with humans.\n"
-          "Enjoy your adventure!\n")
-    time.sleep(2)
-
-    print(f"Mom \"Good morning, {character['Name']}.",
-          f"    Take care.\"\n", sep="\n")
 
 
 def generate_map_dictionary():
@@ -100,12 +70,14 @@ def generate_map_dictionary():
     return map_dict
 
 
-def update_map_char(map_dic, coordinates, char):
-    map_dic[coordinates][0] = char
+def introduction(character):
+    print("\nWelcome to Pokemon's world!\n"
+          "In this world, many Pokemons are living with humans.\n"
+          "Enjoy your adventure!\n")
+    time.sleep(2)
 
-
-def update_map_value(map_dic, coordinates, value):
-    map_dic[coordinates][1] = value
+    print(f"Mom \"Good morning, {character['Name']}.",
+          f"    Take care.\"\n", sep="\n")
 
 
 def describe_current_location(map_dic, character):
@@ -122,21 +94,58 @@ def describe_current_location(map_dic, character):
     print(f"Now, you are at \"★\".")
 
 
+def go_home(character):
+    character['Location'] = (15, 1)
+    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
+    for pokemon in character['Pokemon']:
+        pokemon['HP'] = pokemon['Max HP']
+    print(f"\nPokemons have been healed!\n")
+
+
+def gather_user_choice_to_change_order(character):
+    pokemon_list = ""
+    for index in range(len(character['Pokemon'])):
+        pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
+    print(f"\nNow, you're bringing:{pokemon_list}")
+    selected_number_str = input("Which pokemon do you move to the top?:\n")
+    expected = [str(number) for number in range(2, len(character['Pokemon']) + 1)]
+    if selected_number_str in expected:
+        selected_number_int = int(selected_number_str)
+        return selected_number_int
+    else:
+        return 0
+
+
+def change_order(character, index):
+    # 選択されたindexのpokemonを先頭に持ってくる
+    selected_pokemon = character['Pokemon'].pop(index)
+    top_pokemon = character['Pokemon'].pop(0)
+    character['Pokemon'].insert(0, selected_pokemon)
+    character['Pokemon'].insert(index, top_pokemon)
+
+
+def escape_pokemon(character, index):
+    character['Pokemon'].pop(index)
+
+
+def update_map_char(map_dic, coordinates, char):
+    map_dic[coordinates][0] = char
+
+
+def update_map_value(map_dic, coordinates, value):
+    map_dic[coordinates][1] = value
+
+
 def get_user_choice(character):
     numbers_expected = ["1", "2", "3", "4", "5", "6"]
-    option_menu = []
+    option_menu = ""
     if character['Pokemon']:
         if len(character['Pokemon']) >= 2:
-            numbers_expected.append("7")
-            numbers_expected.append("8")
-            option_menu.append(", 7) Change pokemon order")
-            option_menu.append(", 8) Escape pokemon")
-    string_to_add = ""
-    for string in option_menu:
-        string_to_add += string
+            numbers_expected += ["7", "8"]
+            option_menu += ", 7) Change pokemon order, 8) Escape pokemon"
     while True:
         user_input = input("\nPlease enter direction: 1) Up, 2) Down, 3) Left, 4) Right\n"
-                           f"You can also choose these: 5) Open map, 6) Check status{string_to_add}\n")
+                           f"You can also choose these: 5) Open map, 6) Check status{option_menu}\n")
         if user_input in numbers_expected:
             return user_input
         else:
@@ -207,30 +216,30 @@ def move_character(character, direction):
 
 
 def game():
-    character_name = collect_name()
+    character_name = gather_name()
     character = make_character(character_name)
     map_dic = generate_map_dictionary()
     introduction(character)
-    describe_current_location(map_dic, character)
-    alive_pokemon = True
-    while alive_pokemon:
+    continue_game = True
+    while continue_game:
+        describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
-        if user_choice == "5":
+        if user_choice in ["1", "2", "3", "4"]:
+            if validate_move(map_dic, character, user_choice):
+                move_character(character, user_choice)
+                describe_current_location(map_dic, character)
+                if map_dic[character['Location']][1]:
+                    event.execute_event(map_dic, character)
+            else:
+                print("\nYou cannot go this way. Please try it again.\n")
+        elif user_choice == "5":
             open_map(map_dic, character)
-            describe_current_location(map_dic, character)
         elif user_choice == "6":
             check_status(character)
-            describe_current_location(map_dic, character)
         elif user_choice == "7":
-            pokemon_list = ""
-            for index in range(len(character['Pokemon'])):
-                pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
-            print(f"\nNow, you're bringing:{pokemon_list}")
-            selected_number_str = input("Which pokemon do you move to the top?:\n")
-            numbers_expected = [str(number) for number in range(2, len(character['Pokemon']) + 1)]
-            if selected_number_str in numbers_expected:
-                selected_number_int = int(selected_number_str)
-                change_order(character, selected_number_int - 1)
+            selected_number = gather_user_choice_to_change_order(character)
+            if selected_number:
+                change_order(character, selected_number - 1)
                 print(f"\nYou brought {character['Pokemon'][0]['Name']} to the top.")
             else:
                 print("\nYour choice is not valid. The request to change order is canceled.")
@@ -248,15 +257,8 @@ def game():
                 escape_pokemon(character, selected_number_int - 1)
             else:
                 print("\nYour choice is not valid. The request to escape pokemon is canceled.")
-        elif validate_move(map_dic, character, user_choice):
-            move_character(character, user_choice)
-            describe_current_location(map_dic, character)
-            if map_dic[character['Location']][1]:
-                event.execute_event(map_dic, character)
-                describe_current_location(map_dic, character)
         else:
-            print("\nYou cannot go this way. Please try it again.\n")
-            describe_current_location(map_dic, character)
+            print("\nWhoops, something went wrong. Please try it again.\n")
 
 
 def main():
