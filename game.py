@@ -94,14 +94,6 @@ def describe_current_location(map_dic, character):
     print(f"Now, you are at \"★\".")
 
 
-def go_home(character):
-    character['Location'] = (15, 1)
-    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
-    for pokemon in character['Pokemon']:
-        pokemon['HP'] = pokemon['Max HP']
-    print(f"\nPokemons have been healed!\n")
-
-
 def gather_user_choice_to_change_order(character):
     pokemon_list = ""
     for index in range(len(character['Pokemon'])):
@@ -122,6 +114,20 @@ def change_order(character, index):
     top_pokemon = character['Pokemon'].pop(0)
     character['Pokemon'].insert(0, selected_pokemon)
     character['Pokemon'].insert(index, top_pokemon)
+
+
+def gather_user_choice_to_escape_pokemon(character):
+    pokemon_list = ""
+    for index in range(len(character['Pokemon'])):
+        pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
+    print(f"\nNow, you're bringing:{pokemon_list}")
+    selected_number_str = input("Which pokemon do you want to escape?:\n")
+    expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
+    if selected_number_str in expected:
+        selected_number_int = int(selected_number_str)
+        return selected_number_int
+    else:
+        return 0
 
 
 def escape_pokemon(character, index):
@@ -150,6 +156,17 @@ def get_user_choice(character):
             return user_input
         else:
             print("\nYou're choice is not valid. Please try it again.\n")
+
+
+def validate_move(map_dic, character, direction):
+    new_location = calculate_new_location(character, direction)
+    if new_location in map_dic:
+        if map_dic[new_location][0] != '#' and map_dic[new_location][0] != '@':
+            return True
+        else:
+            return False
+    else:
+        return False
 
 
 def open_map(map_dic, character):
@@ -193,17 +210,6 @@ def calculate_new_location(character, direction):
     return new_x_coordinate, new_y_coordinate
 
 
-def validate_move(map_dic, character, direction):
-    new_location = calculate_new_location(character, direction)
-    if new_location in map_dic:
-        if map_dic[new_location][0] != '#' and map_dic[new_location][0] != '@':
-            return True
-        else:
-            return False
-    else:
-        return False
-
-
 def get_destination_mark(map_dic, character, direction):
     new_location = calculate_new_location(character, direction)
     destination_mark = map_dic[new_location][0]
@@ -213,6 +219,14 @@ def get_destination_mark(map_dic, character, direction):
 def move_character(character, direction):
     new_location = calculate_new_location(character, direction)
     character['Location'] = new_location
+
+
+def go_home(character):
+    character['Location'] = (15, 1)
+    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
+    for pokemon in character['Pokemon']:
+        pokemon['HP'] = pokemon['Max HP']
+    print(f"\nPokemons have been healed!\n")
 
 
 def game():
@@ -239,22 +253,18 @@ def game():
         elif user_choice == "7":
             selected_number = gather_user_choice_to_change_order(character)
             if selected_number:
-                change_order(character, selected_number - 1)
+                index = selected_number - 1
+                change_order(character, index)
                 print(f"\nYou brought {character['Pokemon'][0]['Name']} to the top.")
             else:
                 print("\nYour choice is not valid. The request to change order is canceled.")
         elif user_choice == "8":
-            pokemon_list = ""
-            for index in range(len(character['Pokemon'])):
-                pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
-            print(f"\nNow, you're bringing:{pokemon_list}")
-            selected_number_str = input("Which pokemon do you want to escape?:\n")
-            numbers_expected = [str(number) for number in range(2, len(character['Pokemon']) + 1)]
-            if selected_number_str in numbers_expected:
-                selected_number_int = int(selected_number_str)
-                print(f"\nYou escaped {character['Pokemon'][selected_number_int - 1]['Name']}."
-                      f" By-bye, {character['Pokemon'][selected_number_int - 1]['Name']}!")
-                escape_pokemon(character, selected_number_int - 1)
+            selected_number = gather_user_choice_to_escape_pokemon(character)
+            if selected_number:
+                index = selected_number - 1
+                print(f"\nYou escaped {character['Pokemon'][index]['Name']}."
+                      f" By-bye, {character['Pokemon'][index]['Name']}!")
+                escape_pokemon(character, index)
             else:
                 print("\nYour choice is not valid. The request to escape pokemon is canceled.")
         else:
