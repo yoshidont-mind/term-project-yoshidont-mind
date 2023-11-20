@@ -94,6 +94,72 @@ def describe_current_location(map_dic, character):
     print(f"Now, you are at \"★\".")
 
 
+def get_user_choice(character):
+    numbers_expected = ["1", "2", "3", "4", "5", "6"]
+    option_menu = ""
+    if character['Pokemon']:
+        if len(character['Pokemon']) >= 2:
+            numbers_expected += ["7", "8"]
+            option_menu += ", 7) Change pokemon order, 8) Escape pokemon"
+    while True:
+        user_input = input("\nPlease enter direction: 1) Up, 2) Down, 3) Left, 4) Right\n"
+                           f"You can also choose these: 5) Open map, 6) Check status{option_menu}\n")
+        if user_input in numbers_expected:
+            return user_input
+        else:
+            print("\nYou're choice is not valid. Please try it again.\n")
+
+
+def validate_move(map_dic, character, direction):
+    new_location = calculate_new_location(character, direction)
+    if new_location in map_dic:
+        if map_dic[new_location][0] != '#' and map_dic[new_location][0] != '@':
+            return True
+        else:
+            return False
+    else:
+        return False
+
+
+def move_character(character, direction):
+    new_location = calculate_new_location(character, direction)
+    character['Location'] = new_location
+
+
+def open_map(map_dic, character):
+    # マップの幅と高さを決定
+    max_x = max(coord[0] for coord in map_dic.keys())
+    max_y = max(coord[1] for coord in map_dic.keys())
+
+    # 各行と列に対してループし、文字を取得して表示
+    for y in range(max_y + 1):
+        for x in range(max_x + 1):
+            if (x, y) == character['Location']:
+                print("★ ", end='')
+            else:
+                char = map_dic[(x, y)][0]  # 各マスの文字を取得
+                print(char * 2, end='')  # 同じ行の文字を連続して表示
+        print()  # 行の終わりに改行を追加
+    print(f"Now, you are at \"★\".\n")
+    input("Hit 'enter' to close the map.\n")
+
+
+def check_status(character):
+    print(f"\n----------")
+    print(f"Name: {character['Name']}")
+    print("\nPokemon:")
+    for index in range(len(character['Pokemon'])):
+        print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
+        print(f" - Level  : {character['Pokemon'][index]['Level']}")
+        print(f" - Exp    : {character['Pokemon'][index]['Exp']} / "
+              f"{character['Pokemon'][index]['Exp to next level'] + character['Pokemon'][index]['Exp']}")
+        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}")
+        print(f" - Attack : {character['Pokemon'][index]['Attack']}")
+        print(f" - Defense: {character['Pokemon'][index]['Defense']}\n")
+    print(f"----------\n")
+    input("Hit 'enter' to close status.\n")
+
+
 def gather_user_choice_to_change_order(character):
     pokemon_list = ""
     for index in range(len(character['Pokemon'])):
@@ -142,67 +208,6 @@ def update_map_value(map_dic, coordinates, value):
     map_dic[coordinates][1] = value
 
 
-def get_user_choice(character):
-    numbers_expected = ["1", "2", "3", "4", "5", "6"]
-    option_menu = ""
-    if character['Pokemon']:
-        if len(character['Pokemon']) >= 2:
-            numbers_expected += ["7", "8"]
-            option_menu += ", 7) Change pokemon order, 8) Escape pokemon"
-    while True:
-        user_input = input("\nPlease enter direction: 1) Up, 2) Down, 3) Left, 4) Right\n"
-                           f"You can also choose these: 5) Open map, 6) Check status{option_menu}\n")
-        if user_input in numbers_expected:
-            return user_input
-        else:
-            print("\nYou're choice is not valid. Please try it again.\n")
-
-
-def validate_move(map_dic, character, direction):
-    new_location = calculate_new_location(character, direction)
-    if new_location in map_dic:
-        if map_dic[new_location][0] != '#' and map_dic[new_location][0] != '@':
-            return True
-        else:
-            return False
-    else:
-        return False
-
-
-def open_map(map_dic, character):
-    # マップの幅と高さを決定
-    max_x = max(coord[0] for coord in map_dic.keys())
-    max_y = max(coord[1] for coord in map_dic.keys())
-
-    # 各行と列に対してループし、文字を取得して表示
-    for y in range(max_y + 1):
-        for x in range(max_x + 1):
-            if (x, y) == character['Location']:
-                print("★ ", end='')
-            else:
-                char = map_dic[(x, y)][0]  # 各マスの文字を取得
-                print(char * 2, end='')  # 同じ行の文字を連続して表示
-        print()  # 行の終わりに改行を追加
-    print(f"Now, you are at \"★\".\n")
-    input("Hit 'enter' to close the map.\n")
-
-
-def check_status(character):
-    print(f"\n----------")
-    print(f"Name: {character['Name']}")
-    print("\nPokemon:")
-    for index in range(len(character['Pokemon'])):
-        print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
-        print(f" - Level  : {character['Pokemon'][index]['Level']}")
-        print(f" - Exp    : {character['Pokemon'][index]['Exp']} / "
-              f"{character['Pokemon'][index]['Exp to next level'] + character['Pokemon'][index]['Exp']}")
-        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}")
-        print(f" - Attack : {character['Pokemon'][index]['Attack']}")
-        print(f" - Defense: {character['Pokemon'][index]['Defense']}\n")
-    print(f"----------\n")
-    input("Hit 'enter' to close status.\n")
-
-
 def calculate_new_location(character, direction):
     coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
     new_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
@@ -214,11 +219,6 @@ def get_destination_mark(map_dic, character, direction):
     new_location = calculate_new_location(character, direction)
     destination_mark = map_dic[new_location][0]
     return destination_mark
-
-
-def move_character(character, direction):
-    new_location = calculate_new_location(character, direction)
-    character['Location'] = new_location
 
 
 def go_home(character):
