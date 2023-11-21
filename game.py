@@ -196,18 +196,6 @@ def gather_user_choice_to_escape_pokemon(character):
         return 0
 
 
-def escape_pokemon(character, index):
-    character['Pokemon'].pop(index)
-
-
-def update_map_char(map_dic, coordinates, char):
-    map_dic[coordinates][0] = char
-
-
-def update_map_value(map_dic, coordinates, value):
-    map_dic[coordinates][1] = value
-
-
 def calculate_new_location(character, direction):
     coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
     new_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
@@ -236,7 +224,9 @@ def game():
     introduction(character)
     continue_game = True
     while continue_game:
-        describe_current_location(map_dic, character)
+        describe_first = True
+        if describe_first:
+            describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
         if user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
@@ -264,7 +254,7 @@ def game():
                 index = selected_number - 1
                 print(f"\nYou escaped {character['Pokemon'][index]['Name']}."
                       f" By-bye, {character['Pokemon'][index]['Name']}!")
-                escape_pokemon(character, index)
+                character['Pokemon'].pop(index)  # escape Pokemon
             else:
                 print("\nYour choice is not valid. The request to escape pokemon is canceled.")
         else:

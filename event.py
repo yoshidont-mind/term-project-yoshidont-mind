@@ -65,8 +65,8 @@ def adventure_preparation(map_dic, character):
                 battle.append_pokemon(character, int(user_input), 5, battle.calculate_max_hp(int(user_input), 5))
                 print(f"You've gotten {characters.poke_dex()[int(user_input)]['Name']}!\n")
                 make_decision = True
-                game.update_map_char(map_dic, character['Location'], " ")
-                game.update_map_value(map_dic, character['Location'], "")
+                map_dic[character['Location']][0] = " "  # update map character
+                map_dic[character['Location']][1] = ""  # update map value
             else:
                 continue
         else:
