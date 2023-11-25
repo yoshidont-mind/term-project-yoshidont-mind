@@ -1,7 +1,6 @@
 import time
 
 import event
-import helper
 
 
 def generate_map_dictionary():
@@ -37,24 +36,14 @@ def generate_map_dictionary():
     map_lines = map_data.strip().split('\n')
 
     # 各マスに対する情報を格納する辞書
-    map_dict = {}
+    map_dic = {}
 
     # 各行と列をループして辞書を作成
     for y, line in enumerate(map_lines):
         for x, char in enumerate(line):
-            map_dict[(x, y)] = char
+            map_dic[(x, y)] = char
 
-    return map_dict
-
-
-def introduction(character):
-    print("\nWelcome to Pokémon's world!\n"
-          "In this world, many Pokémon are living with humans.\n"
-          "Enjoy your adventure!\n")
-    time.sleep(2)
-
-    print(f"Mom \"Good morning, {character['Name']}.",
-          f"    Take care.\"\n", sep="\n")
+    return map_dic
 
 
 def describe_current_location(map_dic, character):
@@ -88,9 +77,12 @@ def get_user_choice(character):
 
 
 def validate_move(map_dic, character, direction):
-    new_location = helper.calculate_new_location(character, direction)
+    coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
+    estimated_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
+    estimated_y_coordinate = character['Location'][1] + coordinate_changes[direction][1]
+    new_location = (estimated_x_coordinate, estimated_y_coordinate)
     if new_location in map_dic:
-        if map_dic[new_location][0] != '#' and map_dic[new_location][0] != '@':
+        if map_dic[new_location][0] not in ['#', '▓', '@']:
             return True
         else:
             return False
@@ -99,7 +91,10 @@ def validate_move(map_dic, character, direction):
 
 
 def move_character(character, direction):
-    new_location = helper.calculate_new_location(character, direction)
+    coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
+    new_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
+    new_y_coordinate = character['Location'][1] + coordinate_changes[direction][1]
+    new_location = (new_x_coordinate, new_y_coordinate)
     character['Location'] = new_location
 
 
@@ -177,7 +172,12 @@ def game():
     character_name = input("\nPlease enter your name:\n")
     character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': []}
     map_dic = generate_map_dictionary()
-    introduction(character)
+    print("\nWelcome to Pokémon's world!\n"
+          "In this world, many Pokémon are living with humans.\n"
+          "Enjoy your adventure!\n")
+    time.sleep(2)
+    print(f"Mom \"Good morning, {character['Name']}.",
+          f"    Take care.\"\n", sep="\n")
     continue_game = True
     while continue_game:
         describe_current_location(map_dic, character)
@@ -186,10 +186,6 @@ def game():
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
                 describe_current_location(map_dic, character)
-                if map_dic[character['Location']] in ['#', '▓']:
-                    pass
-                if map_dic[character['Location']] == '@':
-                    pass
                 if map_dic[character['Location']] == '.':
                     event.event_bush(character)
                 if map_dic[character['Location']] == '!':
