@@ -4,10 +4,6 @@ import event
 import helper
 
 
-def make_character(character_name):
-    return {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': []}
-
-
 def generate_map_dictionary():
     # マップデータを文字列として定義
     map_data = """
@@ -46,22 +42,7 @@ def generate_map_dictionary():
     # 各行と列をループして辞書を作成
     for y, line in enumerate(map_lines):
         for x, char in enumerate(line):
-            if char == '#' or char == '▓':
-                value = [char, ""]
-            elif char == '@':
-                value = [char, ""]
-            elif char == '.':
-                value = [char, event.event_bush]
-            elif char == '!':
-                value = [char, event.event]
-            elif char == 'i':
-                value = [char, event.event_information]
-            elif char == 'H':
-                value = [char, event.event_home]
-            else:
-                value = [char, ""]
-
-            map_dict[(x, y)] = value
+            map_dict[(x, y)] = char
 
     return map_dict
 
@@ -194,7 +175,7 @@ def gather_user_choice_to_escape_pokemon(character):
 
 def game():
     character_name = input("\nPlease enter your name:\n")
-    character = make_character(character_name)
+    character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': []}
     map_dic = generate_map_dictionary()
     introduction(character)
     continue_game = True
@@ -205,17 +186,17 @@ def game():
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
                 describe_current_location(map_dic, character)
-                if map_dic[character['Location']][1] in ['#', '▓']:
+                if map_dic[character['Location']] in ['#', '▓']:
                     pass
-                if map_dic[character['Location']][1] == '@':
+                if map_dic[character['Location']] == '@':
                     pass
-                if map_dic[character['Location']][1] == '.':
+                if map_dic[character['Location']] == '.':
                     event.event_bush(character)
-                if map_dic[character['Location']][1] == '!':
+                if map_dic[character['Location']] == '!':
                     event.event(map_dic, character)
-                if map_dic[character['Location']][1] == 'i':
+                if map_dic[character['Location']] == 'i':
                     event.event_information(character)
-                if map_dic[character['Location']][1] == 'H':
+                if map_dic[character['Location']] == 'H':
                     event.event_home(character)
                 else:
                     pass
