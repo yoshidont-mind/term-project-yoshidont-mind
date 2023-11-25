@@ -99,6 +99,14 @@ def mount_cypress(character):
     print("\n\"Here is 'Cypress Mountain', where top pokemon trainers gather.\"")
     print("For now, you cannot proceed further.\n")
     character["Location"] = (1, 5)
+
+
+def go_home(character):
+    character['Location'] = (15, 1)
+    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
+    for pokemon in character['Pokemon']:
+        pokemon['HP'] = pokemon['Max HP']
+    print(f"\nPokemons have been healed!\n")
     
     
 # wilderness
@@ -137,7 +145,7 @@ def event_wilderness(character):
                                       "You rush home...", sep="\n")
                                 time.sleep(2)
                                 event_in_progress = False
-                                game.go_home(character)
+                                go_home(character)
                     else:
                         print(f"\n{my_pokemon['Name']} beat {foe['Name']}!",
                               f"\n{my_pokemon['Name']} got {battle.calculate_acquiring_exp(foe_level)}exp.\n")
@@ -167,7 +175,7 @@ def event_wilderness(character):
                                       "You rush home...", sep="\n")
                                 time.sleep(2)
                                 event_in_progress = False
-                                game.go_home(character)
+                                go_home(character)
                 elif user_input == "3":
                     battle.see_pokemons(character, my_pokemon)
                 elif user_input == "4":
@@ -187,6 +195,6 @@ def event_wilderness(character):
                                       "You rush home...", sep="\n")
                                 time.sleep(2)
                                 event_in_progress = False
-                                game.go_home(character)
+                                go_home(character)
             else:
                 print("\nYou're choice is not valid. Please try it again.\n")
