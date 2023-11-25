@@ -4,11 +4,6 @@ import event
 import helper
 
 
-def gather_name():
-    character_name = input("\nPlease enter your name:\n")
-    return character_name
-
-
 def make_character(character_name):
     return {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': []}
 
@@ -56,7 +51,7 @@ def generate_map_dictionary():
             elif char == '@':
                 value = [char, ""]
             elif char == '.':
-                value = [char, event.event_wilderness]
+                value = [char, event.event_bush]
             elif char == '!':
                 value = [char, event.event]
             elif char == 'i':
@@ -72,8 +67,8 @@ def generate_map_dictionary():
 
 
 def introduction(character):
-    print("\nWelcome to Pokemon's world!\n"
-          "In this world, many Pokemons are living with humans.\n"
+    print("\nWelcome to Pokémon's world!\n"
+          "In this world, many Pokémon are living with humans.\n"
           "Enjoy your adventure!\n")
     time.sleep(2)
 
@@ -101,7 +96,7 @@ def get_user_choice(character):
     if character['Pokemon']:
         if len(character['Pokemon']) >= 2:
             numbers_expected += ["7", "8"]
-            option_menu += ", 7) Change pokemon order, 8) Escape pokemon"
+            option_menu += ", 7) Change Pokémon order, 8) Escape Pokémon"
     while True:
         user_input = input("\nPlease enter direction: 1) Up, 2) Down, 3) Left, 4) Right\n"
                            f"You can also choose these: 5) Open map, 6) Check status{option_menu}\n")
@@ -166,7 +161,7 @@ def gather_user_choice_to_change_order(character):
     for index in range(len(character['Pokemon'])):
         pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
     print(f"\nNow, you're bringing:{pokemon_list}")
-    selected_number_str = input("Which pokemon do you move to the top?:\n")
+    selected_number_str = input("Which Pokémon do you move to the top?:\n")
     expected = [str(number) for number in range(2, len(character['Pokemon']) + 1)]
     if selected_number_str in expected:
         selected_number_int = int(selected_number_str)
@@ -188,7 +183,7 @@ def gather_user_choice_to_escape_pokemon(character):
     for index in range(len(character['Pokemon'])):
         pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
     print(f"\nNow, you're bringing:{pokemon_list}")
-    selected_number_str = input("Which pokemon do you want to escape?:\n")
+    selected_number_str = input("Which Pokémon do you want to escape?:\n")
     expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
     if selected_number_str in expected:
         selected_number_int = int(selected_number_str)
@@ -198,22 +193,32 @@ def gather_user_choice_to_escape_pokemon(character):
 
 
 def game():
-    character_name = gather_name()
+    character_name = input("\nPlease enter your name:\n")
     character = make_character(character_name)
     map_dic = generate_map_dictionary()
     introduction(character)
     continue_game = True
     while continue_game:
-        describe_first = True
-        if describe_first:
-            describe_current_location(map_dic, character)
+        describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
         if user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
                 describe_current_location(map_dic, character)
-                if map_dic[character['Location']][1]:
-                    event.execute_event(map_dic, character)
+                if map_dic[character['Location']][1] in ['#', '▓']:
+                    pass
+                if map_dic[character['Location']][1] == '@':
+                    pass
+                if map_dic[character['Location']][1] == '.':
+                    event.event_bush(character)
+                if map_dic[character['Location']][1] == '!':
+                    event.event(map_dic, character)
+                if map_dic[character['Location']][1] == 'i':
+                    event.event_information(character)
+                if map_dic[character['Location']][1] == 'H':
+                    event.event_home(character)
+                else:
+                    pass
             else:
                 print("\nYou cannot go this way. Please try it again.\n")
         elif user_choice == "5":
@@ -234,9 +239,9 @@ def game():
                 index = selected_number - 1
                 print(f"\nYou escaped {character['Pokemon'][index]['Name']}."
                       f" By-bye, {character['Pokemon'][index]['Name']}!")
-                character['Pokemon'].pop(index)  # escape Pokemon
+                character['Pokemon'].pop(index)  # escape Pokémon
             else:
-                print("\nYour choice is not valid. The request to escape pokemon is canceled.")
+                print("\nYour choice is not valid. The request to escape Pokémon is canceled.")
         else:
             print("\nWhoops, something went wrong. Please try it again.\n")
 
