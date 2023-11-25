@@ -3,16 +3,22 @@ import random
 import characters
 
 
-def append_pokemon(character, pokemon_number, level, hp):
+def generate_pokemon(pokemon_number, level):
     pokemon_dic = {'Number': pokemon_number,
                    'Name': characters.poke_dex()[pokemon_number]['Name'],
                    'Level': level,
                    'Max HP': calculate_max_hp(pokemon_number, level),
-                   'HP': hp,
+                   'HP': calculate_max_hp(pokemon_number, level),
                    'Attack': calculate_attack(pokemon_number, level),
                    'Defense': calculate_defense(pokemon_number, level),
                    'Exp to next level': calculate_exp_to_next_level(level),
                    'Exp': 0}
+    return pokemon_dic
+
+
+def append_pokemon(character, pokemon_number, level, hp):
+    pokemon_dic = generate_pokemon(pokemon_number, level)
+    pokemon_dic['HP'] = hp
     character['Pokemon'].append(pokemon_dic)
 
 
