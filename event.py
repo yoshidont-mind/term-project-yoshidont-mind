@@ -3,7 +3,6 @@ import time
 
 import battle
 import characters
-import game
 
 
 def execute_event(map_dic, character):
