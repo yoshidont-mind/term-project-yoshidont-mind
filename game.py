@@ -1,6 +1,7 @@
 import time
 
 import event
+import helper
 
 
 def gather_name():
@@ -111,7 +112,7 @@ def get_user_choice(character):
 
 
 def validate_move(map_dic, character, direction):
-    new_location = calculate_new_location(character, direction)
+    new_location = helper.calculate_new_location(character, direction)
     if new_location in map_dic:
         if map_dic[new_location][0] != '#' and map_dic[new_location][0] != '@':
             return True
@@ -122,7 +123,7 @@ def validate_move(map_dic, character, direction):
 
 
 def move_character(character, direction):
-    new_location = calculate_new_location(character, direction)
+    new_location = helper.calculate_new_location(character, direction)
     character['Location'] = new_location
 
 
@@ -194,20 +195,6 @@ def gather_user_choice_to_escape_pokemon(character):
         return selected_number_int
     else:
         return 0
-
-
-def calculate_new_location(character, direction):
-    coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
-    new_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
-    new_y_coordinate = character['Location'][1] + coordinate_changes[direction][1]
-    return new_x_coordinate, new_y_coordinate
-
-
-def get_destination_mark(map_dic, character, direction):
-    new_location = calculate_new_location(character, direction)
-    destination_mark = map_dic[new_location][0]
-    return destination_mark
-
 
 
 def game():
