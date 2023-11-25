@@ -11,7 +11,7 @@ def event(map_dic, character):
     elif character['Location'] == (14, 6):
         lonsdale_quay()
     elif character['Location'] == (5, 9):
-        lion_gate_bridge(character)
+        lion_gate_bridge(map_dic, character)
     elif character['Location'] == (1, 4):
         mount_cypress(character)
     else:
@@ -27,7 +27,7 @@ def event_information(character):
 
 # events > events
 def adventure_preparation(map_dic, character):
-    print(f"\nDr.Chris \"Hi {character['Name']}!",
+    print(f"\nDr.Nabil \"Hi {character['Name']}!",
           "         The outside is full of Pokémon. They sometimes attack you!",
           "         So, you should bring your own Pokémon.",
           "         Now, I give you a Pokémon.",
@@ -48,12 +48,12 @@ def adventure_preparation(map_dic, character):
                 battle.append_pokemon(character, int(user_input), 5, battle.calculate_max_hp(int(user_input), 5))
                 print(f"You've gotten {characters.poke_dex()[int(user_input)]['Name']}!\n")
                 make_decision = True
-                map_dic[character['Location']][0] = " "  # update map character
-                map_dic[character['Location']][1] = ""  # update map value
+                map_dic[character['Location']] = " "  # update map character
             else:
                 continue
         else:
             print("\nYou're choice is not valid. Please try it again.\n")
+    print(f"\nDr.Nabil \"Now, you're ready to go on an adventure!\"\n")
 
 
 def event_home(character):
@@ -67,10 +67,23 @@ def event_home(character):
     print(f"\nMom \"Take care, {character['Name']}.\"\n", sep="\n")
 
 
-def lion_gate_bridge(character):
-    print("\nFor now, you cannot proceed further.\n",
-          "Please look forward to future developments.\n")
-    character["Location"] = (5, 8)
+def lion_gate_bridge(map_dic, character):
+    if len(character['Pokemon']) < 3:
+        print(f"\nConstruction Worker Sam \"Sorry, you cannot proceed unless you have at least three Pokémon with "
+              f"you.\"")
+        character["Location"] = (5, 8)
+    else:
+        print(f"\nConstruction Worker Sam \"If you can defeat me, I'll let you pass through this way!\"")
+        print("\nConstruction Worker Sam has challenged you to a battle!")
+        sam = {'Name': 'Construction Worker Sam',
+               'Pokemon': [battle.generate_pokemon(5, 7),
+                           battle.generate_pokemon(6, 8)]}
+        win_battle = battle.battle_with_trainer(character, sam)
+        if win_battle:
+            print("\nConstruction Worker Sam \"Passable!\"")
+            map_dic[character['Location']] = " "  # update map character
+        else:
+            go_home(character)
 
 
 def lonsdale_quay():
@@ -95,8 +108,8 @@ def go_home(character):
 # wilderness
 def event_bush(character):
     if battle.check_for_wild_pokemon():
-        foe_pokemon_number = battle.determine_wild_pokemon()
-        foe_level = random.randint(2, battle.next_pokemon(character)['Level'] + 2)
+        foe_pokemon_number = random.randint(1, len(characters.poke_dex()))
+        foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
         foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
         print(foe_pokemon_ascii_art)
@@ -109,7 +122,6 @@ def event_bush(character):
             if my_pokemon_wins:
                 event_continues = False
             else:
-                print(f"\n{my_pokemon['Name']} is defeated!")
                 if not battle.check_alive_pokemon_remains(character):
                     print(f"\nAll of your Pokémon are defeated!")
                     print(f"\nYou rush your home...")

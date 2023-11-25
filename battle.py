@@ -56,11 +56,6 @@ def check_for_wild_pokemon():
         return False
 
 
-def determine_wild_pokemon():
-    pokemon_number = random.randint(1, 4)
-    return pokemon_number
-
-
 def pokemon_catch(foe):
     random_number = random.randint(1, round(100 * foe['HP'] / foe['Max HP']))
     if random_number <= 10:
@@ -196,20 +191,30 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
 
 
 def battle_with_trainer(character, trainer):
-    print(f"\nTrainer {trainer['Name']} wants to fight!")
-    print(f"\nTrainer {trainer['Name']} sent out {trainer['Pokemon'][0]['Name']}!")
-    foe_pokemon = trainer['Pokemon'][0]
-    event_continues = True
-    while event_continues:
+    print(f"\nTrainer {trainer['Name']} has challenged you to a battle!")
+    index = 0
+    my_pokemon_changed = True
+    foe_pokemon_changed = True
+    while index <= len(trainer['Pokemon']):
         my_pokemon = next_pokemon(character)
-        print(f"\nLet's go, {my_pokemon['Name']}!")
+        foe_pokemon = trainer['Pokemon'][index]
+        foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon['Number']]['Ascii art']
+        if foe_pokemon_changed:
+            print(foe_pokemon_ascii_art)
+            print(f"\nTrainer {trainer['Name']} sent out {foe_pokemon['Name']}!")
+            foe_pokemon_changed = False
+        if my_pokemon_changed:
+            print(f"\nLet's go, {my_pokemon['Name']}!")
+            foe_pokemon_changed = False
         my_pokemon_wins = pokemon_battle(character, my_pokemon, foe_pokemon, True)
         if my_pokemon_wins:
-            event_continues = False
+            foe_pokemon_changed = True
+            index += 1
+            if not check_alive_pokemon_remains(trainer):
+                print(f"\nYou defeated Trainer {trainer['Name']}!")
+                return True
         else:
-            print(f"\n{my_pokemon['Name']} is defeated!")
+            my_pokemon_changed = True
             if not check_alive_pokemon_remains(character):
                 print(f"\nYou are defeated by Trainer {trainer['Name']}!")
                 return False
-    print(f"\nYou defeated Trainer {trainer['Name']}!")
-    return True
