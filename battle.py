@@ -4,16 +4,16 @@ import characters
 
 
 def generate_pokemon(pokemon_number, level):
-    pokemon_dic = {'Number': pokemon_number,
-                   'Name': characters.poke_dex()[pokemon_number]['Name'],
-                   'Level': level,
-                   'Max HP': calculate_max_hp(pokemon_number, level),
-                   'HP': calculate_max_hp(pokemon_number, level),
-                   'Attack': calculate_attack(pokemon_number, level),
-                   'Defense': calculate_defense(pokemon_number, level),
-                   'Exp to next level': calculate_exp_to_next_level(level),
-                   'Exp': 0}
-    return pokemon_dic
+    pokemon_status = {'Number': pokemon_number,
+                      'Name': characters.poke_dex()[pokemon_number]['Name'],
+                      'Level': level,
+                      'Max HP': calculate_max_hp(pokemon_number, level),
+                      'HP': calculate_max_hp(pokemon_number, level),
+                      'Attack': calculate_attack(pokemon_number, level),
+                      'Defense': calculate_defense(pokemon_number, level),
+                      'Exp to next level': calculate_exp_to_next_level(level),
+                      'Exp': 0}
+    return pokemon_status
 
 
 def append_pokemon(character, pokemon_number, level, hp):
@@ -132,7 +132,7 @@ def determine_level_up(pokemon):
         pokemon['HP'] += max_hp_difference
 
 
-def see_pokemons(character, my_pokemon):
+def see_pokemon(character, my_pokemon):
     print(f"\n----------")
     print(f"Now in battle: {my_pokemon['Name']}")
     print("\nPokemon:")
@@ -141,3 +141,75 @@ def see_pokemons(character, my_pokemon):
         print(f" - Level  : {character['Pokemon'][index]['Level']}")
         print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}\n")
     print(f"----------\n")
+
+
+def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
+    while True:
+        user_input = input("\nWhat do you do?: 1) Fight, 2) See Pokémon, 3) Catch, 4) Run\n")
+        numbers_expected = ["1", "2", "3", "4"]
+        if user_input in numbers_expected:
+            if user_input == "1":
+                attacks(my_pokemon, foe_pokemon)
+                if is_alive(foe_pokemon):
+                    attacks(foe_pokemon, my_pokemon)
+                    if not is_alive(my_pokemon):
+                        print(f"\n{my_pokemon['Name']} is defeated!")
+                        return False
+                else:
+                    print(f"\n{my_pokemon['Name']} beat {foe_pokemon['Name']}!",
+                          f"\n{my_pokemon['Name']} got {calculate_acquiring_exp(foe_pokemon['Level'])}exp.\n")
+                    my_pokemon['Exp'] += calculate_acquiring_exp(foe_pokemon['Level'])
+                    my_pokemon['Exp to next level'] -= calculate_acquiring_exp(foe_pokemon['Level'])
+
+                    # determine level up
+                    determine_level_up(my_pokemon)
+                    return True
+            elif user_input == "2":
+                see_pokemon(character, my_pokemon)
+            elif user_input == "3":
+                if trainer:
+                    print("\nYou cannot catch a pokemon in battle with a trainer!")
+                elif len(character['Pokemon']) >= 6:
+                    print("\nYou cannot bring more than six Pokémon!")
+                elif pokemon_catch(foe_pokemon):
+                    append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
+                    print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
+                    return True
+                else:
+                    print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
+                    attacks(foe_pokemon, my_pokemon)
+                    if not is_alive(my_pokemon):
+                        return False
+            elif user_input == "4":
+                if trainer:
+                    print("\nYou cannot run away from a trainer!")
+                elif run_success(my_pokemon, foe_pokemon):
+                    print(f"You've successfully run away from {foe_pokemon['Name']}!\n")
+                    return True
+                else:
+                    print(f"Woops, you failed to run from {foe_pokemon['Name']}.")
+                    attacks(foe_pokemon, my_pokemon)
+                    if not is_alive(my_pokemon):
+                        return False
+        else:
+            print("\nYou're choice is not valid. Please try it again.\n")
+
+
+def battle_with_trainer(character, trainer):
+    print(f"\nTrainer {trainer['Name']} wants to fight!")
+    print(f"\nTrainer {trainer['Name']} sent out {trainer['Pokemon'][0]['Name']}!")
+    foe_pokemon = trainer['Pokemon'][0]
+    event_continues = True
+    while event_continues:
+        my_pokemon = next_pokemon(character)
+        print(f"\nLet's go, {my_pokemon['Name']}!")
+        my_pokemon_wins = pokemon_battle(character, my_pokemon, foe_pokemon, True)
+        if my_pokemon_wins:
+            event_continues = False
+        else:
+            print(f"\n{my_pokemon['Name']} is defeated!")
+            if not check_alive_pokemon_remains(character):
+                print(f"\nYou are defeated by Trainer {trainer['Name']}!")
+                return False
+    print(f"\nYou defeated Trainer {trainer['Name']}!")
+    return True
