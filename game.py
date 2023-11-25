@@ -15,31 +15,31 @@ def make_character(character_name):
 def generate_map_dictionary():
     # マップデータを文字列として定義
     map_data = """
-#####################
-#!  #.........#H    #
-### #.........### ###
-#   #.........#     #
-#!##########i####!###
-#                   #
-#.... ........!.....#
-#@@@@ @@@@@@@@@@@@@@#
-#@@@@i@@@@@@@@@@@@@@#
-#@@@@!@@@@@@@@@@@@@@#
-#@@@. ..@@@@@@@@@@@@#
-#@@.. ......@@@@@@@@#
-#@@.. ....@@@@@@@@  #
-#@@..  .@@@@@@@@   ##
-#@@@..        !  #  #
-#@@@@.. #### # #   !#
-#@@@@@@       !   @ #
-#@@@@@@@ ### # #i@@ #
-#@@@@@@@         @@ #
-#@@@@@@@@@@@ @@ @@@ #
-#@@@@@@@@@@@ @@ @@@ #
-#@@@@@      !@ ! @@ #
-#@@@@               #
-#@                  #
-#####################"""
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+▓!  #.........#H    ▓
+▓## #.........### ##▓
+▓   #.........#     ▓
+▓!##########i####!##▓
+▓                   ▓
+▓.... ........!.....▓
+▓@@@@ @@@@@@@@@@@@@@▓
+▓@@@@i@@@@@@@@@@@@@@▓
+▓@@@@!@@@@@@@@@@@@@@▓
+▓@@@. ..@@@@@@@@@@@@▓
+▓@@.. ......@@@@@@@@▓
+▓@@.. ....@@@@@@@@  ▓
+▓@@..  .@@@@@@@@   #▓
+▓@@@..        !  #  ▓
+▓@@@@.. #### # #   !▓
+▓@@@@@@       !   @ ▓
+▓@@@@@@@ ### # #i@@ ▓
+▓@@@@@@@         @@ ▓
+▓@@@@@@@@@@@ @@ @@@ ▓
+▓@@@@@@@@@@@ @@ @@@ ▓
+▓@@@@@      !@ ! @@ ▓
+▓@@@@               ▓ 
+▓@                  ▓
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓"""
 
     # マップデータを行に分割
     map_lines = map_data.strip().split('\n')
@@ -50,14 +50,14 @@ def generate_map_dictionary():
     # 各行と列をループして辞書を作成
     for y, line in enumerate(map_lines):
         for x, char in enumerate(line):
-            if char == '#':
+            if char == '#' or char == '▓':
                 value = [char, ""]
             elif char == '@':
                 value = [char, ""]
             elif char == '.':
                 value = [char, event.event_wilderness]
             elif char == '!':
-                value = [char, event]
+                value = [char, event.event]
             elif char == 'i':
                 value = [char, event.event_information]
             elif char == 'H':
@@ -208,13 +208,6 @@ def get_destination_mark(map_dic, character, direction):
     destination_mark = map_dic[new_location][0]
     return destination_mark
 
-
-def go_home(character):
-    character['Location'] = (15, 1)
-    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
-    for pokemon in character['Pokemon']:
-        pokemon['HP'] = pokemon['Max HP']
-    print(f"\nPokemons have been healed!\n")
 
 
 def game():
