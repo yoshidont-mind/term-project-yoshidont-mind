@@ -174,7 +174,15 @@ def lion_gate_bridge(map_dic, character):
                            battle.generate_pokemon(6, 8)]}
         win_battle = battle.battle_with_trainer(character, sam)
         if win_battle:
-            print("\nConstruction Worker Sam \"Passable!\"")
+            print("\nConstruction Worker Sam \"Passable!\"",
+                  "                      \"Now, you can go to BCIT Pokémon Gym!\"",
+                  "                     \"The Gym Leader there is tough,"
+                  " and won't accept a challenge unless you have six Pokémon with you.",
+                  "                     \"Make sure to train enough before you go.\"\n")
+            character['Trainer rank'] = 2
+            print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
+            print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
+
         else:
             go_home(character)
 
@@ -220,6 +228,9 @@ def bcit_pokemon_gym(character):
             print(f"\nGym Leader Rahul \"With this ticket, you can take SeaBus for free as many times as you want.\"")
             print(f"               \"SeaBus takes you from Waterfront to Lonsdale Quay in no time.\"")
             print(f"               \"Good luck, young Pokémon trainer!\"\n")
+            character['Trainer rank'] = 3
+            print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
+            print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
         else:
             go_home(character)
 
