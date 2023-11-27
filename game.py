@@ -170,7 +170,8 @@ def gather_user_choice_to_escape_pokemon(character):
 
 def game():
     character_name = input("\nPlease enter your name:\n")
-    character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': {}}
+    character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': {'Potion': 0, 'Poke Ball': 0},
+                 'Trainer rank': 1, 'Next goal': 'Let\'s embark on an adventure!'}
     map_dic = generate_map_dictionary()
     print("\nWelcome to Pokémon's world!\n"
           "In this world, many Pokémon are living with humans.\n"
