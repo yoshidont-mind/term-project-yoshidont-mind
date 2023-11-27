@@ -9,13 +9,13 @@ def event(map_dic, character):
     if character['Location'] == (17, 4):
         adventure_preparation(map_dic, character)
     elif character['Location'] == (14, 6):
-        lonsdale_quay()
+        lonsdale_quay(character)
     elif character['Location'] == (5, 9):
         lion_gate_bridge(map_dic, character)
     elif character['Location'] == (1, 4):
         mount_cypress(character)
     elif character['Location'] == (14, 14):
-        waterfront()
+        waterfront(character)
     elif character['Location'] == (14, 16):
         bcit_pokemon_gym(character)
     elif character['Location'] == (19, 18):
@@ -119,9 +119,14 @@ def adventure_preparation(map_dic, character):
 
 
 # invoked by event()
-def lonsdale_quay():
+def lonsdale_quay(character):
     print("\n\"Here is 'Lonsdale Quay', the north shore terminal of 'SeaBus'.\"")
-    print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
+    if 'SeaBus Ticket' in character['Item']:
+        print("Clerk at the gate \"Welcome to SeaBus!\"",
+              "                \"The SeaBus is departing soon. Come on, get on board!\"\n")
+        character["Location"] = (14, 14)
+    else:
+        print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
 
 
 def lion_gate_bridge(map_dic, character):
@@ -149,9 +154,14 @@ def mount_cypress(character):
     character["Location"] = (1, 5)
 
 
-def waterfront():
+def waterfront(character):
     print("\n\"Here is 'Waterfront', the south shore terminal of 'SeaBus'.\"")
-    print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
+    if 'SeaBus Ticket' in character['Item']:
+        print("Clerk at the gate \"Welcome to SeaBus!\"",
+              "                \"The SeaBus is departing soon. Come on, get on board!\"\n")
+        character["Location"] = (14, 6)
+    else:
+        print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
 
 
 def bcit_pokemon_gym(character):
