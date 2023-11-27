@@ -241,7 +241,7 @@ def game():
                 if map_dic[character['Location']] == '.':
                     event.event_bush(character)
                 if map_dic[character['Location']] == '!':
-                    event.event(map_dic, character)
+                    event.event(character)
                 if map_dic[character['Location']] == 'i':
                     event.event_information(character)
                 if map_dic[character['Location']] == 'H':

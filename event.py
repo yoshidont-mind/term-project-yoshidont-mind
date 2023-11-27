@@ -5,13 +5,13 @@ import battle
 import characters
 
 
-def event(map_dic, character):
+def event(character):
     if character['Location'] == (17, 4):
-        adventure_preparation(map_dic, character)
+        adventure_preparation(character)
     elif character['Location'] == (14, 6):
         lonsdale_quay(character)
     elif character['Location'] == (5, 9):
-        lion_gate_bridge(map_dic, character)
+        lion_gate_bridge(character)
     elif character['Location'] == (1, 4):
         mount_cypress(character)
     elif character['Location'] == (14, 14):
@@ -101,8 +101,8 @@ def event_path(character):
 
 
 # invoked by event()
-def adventure_preparation(map_dic, character):
-    if character['Trainer rank'] > 1:
+def adventure_preparation(character):
+    if character['Trainer rank'] >= 1:
         print(f"\nDr.Nabil \"Hi {character['Name']}!\"")
     else:
         print(f"\nDr.Nabil \"Hi {character['Name']}!",
@@ -123,7 +123,8 @@ def adventure_preparation(map_dic, character):
                 user_confirm = input("Please enter your choice:\n")
                 if user_confirm == "1":
                     print(f"\nDr.Chris \"Good choice! {character['Name']}!\"")
-                    battle.append_pokemon(character, int(user_input), 5, battle.calculate_max_hp(int(user_input), 5))
+                    battle.append_pokemon(character, int(user_input), 5,
+                                          battle.calculate_max_hp(int(user_input), 5))
                     print(f"You've gotten {characters.poke_dex()[int(user_input)]['Name']}!\n")
                     make_decision = True
                 else:
@@ -159,7 +160,7 @@ def lonsdale_quay(character):
         print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
 
 
-def lion_gate_bridge(map_dic, character):
+def lion_gate_bridge(character):
     if character['Trainer rank'] > 1:
         print(f"\nConstruction Worker Sam \"Hi {character['Name']}!\"")
     elif len(character['Pokemon']) < 6:
@@ -182,15 +183,19 @@ def lion_gate_bridge(map_dic, character):
             character['Trainer rank'] = 2
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
             print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
-
+            character["Next goal"] = "Let's go to BCIT Pokémon Gym!"
         else:
             go_home(character)
 
 
 def mount_cypress(character):
-    print("\n\"Here is 'Cypress Mountain', where top Pokémon trainers gather.\"")
-    print("For now, you cannot proceed further.\n")
-    character["Location"] = (1, 5)
+    print("\nGate keeper \"Here is 'Cypress Mountain', where top Pokémon trainers gather.")
+    if 'BCIT Gym Badge' in character['Item']:
+        print(f"        You can proceed pass through the gate.\"\n")
+    else:
+        print(f"        For now, you cannot proceed further.\"\n")
+        print(f"        Come back after you've gotten 'BCIT Gym Badge'.\"\n")
+        character["Location"] = (1, 5)
 
 
 def waterfront(character):
@@ -231,6 +236,7 @@ def bcit_pokemon_gym(character):
             character['Trainer rank'] = 3
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
             print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
+            character['Next goal'] = "Explore the world, train well, and go to Cypress Mountain!"
         else:
             go_home(character)
 
@@ -266,5 +272,9 @@ def cypress_top(character):
     win_battle = battle.battle_with_trainer(character, tats)
     if win_battle:
         print("\nTats \"Unbelievable! Thank you so much for playing!\"")
+        if character['Trainer rank'] <= 3:
+            character['Trainer rank'] = 4
+            print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
+            character['Next goal'] = "You've completed the game! Congratulations!"
     else:
         go_home(character)
