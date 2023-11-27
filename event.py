@@ -14,6 +14,18 @@ def event(map_dic, character):
         lion_gate_bridge(map_dic, character)
     elif character['Location'] == (1, 4):
         mount_cypress(character)
+    elif character['Location'] == (14, 14):
+        water_front()
+    elif character['Location'] == (14, 16):
+        bcit_pokemon_gym()
+    elif character['Location'] == (19, 18):
+        science_world()
+    elif character['Location'] == (12, 20):
+        burrard_street_bridge()
+    elif character['Location'] == (15, 21):
+        granville_island()
+    elif character['Location'] == (1, 1):
+        cypress_top()
     else:
         pass
 
@@ -23,6 +35,12 @@ def event_information(character):
         print("\n\"Here is 'Lion Gate Bridge'. The gateway to the world.\"\n")
     elif character['Location'] == (12, 4):
         print("\n\"Here is 'Grouse Mountain'. Be careful for strong Pokémon.\"\n")
+    elif character['Location'] == (5, 10):
+        print("\n\"Here is 'Stanley Park'. Many Pokémon are living here.\"\n")
+    elif character['Location'] == (16, 17):
+        print("\n\"Here is 'BC Place'. Winter Olympic was held here in 2010.\"\n")
+    else:
+        pass
 
 
 # events > events
