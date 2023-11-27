@@ -196,6 +196,7 @@ def battle_with_trainer(character, trainer):
     my_pokemon_changed = True
     foe_pokemon_changed = True
     while index <= len(trainer['Pokemon']):
+        print(f"Number of remaining Pokémon: {len(character['Pokemon']) - index}")
         my_pokemon = next_pokemon(character)
         foe_pokemon = trainer['Pokemon'][index]
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon['Number']]['Ascii art']

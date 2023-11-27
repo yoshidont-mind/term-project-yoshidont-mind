@@ -15,9 +15,9 @@ def event(map_dic, character):
     elif character['Location'] == (1, 4):
         mount_cypress(character)
     elif character['Location'] == (14, 14):
-        water_front()
+        waterfront()
     elif character['Location'] == (14, 16):
-        bcit_pokemon_gym()
+        bcit_pokemon_gym(character)
     elif character['Location'] == (19, 18):
         science_world()
     elif character['Location'] == (12, 20):
@@ -125,7 +125,7 @@ def lonsdale_quay():
 
 
 def lion_gate_bridge(map_dic, character):
-    if len(character['Pokemon']) < 3:
+    if len(character['Pokemon']) < 6:
         print(f"\nConstruction Worker Sam \"Sorry, you cannot proceed unless you have at least three Pokémon with "
               f"you.\"")
         character["Location"] = (5, 8)
@@ -149,12 +149,39 @@ def mount_cypress(character):
     character["Location"] = (1, 5)
 
 
-def water_front():
-    pass
+def waterfront():
+    print("\n\"Here is 'Waterfront', the south shore terminal of 'SeaBus'.\"")
+    print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
 
 
-def bcit_pokemon_gym():
-    pass
+def bcit_pokemon_gym(character):
+    if 'BCIT Gym Badge' in character['Item']:
+        print(f"\nGym Leader Rahul \"Hey {character['Name']}, how are you doing?\"")
+    elif len(character['Pokemon']) < 6:
+        print(f"\nReceptionist \"You need to have six Pokémon with you to challenge the Gym Leader.\"")
+    else:
+        print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\"",
+              f"                \"If you can defeat me, I'll give you a Gym Badge. Let's battle!\"")
+        print("\nGym Leader Rahul has challenged you to a battle!")
+        rahul = {'Name': 'Gym Leader Rahul',
+                 'Pokemon': [battle.generate_pokemon(11, 12),
+                             battle.generate_pokemon(10, 12),
+                             battle.generate_pokemon(9, 14)]}
+        win_battle = battle.battle_with_trainer(character, rahul)
+        if win_battle:
+            print("\nGym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"")
+            print(f"\nYou've gotten 'BCIT Gym Badge'!")
+            character['Item']['BCIT Gym Badge'] = 1
+            print(f"\nGym Leader Rahul \"With this badge, you'll be allowed to enter Cypress Mountain.\"",
+                  f"                \"There's an incredibly strong Pokémon trainer at the peak.\"")
+            print(f"\nGym Leader Rahul \"Take this, too.\"")
+            character['Item']['SeaBus Ticket'] = 1
+            print(f"\nYou've gotten 'SeaBus Ticket'!")
+            print(f"\nGym Leader Rahul \"With this ticket, you can take SeaBus for free as many times as you want.\"")
+            print(f"               \"SeaBus takes you from Waterfront to Lonsdale Quay in no time.\"")
+            print(f"               \"Good luck, young Pokémon trainer!\"\n")
+        else:
+            go_home(character)
 
 
 def science_world():
