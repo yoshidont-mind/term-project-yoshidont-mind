@@ -65,7 +65,7 @@ def go_home(character):
 
 def event_bush(character):
     if battle.check_for_wild_pokemon():
-        foe_pokemon_number = random.randint(1, len(characters.poke_dex()))
+        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 3)
         foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
         foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
@@ -86,6 +86,18 @@ def event_bush(character):
                     event_continues = False
     else:
         print("\nYou walk through the bush, but nothing happens.\n")
+
+
+def event_path(character):
+    number = random.randint(1, 100)
+    if number <= 10:
+        print("\nYou found a 'Potion'!")
+        character['Item']['Potion'] += 1
+    elif number <= 20:
+        print("\nYou found a 'Poke Ball'!")
+        character['Item']['Poke Ball'] += 1
+    else:
+        pass
 
 
 def adventure_preparation(map_dic, character):
