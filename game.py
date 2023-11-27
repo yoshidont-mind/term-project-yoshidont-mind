@@ -1,7 +1,21 @@
 import time
+import json
 
 import event
 import characters
+
+
+def load_save_data():
+    try:
+        with open('save_data.json', 'r') as file_object:
+            save_data = json.load(file_object)
+        return save_data
+    except FileNotFoundError:
+        print("\nSave data not found. Starting a new game.\n")
+        return None
+    except json.JSONDecodeError:
+        print("\nSave data is corrupted. Starting a new game.\n")
+        return None
 
 
 def generate_map_dictionary():
@@ -194,21 +208,33 @@ def gather_user_choice_to_heal_pokemon(character):
 
 
 def game():
-    character_name = input("\nPlease enter your name:\n")
-    character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': {'Potion': 0, 'Poke Ball': 0},
-                 'Trainer rank': 0, 'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!'}
+    save_data = load_save_data()
+    if save_data:
+        character = save_data
+        print(f"\nWelcome back, {character['Name']}!\n")
+    else:
+        character_name = input("\nPlease enter your name:\n")
+        character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [],
+                     'Item': {'Potion': 0, 'Poke Ball': 0}, 'Trainer rank': 0,
+                     'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!'}
+        print("\nWelcome to Pokémon's world!\n"
+              "In this world, many Pokémon are living with humans.\n"
+              "Enjoy your adventure!\n")
+        time.sleep(2)
+        print(f"Mom \"Good morning, {character['Name']}.",
+              f"    Take care.\"\n", sep="\n")
     map_dic = generate_map_dictionary()
-    print("\nWelcome to Pokémon's world!\n"
-          "In this world, many Pokémon are living with humans.\n"
-          "Enjoy your adventure!\n")
-    time.sleep(2)
-    print(f"Mom \"Good morning, {character['Name']}.",
-          f"    Take care.\"\n", sep="\n")
     continue_game = True
     while continue_game:
         describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
-        if user_choice in ["1", "2", "3", "4"]:
+        if user_choice == "0":
+            save_data = character
+            with open('save_data.json', 'w') as f:
+                json.dump(save_data, f)
+            print("\nYour game is saved. See you again!\n")
+            continue_game = False
+        elif user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
                 describe_current_location(map_dic, character)
