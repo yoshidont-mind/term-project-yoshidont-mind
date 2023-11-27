@@ -44,6 +44,50 @@ def event_information(character):
 
 
 # events > events
+def event_home(character):
+    print(f"\nMom \"Welcome home, {character['Name']}.",
+          f"        You look tired. Take a rest.\"", sep="\n")
+    time.sleep(1)
+    if character['Pokemon']:
+        for pokemon in character['Pokemon']:
+            pokemon['HP'] = pokemon['Max HP']
+        print(f"\nPokémon have been healed!")
+    print(f"\nMom \"Take care, {character['Name']}.\"\n", sep="\n")
+
+
+def go_home(character):
+    character['Location'] = (15, 1)
+    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
+    for pokemon in character['Pokemon']:
+        pokemon['HP'] = pokemon['Max HP']
+    print(f"\nPokémon have been healed!\n")
+
+
+def event_bush(character):
+    if battle.check_for_wild_pokemon():
+        foe_pokemon_number = random.randint(1, len(characters.poke_dex()))
+        foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
+        foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
+        foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
+        print(foe_pokemon_ascii_art)
+        print(f"Wild {foe_pokemon['Name']} (Lv. {foe_pokemon['Level']}) appeared!")
+        event_continues = True
+        while event_continues:
+            my_pokemon = battle.next_pokemon(character)
+            print(f"\nLet's go, {my_pokemon['Name']}!")
+            my_pokemon_wins = battle.pokemon_battle(character, my_pokemon, foe_pokemon, False)
+            if my_pokemon_wins:
+                event_continues = False
+            else:
+                if not battle.check_alive_pokemon_remains(character):
+                    print(f"\nAll of your Pokémon are defeated!")
+                    print(f"\nYou rush your home...")
+                    go_home(character)
+                    event_continues = False
+    else:
+        print("\nYou walk through the bush, but nothing happens.\n")
+
+
 def adventure_preparation(map_dic, character):
     print(f"\nDr.Nabil \"Hi {character['Name']}!",
           "         The outside is full of Pokémon. They sometimes attack you!",
@@ -74,15 +118,10 @@ def adventure_preparation(map_dic, character):
     print(f"\nDr.Nabil \"Now, you're ready to go on an adventure!\"\n")
 
 
-def event_home(character):
-    print(f"\nMom \"Welcome home, {character['Name']}.",
-          f"        You look tired. Take a rest.\"", sep="\n")
-    time.sleep(1)
-    if character['Pokemon']:
-        for pokemon in character['Pokemon']:
-            pokemon['HP'] = pokemon['Max HP']
-        print(f"\nPokémon have been healed!")
-    print(f"\nMom \"Take care, {character['Name']}.\"\n", sep="\n")
+# invoked by event()
+def lonsdale_quay():
+    print("\n\"Here is 'Lonsdale Quay', the north shore terminal of 'SeaBus'.\"")
+    print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
 
 
 def lion_gate_bridge(map_dic, character):
@@ -104,46 +143,31 @@ def lion_gate_bridge(map_dic, character):
             go_home(character)
 
 
-def lonsdale_quay():
-    print("\n\"Here is 'Lonsdale Quay', the north shore terminal of 'SeaBus'.\"")
-    print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
-
-
 def mount_cypress(character):
     print("\n\"Here is 'Cypress Mountain', where top Pokémon trainers gather.\"")
     print("For now, you cannot proceed further.\n")
     character["Location"] = (1, 5)
 
 
-def go_home(character):
-    character['Location'] = (15, 1)
-    print(f"\nMon \"Take care of yourself, {character['Name']}.\"")
-    for pokemon in character['Pokemon']:
-        pokemon['HP'] = pokemon['Max HP']
-    print(f"\nPokémon have been healed!\n")
-    
-    
-# wilderness
-def event_bush(character):
-    if battle.check_for_wild_pokemon():
-        foe_pokemon_number = random.randint(1, len(characters.poke_dex()))
-        foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
-        foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
-        foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
-        print(foe_pokemon_ascii_art)
-        print(f"Wild {foe_pokemon['Name']} (Lv. {foe_pokemon['Level']}) appeared!")
-        event_continues = True
-        while event_continues:
-            my_pokemon = battle.next_pokemon(character)
-            print(f"\nLet's go, {my_pokemon['Name']}!")
-            my_pokemon_wins = battle.pokemon_battle(character, my_pokemon, foe_pokemon, False)
-            if my_pokemon_wins:
-                event_continues = False
-            else:
-                if not battle.check_alive_pokemon_remains(character):
-                    print(f"\nAll of your Pokémon are defeated!")
-                    print(f"\nYou rush your home...")
-                    go_home(character)
-                    event_continues = False
-    else:
-        print("\nYou walk through the bush, but nothing happens.\n")
+def water_front():
+    pass
+
+
+def bcit_pokemon_gym():
+    pass
+
+
+def science_world():
+    pass
+
+
+def burrard_street_bridge():
+    pass
+
+
+def granville_island():
+    pass
+
+
+def cypress_top():
+    pass
