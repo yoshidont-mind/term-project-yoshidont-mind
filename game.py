@@ -65,12 +65,16 @@ def get_user_choice(character):
     numbers_expected = ["1", "2", "3", "4", "5", "6"]
     option_menu = ""
     if character['Pokemon']:
+        numbers_expected += ["7"]
+        option_menu += "\n7) Heal Pokémon"
         if len(character['Pokemon']) >= 2:
-            numbers_expected += ["7", "8"]
-            option_menu += ", 7) Change Pokémon order, 8) Escape Pokémon"
+            numbers_expected += ["8", "9"]
+            option_menu += ", 8) Change Pokémon order, 9) Escape Pokémon"
+    numbers_expected += ["0"]
+    option_menu += "\n0) Save game and quit"
     while True:
-        user_input = input("\nPlease enter direction: 1) Up, 2) Down, 3) Left, 4) Right\n"
-                           f"You can also choose these: 5) Open map, 6) Check status{option_menu}\n")
+        user_input = input("\nPlease enter direction:\n1) Up, 2) Down, 3) Left, 4) Right\n"
+                           f"\nYou can also choose these:\n5) Open map, 6) Check status{option_menu}\n")
         if user_input in numbers_expected:
             return user_input
         else:
@@ -174,6 +178,21 @@ def gather_user_choice_to_escape_pokemon(character):
         return 0
 
 
+def gather_user_choice_to_heal_pokemon(character):
+    print("\nNow you're bringing:")
+    for index in range(len(character['Pokemon'])):
+        print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
+        print(f" - Level  : {character['Pokemon'][index]['Level']}")
+        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}")
+    selected_number_str = input("Which Pokémon do you want to heal?:\n")
+    expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
+    if selected_number_str in expected:
+        selected_number_int = int(selected_number_str)
+        return selected_number_int
+    else:
+        return 0
+
+
 def game():
     character_name = input("\nPlease enter your name:\n")
     character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': {'Potion': 0, 'Poke Ball': 0},
@@ -201,6 +220,8 @@ def game():
                     event.event_information(character)
                 if map_dic[character['Location']] == 'H':
                     event.event_home(character)
+                if map_dic[character['Location']] == ' ':
+                    event.event_path(character)
                 else:
                     pass
             else:
@@ -210,6 +231,21 @@ def game():
         elif user_choice == "6":
             check_status(character)
         elif user_choice == "7":
+            if character['Item']['Potion'] <= 0:
+                print("\nYou don't have any Potion!")
+            else:
+                selected_number = gather_user_choice_to_heal_pokemon(character)
+                if selected_number:
+                    index = selected_number - 1
+                    if character['Pokemon'][index]['HP'] == character['Pokemon'][index]['Max HP']:
+                        print(f"\n{character['Pokemon'][index]['Name']} is already in full health!")
+                    else:
+                        character['Pokemon'][index]['HP'] = character['Pokemon'][index]['Max HP']
+                        character['Item']['Potion'] -= 1
+                        print(f"\nYou healed {character['Pokemon'][index]['Name']}!")
+                        print(characters.poke_dex()[character['Pokemon'][index]['Number']]['Ascii art'])
+                        print(f"{character['Pokemon'][index]['Name']} looks happy!")
+        elif user_choice == "8":
             selected_number = gather_user_choice_to_change_order(character)
             if selected_number:
                 index = selected_number - 1
@@ -219,7 +255,7 @@ def game():
                 print(f"\n{character['Pokemon'][0]['Name']} looks happy!")
             else:
                 print("\nYour choice is not valid. The request to change order is canceled.")
-        elif user_choice == "8":
+        elif user_choice == "9":
             selected_number = gather_user_choice_to_escape_pokemon(character)
             if selected_number:
                 index = selected_number - 1
