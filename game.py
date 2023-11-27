@@ -1,6 +1,7 @@
 import time
 
 import event
+import characters
 
 
 def generate_map_dictionary():
@@ -119,6 +120,11 @@ def open_map(map_dic, character):
 def check_status(character):
     print(f"\n----------")
     print(f"Name: {character['Name']}")
+    print(f"Trainer rank: {character['Trainer rank']}")
+    print(f"Item:")
+    for item in character['Item']:
+        print(f" - {item}: {character['Item'][item]}")
+    print(f"----------")
     print("\nPokemon:")
     for index in range(len(character['Pokemon'])):
         print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
@@ -171,7 +177,7 @@ def gather_user_choice_to_escape_pokemon(character):
 def game():
     character_name = input("\nPlease enter your name:\n")
     character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [], 'Item': {'Potion': 0, 'Poke Ball': 0},
-                 'Trainer rank': 1, 'Next goal': 'Let\'s embark on an adventure!'}
+                 'Trainer rank': 0, 'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!'}
     map_dic = generate_map_dictionary()
     print("\nWelcome to Pokémon's world!\n"
           "In this world, many Pokémon are living with humans.\n"
@@ -209,6 +215,8 @@ def game():
                 index = selected_number - 1
                 change_order(character, index)
                 print(f"\nYou brought {character['Pokemon'][0]['Name']} to the top.")
+                print(characters.poke_dex()[character['Pokemon'][0]['Number']]['Ascii art'])
+                print(f"\n{character['Pokemon'][0]['Name']} looks happy!")
             else:
                 print("\nYour choice is not valid. The request to change order is canceled.")
         elif user_choice == "8":

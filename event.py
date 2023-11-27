@@ -115,7 +115,23 @@ def adventure_preparation(map_dic, character):
                 continue
         else:
             print("\nYou're choice is not valid. Please try it again.\n")
-    print(f"\nDr.Nabil \"Now, you're ready to go on an adventure!\"\n")
+    print(f"\nDr.Nabil \"Take these, too.\"")
+    character['Item']['Potion'] = 3
+    print(f"You've gotten three 'Potion'!")
+    character['Item']['Poke Ball'] = 5
+    print(f"You've gotten five 'Poke Ball'!")
+    print(f"\nDr.Nabil \"You can use 'Potion' to heal your Pokémon.",
+          f"         'Poke Ball' is used to catch wild Pokémon during battle.",
+          f"         However, to catch a Pokémon for sure, you need to weaken it before throwing a Poké Ball\"\n",
+          sep="\n")
+    input("Press Enter to continue...\n")
+    print(f"\nDr.Nabil \"Now, you're ready to go on an adventure!\"\n",
+          f"         \"To go to BCIT Pokémon Gym, you should pass through Lion Gate Bridge.\"\n",
+          f"         \"The construction worker at the bridge wouldn't let you pass through unless you have at least "
+          f"three Pokémon with you.\"\n")
+    character['Trainer rank'] = 1
+    print(f"Your trainer rank has increased to {character['Trainer rank']}!")
+    character['Next goal'] = "Let's catch two more Pokémon and go to Lion Gate Bridge!"
 
 
 # invoked by event()
