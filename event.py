@@ -19,13 +19,13 @@ def event(map_dic, character):
     elif character['Location'] == (14, 16):
         bcit_pokemon_gym(character)
     elif character['Location'] == (19, 18):
-        science_world()
+        science_world(character)
     elif character['Location'] == (12, 20):
-        burrard_street_bridge()
+        burrard_street_bridge(character)
     elif character['Location'] == (15, 21):
-        granville_island()
+        granville_island(character)
     elif character['Location'] == (1, 1):
-        cypress_top()
+        cypress_top(character)
     else:
         pass
 
@@ -172,7 +172,6 @@ def bcit_pokemon_gym(character):
     else:
         print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\"",
               f"                \"If you can defeat me, I'll give you a Gym Badge. Let's battle!\"")
-        print("\nGym Leader Rahul has challenged you to a battle!")
         rahul = {'Name': 'Gym Leader Rahul',
                  'Pokemon': [battle.generate_pokemon(11, 12),
                              battle.generate_pokemon(10, 12),
@@ -194,17 +193,36 @@ def bcit_pokemon_gym(character):
             go_home(character)
 
 
-def science_world():
-    pass
+def science_world(character):
+    print("\n\"Here is 'Science World'. Everyone can enjoy science here.\"\n")
+    print("You cannot proceed further by now.\n")
+    character["Location"] = (19, 17)
 
 
-def burrard_street_bridge():
-    pass
+def burrard_street_bridge(character):
+    print("\n\"Here is 'Burrard Street Bridge'. The oldest bridge in Vancouver, boasting a history of 100 years.\"")
+    print("You cannot proceed further by now.\n")
+    character["Location"] = (12, 19)
 
 
-def granville_island():
-    pass
+def granville_island(character):
+    print("\n\"Here is 'Granville Island'. You can enjoy shopping here.\"\n")
+    print("You cannot proceed further by now.\n")
+    character["Location"] = (15, 20)
 
 
-def cypress_top():
-    pass
+def cypress_top(character):
+    print("\nTats \"Hi, I'm Tats. I'm the strongest Pokémon trainer in Vancouver.\"",
+          "      \"You made it here, impressive. Let's battle right away!\"")
+    tats = {'Name': 'Tats',
+            'Pokemon': [battle.generate_pokemon(12, 24),
+                        battle.generate_pokemon(13, 26),
+                        battle.generate_pokemon(14, 28),
+                        battle.generate_pokemon(15, 30),
+                        battle.generate_pokemon(16, 36),
+                        battle.generate_pokemon(17, 40)]}
+    win_battle = battle.battle_with_trainer(character, tats)
+    if win_battle:
+        print("\nTats \"Unbelievable! Thank you so much for playing!\"")
+    else:
+        go_home(character)
