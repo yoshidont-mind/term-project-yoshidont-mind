@@ -105,7 +105,9 @@ def next_pokemon(character):
 
 
 def determine_level_up(pokemon):
+    level_up = False
     while pokemon['Exp to next level'] <= 0:
+        level_up = True
         pokemon['Level'] += 1
         print(f"\nCongratulations! {pokemon['Name']} raised to level {pokemon['Level']}!\n")
         pokemon['Exp'] = -pokemon['Exp to next level']
@@ -125,6 +127,9 @@ def determine_level_up(pokemon):
         pokemon['Max HP'] = new_max_hp
 
         pokemon['HP'] += max_hp_difference
+    if level_up:
+        print(f"{characters.poke_dex()[pokemon['Number']]['Ascii art']}")
+        print(f"{pokemon['Name']} looks stronger!")
 
 
 def see_pokemon(character, my_pokemon):
@@ -164,17 +169,21 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
             elif user_input == "3":
                 if trainer:
                     print("\nYou cannot catch a pokemon in battle with a trainer!")
+                elif character['Item']['Poke Ball'] <= 0:
+                    print("\nYou don't have any Poké Ball!")
                 elif len(character['Pokemon']) >= 6:
                     print("\nYou cannot bring more than six Pokémon!")
-                elif pokemon_catch(foe_pokemon):
-                    append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
-                    print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
-                    return True
                 else:
-                    print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
-                    attacks(foe_pokemon, my_pokemon)
-                    if not is_alive(my_pokemon):
-                        return False
+                    character['Item']['Poke Ball'] -= 1
+                    if pokemon_catch(foe_pokemon):
+                        append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
+                        print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
+                        return True
+                    else:
+                        print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
+                        attacks(foe_pokemon, my_pokemon)
+                        if not is_alive(my_pokemon):
+                            return False
             elif user_input == "4":
                 if trainer:
                     print("\nYou cannot run away from a trainer!")
