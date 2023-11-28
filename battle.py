@@ -131,7 +131,6 @@ def determine_level_up(pokemon):
     if level_up:
         print(f"{characters.poke_dex()[pokemon['Number']]['Ascii art']}")
         print(f"{pokemon['Name']} looks stronger!")
-        input("\nPress Enter to continue.\n")
 
 
 def see_pokemon(character, my_pokemon):
@@ -182,12 +181,11 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                     if pokemon_catch(foe_pokemon):
                         append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
                         print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
-                        print(f"Number of remaining Poké Ball: {character['Item']['Poke Ball']}\n")
-                        input("\nPress Enter to continue.\n")
+                        print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}")
                         return True
                     else:
                         print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
-                        print(f"Number of remaining Poké Ball: {character['Item']['Poke Ball']}\n")
+                        print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}")
                         attacks(foe_pokemon, my_pokemon)
                         if not is_alive(my_pokemon):
                             return False
@@ -195,8 +193,7 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                 if trainer:
                     print("\nYou cannot run away from a trainer!")
                 elif run_success(my_pokemon, foe_pokemon):
-                    print(f"You've successfully run away from {foe_pokemon['Name']}!\n")
-                    input("\nPress Enter to continue.\n")
+                    print(f"You've successfully run away from {foe_pokemon['Name']}!")
                     return True
                 else:
                     print(f"Woops, you failed to run from {foe_pokemon['Name']}.")
@@ -213,13 +210,13 @@ def battle_with_trainer(character, trainer):
     my_pokemon_changed = True
     foe_pokemon_changed = True
     while index <= len(trainer['Pokemon']):
-        print(f"Number of remaining Pokémon: {len(character['Pokemon']) - index}")
         my_pokemon = next_pokemon(character)
         foe_pokemon = trainer['Pokemon'][index]
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon['Number']]['Ascii art']
         if foe_pokemon_changed:
+            print(f"Number of remaining Pokémon: {len(character['Pokemon']) - index}")
             print(foe_pokemon_ascii_art)
-            print(f"\nTrainer {trainer['Name']} sent out {foe_pokemon['Name']}!")
+            print(f"\nTrainer {trainer['Name']} sent out {foe_pokemon['Name']} (Lv.{foe_pokemon['Level']})!")
             foe_pokemon_changed = False
         if my_pokemon_changed:
             print(f"\nLet's go, {my_pokemon['Name']}!")

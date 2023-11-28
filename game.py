@@ -204,7 +204,7 @@ def gather_user_choice_to_heal_pokemon(character):
     for index in range(len(character['Pokemon'])):
         print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
         print(f" - Level  : {character['Pokemon'][index]['Level']}")
-        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}")
+        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}\n")
     selected_number_str = input("Which Pokémon do you want to heal?:\n")
     expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
     if selected_number_str in expected:
@@ -248,13 +248,13 @@ def game():
                 move_character(character, user_choice)
                 if map_dic[character['Location']] == '.':
                     event.event_bush(character)
-                if map_dic[character['Location']] == '!':
+                elif map_dic[character['Location']] == '!':
                     event.event(character)
-                if map_dic[character['Location']] == 'i':
-                    event.event_information(character)
-                if map_dic[character['Location']] == 'H':
+                elif map_dic[character['Location']] == 'i':
+                    event.event_information(character, user_choice)
+                elif map_dic[character['Location']] == 'H':
                     event.event_home(character)
-                if map_dic[character['Location']] == ' ':
+                elif map_dic[character['Location']] == ' ':
                     event.event_path(character)
                 else:
                     pass
@@ -279,7 +279,8 @@ def game():
                         print(f"\nYou healed {character['Pokemon'][index]['Name']}!")
                         print(characters.poke_dex()[character['Pokemon'][index]['Number']]['Ascii art'])
                         print(f"{character['Pokemon'][index]['Name']} looks happy!")
-                        print(f"Number of remaining Potion: {character['Item']['Potion']}")
+                        print(f"Remaining Potion: {character['Item']['Potion']}")
+                        input("\nPress Enter to continue.\n")
         elif user_choice == "8":
             selected_number = gather_user_choice_to_change_order(character)
             if selected_number:
@@ -288,6 +289,7 @@ def game():
                 print(f"\nYou brought {character['Pokemon'][0]['Name']} to the top.")
                 print(characters.poke_dex()[character['Pokemon'][0]['Number']]['Ascii art'])
                 print(f"\n{character['Pokemon'][0]['Name']} looks happy!")
+                input("\nPress Enter to continue.\n")
             else:
                 print("\nYour choice is not valid. The request to change order is canceled.")
         elif user_choice == "9":
