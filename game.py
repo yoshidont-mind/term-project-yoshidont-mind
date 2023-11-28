@@ -9,6 +9,7 @@ def load_save_data():
     try:
         with open('save_data.json', 'r') as file_object:
             save_data = json.load(file_object)
+            save_data['Location'] = tuple(save_data['Location'])  # jsonではタプルを保存できないため、リストに変換している
         return save_data
     except FileNotFoundError:
         print("\nSave data not found. Starting a new game.\n")
@@ -237,7 +238,6 @@ def game():
         elif user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
-                describe_current_location(map_dic, character)
                 if map_dic[character['Location']] == '.':
                     event.event_bush(character)
                 if map_dic[character['Location']] == '!':
