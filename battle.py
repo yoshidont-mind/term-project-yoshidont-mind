@@ -130,6 +130,7 @@ def determine_level_up(pokemon):
     if level_up:
         print(f"{characters.poke_dex()[pokemon['Number']]['Ascii art']}")
         print(f"{pokemon['Name']} looks stronger!")
+        input("\nPress Enter to continue.\n")
 
 
 def see_pokemon(character, my_pokemon):
@@ -178,9 +179,11 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                     if pokemon_catch(foe_pokemon):
                         append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
                         print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
+                        print(f"Number of remaining Poké Ball: {character['Item']['Poke Ball']}\n")
                         return True
                     else:
                         print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
+                        print(f"Number of remaining Poké Ball: {character['Item']['Poke Ball']}\n")
                         attacks(foe_pokemon, my_pokemon)
                         if not is_alive(my_pokemon):
                             return False

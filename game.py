@@ -84,16 +84,21 @@ def get_user_choice(character):
         option_menu += "\n7) Heal Pokémon"
         if len(character['Pokemon']) >= 2:
             numbers_expected += ["8", "9"]
-            option_menu += ", 8) Change Pokémon order, 9) Escape Pokémon"
+            option_menu += "\n8) Change Pokémon order\n9) Escape Pokémon"
     numbers_expected += ["0"]
     option_menu += "\n0) Save game and quit"
     while True:
         user_input = input("\nPlease enter direction:\n1) Up, 2) Down, 3) Left, 4) Right\n"
-                           f"\nYou can also choose these:\n5) Open map, 6) Check status{option_menu}\n")
+                           f"\nYou can also choose these:\n5) Open map\n6) Check status{option_menu}\n")
         if user_input in numbers_expected:
             return user_input
         else:
             print("\nYou're choice is not valid. Please try it again.\n")
+
+
+def save_data(character):
+    with open('save_data.json', 'w') as f:
+        json.dump(character, f)
 
 
 def validate_move(map_dic, character, direction):
@@ -125,26 +130,27 @@ def open_map(map_dic, character):
 
     # 各行と列に対してループし、文字を取得して表示
     for y in range(max_y + 1):
-        for x in range(max_x + 1):
+        for x in range(max_x):
             if (x, y) == character['Location']:
                 print("★ ", end='')
             else:
-                char = map_dic[(x, y)][0]  # 各マスの文字を取得
+                char = map_dic[(x, y)]  # 各マスの文字を取得
                 print(char * 2, end='')  # 同じ行の文字を連続して表示
         print()  # 行の終わりに改行を追加
     print(f"Now, you are at \"★\".\n")
-    input("Hit 'enter' to close the map.\n")
+    input("Press Enter to close map.\n")
 
 
 def check_status(character):
-    print(f"\n----------")
-    print(f"Name: {character['Name']}")
-    print(f"Trainer rank: {character['Trainer rank']}")
-    print(f"Item:")
+    print(f"\n--------------------")
+    print(f"Name        : {character['Name']}")
+    print(f"\nTrainer rank: {character['Trainer rank']}")
+    print(f"Next goal   : {character['Next goal']}")
+    print(f"\nItem:")
     for item in character['Item']:
         print(f" - {item}: {character['Item'][item]}")
-    print(f"----------")
-    print("\nPokemon:")
+    print(f"\n--------------------")
+    print("Pokemon:")
     for index in range(len(character['Pokemon'])):
         print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
         print(f" - Level  : {character['Pokemon'][index]['Level']}")
@@ -153,8 +159,8 @@ def check_status(character):
         print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}")
         print(f" - Attack : {character['Pokemon'][index]['Attack']}")
         print(f" - Defense: {character['Pokemon'][index]['Defense']}\n")
-    print(f"----------\n")
-    input("Hit 'enter' to close status.\n")
+    print(f"--------------------\n")
+    input("Press Enter to close status.\n")
 
 
 def gather_user_choice_to_change_order(character):
@@ -212,12 +218,16 @@ def game():
     save_data = load_save_data()
     if save_data:
         character = save_data
-        print(f"\nWelcome back, {character['Name']}!\n")
+        print(f"\nSave data found. Loading...")
+        time.sleep(1)
+        print(f"\nWelcome back, {character['Name']}!")
+        input("\nPress Enter to continue...\n")
     else:
         character_name = input("\nPlease enter your name:\n")
         character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [],
                      'Item': {'Potion': 0, 'Poke Ball': 0}, 'Trainer rank': 0,
-                     'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!'}
+                     'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!',
+                     'End roll': False}
         print("\nWelcome to Pokémon's world!\n"
               "In this world, many Pokémon are living with humans.\n"
               "Enjoy your adventure!\n")
@@ -230,9 +240,7 @@ def game():
         describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
         if user_choice == "0":
-            save_data = character
-            with open('save_data.json', 'w') as f:
-                json.dump(save_data, f)
+            save_data(character)
             print("\nYour game is saved. See you again!\n")
             continue_game = False
         elif user_choice in ["1", "2", "3", "4"]:
@@ -271,6 +279,7 @@ def game():
                         print(f"\nYou healed {character['Pokemon'][index]['Name']}!")
                         print(characters.poke_dex()[character['Pokemon'][index]['Number']]['Ascii art'])
                         print(f"{character['Pokemon'][index]['Name']} looks happy!")
+                        print(f"Number of remaining Potion: {character['Item']['Potion']}")
         elif user_choice == "8":
             selected_number = gather_user_choice_to_change_order(character)
             if selected_number:
@@ -292,6 +301,18 @@ def game():
                 print("\nYour choice is not valid. The request to escape Pokémon is canceled.")
         else:
             print("\nWhoops, something went wrong. Please try it again.\n")
+        if character['Trainer rank'] == 3 and not character['End roll']:
+            print("\nCongratulations! You achieved your goal in this game. With this, the game comes to an end.\n",
+                  "\nNow, the program will save your data and close, but if you're interested, you can restart the "
+                  "game and explore this world a bit more.\n",
+                  "There are still places you haven't visited, right?\n",
+                  "For instance, how about going to Cypress Mountain?\n",
+                  "It seems there is an incredibly strong Pokémon trainer at the top of the mountain...?\n",
+                  "\n Anyway, thank you so much for playing this game so far!\n",
+                  "I hope you enjoyed it, and I'm looking forward to seeing you again soon!\n")
+            character['End roll'] = True
+            save_data(character)
+            continue_game = False
 
 
 def main():

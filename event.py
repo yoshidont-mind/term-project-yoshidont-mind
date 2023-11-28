@@ -236,7 +236,7 @@ def bcit_pokemon_gym(character):
             character['Trainer rank'] = 3
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
             print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
-            character['Next goal'] = "Explore the world, train well, and go to Cypress Mountain!"
+            character['Next goal'] = "Let's explore this world, and eventually go to Cypress Mountain!"
         else:
             go_home(character)
 
