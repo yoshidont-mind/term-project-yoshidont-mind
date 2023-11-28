@@ -96,7 +96,7 @@ def get_user_choice(character):
             print("\nYou're choice is not valid. Please try it again.\n")
 
 
-def save_data(character):
+def save_data_as_json(character):
     with open('save_data.json', 'w') as f:
         json.dump(character, f)
 
@@ -144,7 +144,7 @@ def open_map(map_dic, character):
 def check_status(character):
     print(f"\n--------------------")
     print(f"Name        : {character['Name']}")
-    print(f"\nTrainer rank: {character['Trainer rank']}")
+    print(f"Trainer rank: {character['Trainer rank']}")
     print(f"Next goal   : {character['Next goal']}")
     print(f"\nItem:")
     for item in character['Item']:
@@ -240,7 +240,7 @@ def game():
         describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
         if user_choice == "0":
-            save_data(character)
+            save_data_as_json(character)
             print("\nYour game is saved. See you again!\n")
             continue_game = False
         elif user_choice in ["1", "2", "3", "4"]:
@@ -311,7 +311,7 @@ def game():
                   "\n Anyway, thank you so much for playing this game so far!\n",
                   "I hope you enjoyed it, and I'm looking forward to seeing you again soon!\n")
             character['End roll'] = True
-            save_data(character)
+            save_data_as_json(character)
             continue_game = False
 
 

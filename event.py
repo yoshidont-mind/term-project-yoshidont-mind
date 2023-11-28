@@ -33,12 +33,16 @@ def event(character):
 def event_information(character):
     if character['Location'] == (5, 8):
         print("\n\"Here is 'Lion Gate Bridge'. The gateway to the world.\"\n")
+        input("\nPress Enter to continue.\n")
     elif character['Location'] == (12, 4):
         print("\n\"Here is 'Grouse Mountain'. Be careful for strong Pokémon.\"\n")
+        input("\nPress Enter to continue.\n")
     elif character['Location'] == (5, 10):
         print("\n\"Here is 'Stanley Park'. Many Pokémon are living here.\"\n")
+        input("\nPress Enter to continue.\n")
     elif character['Location'] == (16, 17):
         print("\n\"Here is 'BC Place'. Winter Olympic was held here in 2010.\"\n")
+        input("\nPress Enter to continue.\n")
     else:
         pass
 
@@ -53,6 +57,8 @@ def event_home(character):
             pokemon['HP'] = pokemon['Max HP']
         print(f"\nPokémon have been healed!")
     print(f"\nMom \"Take care, {character['Name']}.\"\n", sep="\n")
+    input("\nPress Enter to continue.\n")
+    print(f"\nMon \"Take care of yourself, {character['Name']}.\"\n")
 
 
 def go_home(character):
@@ -61,6 +67,8 @@ def go_home(character):
     for pokemon in character['Pokemon']:
         pokemon['HP'] = pokemon['Max HP']
     print(f"\nPokémon have been healed!\n")
+    input("\nPress Enter to continue.\n")
+    print(f"\nMon \"Take care of yourself, {character['Name']}.\"\n")
 
 
 def event_bush(character):
@@ -82,10 +90,10 @@ def event_bush(character):
                 if not battle.check_alive_pokemon_remains(character):
                     print(f"\nAll of your Pokémon are defeated!")
                     print(f"\nYou rush your home...")
+                    input("\nPress Enter to continue.\n")
                     go_home(character)
                     event_continues = False
-    else:
-        print("\nYou walk through the bush, but nothing happens.\n")
+    input("\nPress Enter to continue.\n")
 
 
 def event_path(character):
@@ -110,6 +118,7 @@ def adventure_preparation(character):
               "         So, you should bring your own Pokémon.",
               "         Now, I give you a Pokémon.",
               "         Which one do you choose?\"", sep="\n")
+        input("\nPress Enter to continue.\n")
         numbers_expected = ["1", "2", "3", "4"]
         make_decision = False
         while not make_decision:
@@ -131,6 +140,7 @@ def adventure_preparation(character):
                     continue
             else:
                 print("\nYou're choice is not valid. Please try it again.\n")
+        input("\nPress Enter to continue.\n")
         print(f"\nDr.Nabil \"Take these, too.\"")
         character['Item']['Potion'] = 3
         print(f"You've gotten three 'Potion'!")
@@ -145,9 +155,12 @@ def adventure_preparation(character):
               f"         \"To go to BCIT Pokémon Gym, you should pass through Lion Gate Bridge.\"\n",
               f"         \"The construction worker at the bridge wouldn't let you pass through unless you have at least "
               f"three Pokémon with you.\"\n")
+        input("\nPress Enter to continue.\n")
         character['Trainer rank'] = 1
         print(f"Your trainer rank has increased to {character['Trainer rank']}!")
         character['Next goal'] = "Let's catch two more Pokémon and go to Lion Gate Bridge!"
+        print(f"\nYour next goal has been updated to '{character['Next goal']}'!\n")
+        input("\nPress Enter to continue.\n")
 
 
 def lonsdale_quay(character):
@@ -155,21 +168,24 @@ def lonsdale_quay(character):
     if 'SeaBus Ticket' in character['Item']:
         print("Clerk at the gate \"Welcome to SeaBus!\"",
               "                \"The SeaBus is departing soon. Come on, get on board!\"\n")
+        input("\nPress Enter to continue.\n")
         character["Location"] = (14, 14)
     else:
         print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
+        input("\nPress Enter to continue.\n")
 
 
 def lion_gate_bridge(character):
     if character['Trainer rank'] > 1:
         print(f"\nConstruction Worker Sam \"Hi {character['Name']}!\"")
+        input("\nPress Enter to continue.\n")
     elif len(character['Pokemon']) < 6:
         print(f"\nConstruction Worker Sam \"Sorry, you cannot proceed unless you have at least three Pokémon with "
               f"you.\"")
+        input("\nPress Enter to continue.\n")
         character["Location"] = (5, 8)
     else:
         print(f"\nConstruction Worker Sam \"If you can defeat me, I'll let you pass through this way!\"")
-        print("\nConstruction Worker Sam has challenged you to a battle!")
         sam = {'Name': 'Construction Worker Sam',
                'Pokemon': [battle.generate_pokemon(5, 7),
                            battle.generate_pokemon(6, 8)]}
@@ -180,10 +196,22 @@ def lion_gate_bridge(character):
                   "                     \"The Gym Leader there is tough,"
                   " and won't accept a challenge unless you have six Pokémon with you.",
                   "                     \"Make sure to train enough before you go.\"\n")
+            input("\nPress Enter to continue.\n")
+            print(f"\nConstruction Worker Sam \"Take this, too.\"")
+            character['Item']['SeaBus Ticket'] = 1
+            print(f"\nYou've gotten 'SeaBus Ticket'!")
+            input("\nPress Enter to continue.\n")
+            print(f"\nConstruction Worker Sam \"With this ticket, you can take SeaBus for free as many times as you "
+                  f"want.\"")
+            print(f"               \"If you hop on the SeaBus, it's a quick trip between Waterfront and Lonsdale "
+                  f"Quay.\"")
+            input("\nPress Enter to continue.\n")
             character['Trainer rank'] = 2
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
             print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
             character["Next goal"] = "Let's go to BCIT Pokémon Gym!"
+            print(f"\nYour next goal has been updated to '{character['Next goal']}'!\n")
+            input("\nPress Enter to continue.\n")
         else:
             go_home(character)
 
@@ -192,9 +220,11 @@ def mount_cypress(character):
     print("\nGate keeper \"Here is 'Cypress Mountain', where top Pokémon trainers gather.")
     if 'BCIT Gym Badge' in character['Item']:
         print(f"        You can proceed pass through the gate.\"\n")
+        input("\nPress Enter to continue.\n")
     else:
         print(f"        For now, you cannot proceed further.\"\n")
         print(f"        Come back after you've gotten 'BCIT Gym Badge'.\"\n")
+        input("\nPress Enter to continue.\n")
         character["Location"] = (1, 5)
 
 
@@ -203,16 +233,20 @@ def waterfront(character):
     if 'SeaBus Ticket' in character['Item']:
         print("Clerk at the gate \"Welcome to SeaBus!\"",
               "                \"The SeaBus is departing soon. Come on, get on board!\"\n")
+        input("\nPress Enter to continue.\n")
         character["Location"] = (14, 6)
     else:
         print("Clerk at the gate \"Sorry, the SeaBus is out of service, now.\"\n")
+        input("\nPress Enter to continue.\n")
 
 
 def bcit_pokemon_gym(character):
     if 'BCIT Gym Badge' in character['Item']:
         print(f"\nGym Leader Rahul \"Hey {character['Name']}, how are you doing?\"")
+        input("\nPress Enter to continue.\n")
     elif len(character['Pokemon']) < 6:
         print(f"\nReceptionist \"You need to have six Pokémon with you to challenge the Gym Leader.\"")
+        input("\nPress Enter to continue.\n")
     else:
         print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\"",
               f"                \"If you can defeat me, I'll give you a Gym Badge. Let's battle!\"")
@@ -225,32 +259,39 @@ def bcit_pokemon_gym(character):
             print("\nGym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"")
             print(f"\nYou've gotten 'BCIT Gym Badge'!")
             character['Item']['BCIT Gym Badge'] = 1
+            input("\nPress Enter to continue.\n")
             print(f"\nGym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"")
             print(f"               \"Good luck, young Pokémon trainer!\"\n")
+            input("\nPress Enter to continue.\n")
             character['Trainer rank'] = 3
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
             print(f"\nthe variety of Pokémon appearing in the tall grass has increased!")
             character['Next goal'] = "Let's explore this world, and eventually go to Cypress Mountain!"
+            print(f"\nYour next goal has been updated to '{character['Next goal']}'!\n")
+            input("\nPress Enter to continue.\n")
         else:
             go_home(character)
 
 
 def science_world(character):
     print("\n\"Here is 'Science World'. Everyone can enjoy science here.\"\n")
-    print("You cannot proceed further by now.\n")
-    character["Location"] = (19, 17)
+    if ['BCIT Gym Badge'] not in character['Item']:
+        print(f"\nConstruction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
+        character["Location"] = (19, 17)
 
 
 def burrard_street_bridge(character):
     print("\n\"Here is 'Burrard Street Bridge'. The oldest bridge in Vancouver, boasting a history of 100 years.\"")
-    print("You cannot proceed further by now.\n")
-    character["Location"] = (12, 19)
+    if ['BCIT Gym Badge'] not in character['Item']:
+        print(f"\nConstruction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
+        character["Location"] = (12, 19)
 
 
 def granville_island(character):
     print("\n\"Here is 'Granville Island'. You can enjoy shopping here.\"\n")
-    print("You cannot proceed further by now.\n")
-    character["Location"] = (15, 20)
+    if ['BCIT Gym Badge'] not in character['Item']:
+        print(f"\nConstruction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
+        character["Location"] = (15, 20)
 
 
 def cypress_top(character):
@@ -266,9 +307,12 @@ def cypress_top(character):
     win_battle = battle.battle_with_trainer(character, tats)
     if win_battle:
         print("\nTats \"Unbelievable! Thank you so much for playing!\"")
+        input("\nPress Enter to continue.\n")
         if character['Trainer rank'] <= 3:
             character['Trainer rank'] = 4
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
             character['Next goal'] = "You've completed the game! Congratulations!"
+            print(f"\nYour next goal has been updated to '{character['Next goal']}'!\n")
+            input("\nPress Enter to continue.\n")
     else:
         go_home(character)

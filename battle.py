@@ -1,4 +1,5 @@
 import random
+import time
 
 import characters
 
@@ -175,11 +176,14 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                 elif len(character['Pokemon']) >= 6:
                     print("\nYou cannot bring more than six Pokémon!")
                 else:
+                    print(f"\nYou threw a Poké Ball!")
                     character['Item']['Poke Ball'] -= 1
+                    time.sleep(1)
                     if pokemon_catch(foe_pokemon):
                         append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
                         print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
                         print(f"Number of remaining Poké Ball: {character['Item']['Poke Ball']}\n")
+                        input("\nPress Enter to continue.\n")
                         return True
                     else:
                         print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
@@ -192,6 +196,7 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                     print("\nYou cannot run away from a trainer!")
                 elif run_success(my_pokemon, foe_pokemon):
                     print(f"You've successfully run away from {foe_pokemon['Name']}!\n")
+                    input("\nPress Enter to continue.\n")
                     return True
                 else:
                     print(f"Woops, you failed to run from {foe_pokemon['Name']}.")
