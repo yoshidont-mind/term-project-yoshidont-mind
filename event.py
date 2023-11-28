@@ -225,13 +225,7 @@ def bcit_pokemon_gym(character):
             print("\nGym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"")
             print(f"\nYou've gotten 'BCIT Gym Badge'!")
             character['Item']['BCIT Gym Badge'] = 1
-            print(f"\nGym Leader Rahul \"With this badge, you'll be allowed to enter Cypress Mountain.\"",
-                  f"                \"There's an incredibly strong Pokémon trainer at the peak.\"")
-            print(f"\nGym Leader Rahul \"Take this, too.\"")
-            character['Item']['SeaBus Ticket'] = 1
-            print(f"\nYou've gotten 'SeaBus Ticket'!")
-            print(f"\nGym Leader Rahul \"With this ticket, you can take SeaBus for free as many times as you want.\"")
-            print(f"               \"SeaBus takes you from Waterfront to Lonsdale Quay in no time.\"")
+            print(f"\nGym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"")
             print(f"               \"Good luck, young Pokémon trainer!\"\n")
             character['Trainer rank'] = 3
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
