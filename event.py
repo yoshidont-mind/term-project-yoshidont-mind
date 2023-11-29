@@ -66,6 +66,11 @@ def event_home(character):
 
 
 def go_home(character):
+    print(f"\nYou lost your items being shocked...\n")
+    character['Item']['Potion'] = 0
+    character['Item']['Poke Ball'] = 0
+    print(f"You rush your home...\n")
+    time.sleep(1)
     character['Location'] = (15, 1)
     print(f"\nMon \"Take care of yourself, {character['Name']}.\"\n")
     for pokemon in character['Pokemon']:
