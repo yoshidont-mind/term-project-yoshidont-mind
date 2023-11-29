@@ -21,3 +21,57 @@ yoshidont-mind
 
 For commits prior to 'COPY code from pokemon-in-vancouver!', please refer to the other repository (pokemon-in-vancouver).
 https://github.com/yoshidont-mind/pokemon-in-vancouver
+
+## About this game:
+
+### 概要：
+「もしバンクーバーにポケモンがいたらどんなに楽しいだろうか！」という想像に駆り立てられて、このゲームを作成しました。
+ゲームが始まったら、ぜひ"5"を入力して、地図を開いてみてください。
+
+![map_in_this_game](images/map_in_this_game.png)
+
+マップの左上はCypress Mountain、左下はUBC、右下はMount Pleasant、右上はDeep Coveに相当します。
+また、地図内の各記号はそれぞれ以下のような意味を持っています。
+- "#": 障害物（プレイヤーが立ち入れない）
+- "@": 海（プレイヤーが立ち入れない）
+- ".": Bush (野生のポケモンがランダムで飛び出してくる)
+- " ": 道路（ときどきアイテムを拾う）
+- "i": 情報掲示板
+- "!": イベントが発生する場所
+- "H": Home（ポケモンを回復できる）
+
+ほら、なんとなくバンクーバー周辺の地図に見えてきたでしょう？
+
+プレイヤーは右上、North Vancouverにある自宅を出発し、ポケモンを捕まえ、育て、いくつかのイベントをこなしながら、BCITにあるポケモンジムを目指します。
+ポケモンジムに到着してジムリーダーを倒し、ジムバッジをゲットすることがあなたの目的です。
+
+### ゲームがどのように進行するか：
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

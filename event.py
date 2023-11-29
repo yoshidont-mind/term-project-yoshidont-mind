@@ -201,7 +201,7 @@ def lion_gate_bridge(character):
             print("\nConstruction Worker Sam \"Passable!\n",
                   "                      Now, you can go to BCIT Pokémon Gym!\n",
                   "                     The Gym Leader there is tough,"
-                  " and won't accept a challenge unless you have six Pokémon with you.\n",
+                  " and won't accept a challenge unless you bring five or more Pokémon with you.\n",
                   "                     Make sure to train enough before you go.\"\n")
             input("Press Enter to continue.\n")
             print(f"Construction Worker Sam \"Take this, too.\"")
@@ -251,8 +251,8 @@ def bcit_pokemon_gym(character):
     if 'BCIT Gym Badge' in character['Item']:
         print(f"\nGym Leader Rahul \"Hey {character['Name']}, how are you doing?\"")
         input("\nPress Enter to continue.\n")
-    elif len(character['Pokemon']) < 6:
-        print(f"\nReceptionist \"You need to have six Pokémon with you to challenge the Gym Leader.\"")
+    elif len(character['Pokemon']) < 5:
+        print(f"\nReceptionist \"You need to bring at least five Pokémon with you to challenge the Gym Leader.\"")
         input("\nPress Enter to continue.\n")
     else:
         print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\"",
@@ -313,12 +313,14 @@ def cypress_top(character):
                         battle.generate_pokemon(17, 40)]}
     win_battle = battle.battle_with_trainer(character, tats)
     if win_battle:
-        print("\nTats \"Unbelievable! Thank you so much for playing!\"")
+        print("\nTats \"Unbelievable! The world of Pokémon is still full of mysteries. Continue enjoying your "
+              "adventure!\"")
         input("\nPress Enter to continue.\n")
         if character['Trainer rank'] <= 3:
             character['Trainer rank'] = 4
             print(f"\nYour trainer rank has increased to {character['Trainer rank']}!")
-            character['Next goal'] = "You've completed the game! Congratulations!"
+            character['Next goal'] = "You've completed the game! Congratulations! Thank you so much for playing!"
+            characters.print_thank_you_for_playing()
             print(f"\nYour next goal has been updated to '{character['Next goal']}'!\n")
             input("\nPress Enter to continue.\n")
     else:

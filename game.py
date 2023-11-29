@@ -12,15 +12,15 @@ import characters
 
 def load_save_data():
     try:
-        with open('save_data_files/before cypress_top()/save_data.json', 'r') as file_object:
+        with open('save_data.json', 'r') as file_object:
             save_data = json.load(file_object)
             save_data['Location'] = tuple(save_data['Location'])  # jsonではタプルを保存できないため、リストに変換している
         return save_data
     except FileNotFoundError:
-        print("\nSave data not found. Starting a new game.\n")
+        print("\nSave data not found. Starting a new game...\n")
         return None
     except json.JSONDecodeError:
-        print("\nSave data is corrupted. Starting a new game.\n")
+        print("\nSave data is corrupted. Starting a new game...\n")
         return None
 
 
@@ -223,12 +223,15 @@ def game():
     save_data = load_save_data()
     if save_data:
         character = save_data
-        print(f"\nSave data found. Loading...")
+        print(f"\nSave data found. Loading...\n")
         time.sleep(1)
-        print(f"\nWelcome back, {character['Name']}!")
-        input("\nPress Enter to continue...\n")
+        characters.print_title()
+        print(f"Welcome back, {character['Name']}\n!")
+        input("Press Enter to continue.\n")
     else:
-        character_name = input("\nPlease enter your name:\n")
+        time.sleep(1)
+        characters.print_title()
+        character_name = input("Please enter your name:\n")
         character = {'Name': character_name, 'Location': (15, 1), 'Pokemon': [],
                      'Item': {'Potion': 0, 'Poke Ball': 0}, 'Trainer rank': 0,
                      'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!',
@@ -236,9 +239,10 @@ def game():
         print("\nWelcome to Pokémon's world!\n"
               "In this world, many Pokémon are living with humans.\n"
               "Enjoy your adventure!\n")
-        time.sleep(2)
+        input("Press Enter to continue.\n")
         print(f"Mom \"Good morning, {character['Name']}.",
               f"    Take care.\"\n", sep="\n")
+        input("Press Enter to continue.\n")
     map_dic = generate_map_dictionary()
     continue_game = True
     while continue_game:
@@ -309,6 +313,7 @@ def game():
         else:
             print("\nWhoops, something went wrong. Please try it again.\n")
         if character['Trainer rank'] == 3 and not character['End roll']:
+            characters.print_congratulations()
             print("\nCongratulations! You achieved your goal in this game. With this, the game comes to an end.\n",
                   "\nNow, the program will save your data and close, but if you're interested, you can restart the "
                   "game and explore this world a bit more.\n",
