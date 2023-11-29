@@ -70,7 +70,7 @@ def pokemon_catch(foe):
 
 
 def run_success(my_pokemon, foe):
-    random_number = random.randint(1, min(1, 100 - 20 * (my_pokemon['Level'] - foe['Level'])))
+    random_number = random.randint(1, max(20, 100 - 20 * (my_pokemon['Level'] - foe['Level'])))
     if random_number <= 20:
         return True
     else:
@@ -83,7 +83,7 @@ def attacks(offense, defense):
     damage = round((offense['Level'] * 2 / 5 + 2) * move_power * offense['Attack'] / defense['Defense'] / 50 + 2)
     print(f"The {defense['Name']} is damaged by {damage}!")
     defense['HP'] = max(defense['HP'] - damage, 0)
-    print(f"HP of {defense['Name']}: {defense['HP']}/{defense['Max HP']}")
+    print(f"HP of {defense['Name']}: {defense['HP']}/{defense['Max HP']}\n")
 
 
 def is_alive(pokemon):
@@ -134,7 +134,7 @@ def determine_level_up(pokemon):
         pokemon['HP'] += max_hp_difference
     if level_up:
         print(f"{characters.poke_dex()[pokemon['Number']]['Ascii art']}")
-        print(f"{pokemon['Name']} looks stronger!")
+        print(f"{pokemon['Name']} looks stronger!\n")
 
 
 def see_pokemon(character, my_pokemon):
@@ -158,11 +158,11 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                 if is_alive(foe_pokemon):
                     attacks(foe_pokemon, my_pokemon)
                     if not is_alive(my_pokemon):
-                        print(f"\n{my_pokemon['Name']} is defeated!")
+                        print(f"{my_pokemon['Name']} is defeated!\n")
                         return False
                 else:
-                    print(f"\n{my_pokemon['Name']} beat {foe_pokemon['Name']}!",
-                          f"\n{my_pokemon['Name']} got {calculate_acquiring_exp(foe_pokemon['Level'])}exp.\n")
+                    print(f"{my_pokemon['Name']} beat {foe_pokemon['Name']}!",
+                          f"{my_pokemon['Name']} got {calculate_acquiring_exp(foe_pokemon['Level'])}exp.\n")
                     my_pokemon['Exp'] += calculate_acquiring_exp(foe_pokemon['Level'])
                     my_pokemon['Exp to next level'] -= calculate_acquiring_exp(foe_pokemon['Level'])
 
@@ -179,17 +179,17 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                 elif len(character['Pokemon']) >= 6:
                     print("\nYou cannot bring more than six Pokémon!")
                 else:
-                    print(f"\nYou threw a Poké Ball!")
+                    print(f"\nYou threw a Poké Ball!\n")
                     character['Item']['Poke Ball'] -= 1
                     time.sleep(1)
                     if pokemon_catch(foe_pokemon):
                         append_pokemon(character, foe_pokemon['Number'], foe_pokemon['Level'], foe_pokemon['HP'])
-                        print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!\n")
-                        print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}")
+                        print(f"Congratulations! You've caught {foe_pokemon['Name']} successfully!")
+                        print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}\n")
                         return True
                     else:
                         print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
-                        print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}")
+                        print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}\n")
                         attacks(foe_pokemon, my_pokemon)
                         if not is_alive(my_pokemon):
                             return False
@@ -197,10 +197,10 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                 if trainer:
                     print("\nYou cannot run away from a trainer!")
                 elif run_success(my_pokemon, foe_pokemon):
-                    print(f"You've successfully run away from {foe_pokemon['Name']}!")
+                    print(f"\nYou've successfully run away from {foe_pokemon['Name']}!\n")
                     return True
                 else:
-                    print(f"Woops, you failed to run from {foe_pokemon['Name']}.")
+                    print(f"\nWoops, you failed to run from {foe_pokemon['Name']}.")
                     attacks(foe_pokemon, my_pokemon)
                     if not is_alive(my_pokemon):
                         return False
@@ -209,7 +209,7 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
 
 
 def battle_with_trainer(character, trainer):
-    print(f"\nTrainer {trainer['Name']} has challenged you to a battle!")
+    print(f"\nTrainer {trainer['Name']} has challenged you to a battle!\n")
     index = 0
     my_pokemon_changed = True
     foe_pokemon_changed = True
@@ -218,22 +218,22 @@ def battle_with_trainer(character, trainer):
         foe_pokemon = trainer['Pokemon'][index]
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon['Number']]['Ascii art']
         if foe_pokemon_changed:
-            print(f"Number of remaining Pokémon: {len(trainer['Pokemon']) - index}")
+            print(f"Remaining foe Pokémon: {len(trainer['Pokemon']) - index}\n")
             print(foe_pokemon_ascii_art)
-            print(f"\nTrainer {trainer['Name']} sent out {foe_pokemon['Name']} (Lv.{foe_pokemon['Level']})!")
+            print(f"Trainer {trainer['Name']} sent out {foe_pokemon['Name']} (Lv.{foe_pokemon['Level']})!\n")
             foe_pokemon_changed = False
         if my_pokemon_changed:
-            print(f"\nLet's go, {my_pokemon['Name']}!")
+            print(f"Let's go, {my_pokemon['Name']}!\n")
             foe_pokemon_changed = False
         my_pokemon_wins = pokemon_battle(character, my_pokemon, foe_pokemon, True)
         if my_pokemon_wins:
             foe_pokemon_changed = True
             index += 1
             if not check_alive_pokemon_remains(trainer):
-                print(f"\nYou defeated Trainer {trainer['Name']}!")
+                print(f"You defeated Trainer {trainer['Name']}!\n")
                 return True
         else:
             my_pokemon_changed = True
             if not check_alive_pokemon_remains(character):
-                print(f"\nYou are defeated by Trainer {trainer['Name']}!")
+                print(f"You are defeated by Trainer {trainer['Name']}!\n")
                 return False

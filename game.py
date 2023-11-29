@@ -102,7 +102,7 @@ def get_user_choice(character):
 
 
 def save_data_as_json(character):
-    with open('save_data_files/before cypress_top()/save_data.json', 'w') as f:
+    with open('save_data.json', 'w') as f:
         json.dump(character, f)
 
 
@@ -171,8 +171,8 @@ def check_status(character):
 def gather_user_choice_to_change_order(character):
     pokemon_list = ""
     for index in range(len(character['Pokemon'])):
-        pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
-    print(f"\nNow, you're bringing:{pokemon_list}")
+        pokemon_list += f"{index + 1}) {character['Pokemon'][index]['Name']}\n"
+    print(f"\nNow, you're bringing:\n{pokemon_list}")
     selected_number_str = input("Which Pokémon do you move to the top?:\n")
     expected = [str(number) for number in range(2, len(character['Pokemon']) + 1)]
     if selected_number_str in expected:
@@ -193,8 +193,8 @@ def change_order(character, index):
 def gather_user_choice_to_escape_pokemon(character):
     pokemon_list = ""
     for index in range(len(character['Pokemon'])):
-        pokemon_list += f" {index + 1}) {character['Pokemon'][index]['Name']},"
-    print(f"\nNow, you're bringing:{pokemon_list}")
+        pokemon_list += f"{index + 1}) {character['Pokemon'][index]['Name']}\n"
+    print(f"\nNow, you're bringing:\n{pokemon_list}")
     selected_number_str = input("Which Pokémon do you want to escape?:\n")
     expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
     if selected_number_str in expected:
@@ -226,7 +226,7 @@ def game():
         print(f"\nSave data found. Loading...\n")
         time.sleep(1)
         characters.print_title()
-        print(f"Welcome back, {character['Name']}\n!")
+        print(f"Welcome back, {character['Name']}!\n")
         input("Press Enter to continue.\n")
     else:
         time.sleep(1)
@@ -237,11 +237,16 @@ def game():
                      'Next goal': 'Let\'s receive a Pokémon from Dr. Nabil and embark on an adventure!',
                      'End roll': False}
         print("\nWelcome to Pokémon's world!\n"
-              "In this world, many Pokémon are living with humans.\n"
+              "In this world, creatures known as Pokémon live everywhere!\n"
+              "Now, your goal is to catch Pokémon, train them through battles, "
+              "and defeat the BCIT Pokémon Gym leader to collect Gym Badge!\n"
               "Enjoy your adventure!\n")
         input("Press Enter to continue.\n")
-        print(f"Mom \"Good morning, {character['Name']}.",
-              f"    Take care.\"\n", sep="\n")
+        time.sleep(1)
+        print(f"Mom \"Good morning, {character['Name']}.\n"
+              f"       Today is finally the day you embark on your Pokémon adventure!\n"
+              f"       Oh, Dr. Nabil wanted to see you before you leave. He's waiting at the entrance of the town.\n"
+              f"       Take care, and have a nice journey.\"\n")
         input("Press Enter to continue.\n")
     map_dic = generate_map_dictionary()
     continue_game = True
@@ -250,7 +255,7 @@ def game():
         user_choice = get_user_choice(character)
         if user_choice == "0":
             save_data_as_json(character)
-            print("\nYour game is saved. See you again!\n")
+            print("\nYour data is saved. See you again!\n")
             continue_game = False
         elif user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
@@ -275,7 +280,7 @@ def game():
             check_status(character)
         elif user_choice == "7":
             if character['Item']['Potion'] <= 0:
-                print("\nYou don't have any Potion!")
+                print("\nYou don't have any Potion!\n")
             else:
                 selected_number = gather_user_choice_to_heal_pokemon(character)
                 if selected_number:
@@ -288,8 +293,8 @@ def game():
                         print(f"\nYou healed {character['Pokemon'][index]['Name']}!")
                         print(characters.poke_dex()[character['Pokemon'][index]['Number']]['Ascii art'])
                         print(f"{character['Pokemon'][index]['Name']} looks happy!")
-                        print(f"Remaining Potion: {character['Item']['Potion']}")
-                        input("\nPress Enter to continue.\n")
+                        print(f"Remaining Potion: {character['Item']['Potion']}\n")
+                        input("Press Enter to continue.\n")
         elif user_choice == "8":
             selected_number = gather_user_choice_to_change_order(character)
             if selected_number:
@@ -297,10 +302,10 @@ def game():
                 change_order(character, index)
                 print(f"\nYou brought {character['Pokemon'][0]['Name']} to the top.")
                 print(characters.poke_dex()[character['Pokemon'][0]['Number']]['Ascii art'])
-                print(f"\n{character['Pokemon'][0]['Name']} looks happy!")
-                input("\nPress Enter to continue.\n")
+                print(f"\n{character['Pokemon'][0]['Name']} looks happy!\n")
+                input("Press Enter to continue.\n")
             else:
-                print("\nYour choice is not valid. The request to change order is canceled.")
+                print("\nYour choice is not valid. The request to change order is canceled.\n")
         elif user_choice == "9":
             selected_number = gather_user_choice_to_escape_pokemon(character)
             if selected_number:
@@ -308,8 +313,9 @@ def game():
                 print(f"\nYou escaped {character['Pokemon'][index]['Name']}."
                       f" By-bye, {character['Pokemon'][index]['Name']}!")
                 character['Pokemon'].pop(index)  # escape Pokémon
+                input("Press Enter to continue.\n")
             else:
-                print("\nYour choice is not valid. The request to escape Pokémon is canceled.")
+                print("\nYour choice is not valid. The request to escape Pokémon is canceled.\n")
         else:
             print("\nWhoops, something went wrong. Please try it again.\n")
         if character['Trainer rank'] == 3 and not character['End roll']:
