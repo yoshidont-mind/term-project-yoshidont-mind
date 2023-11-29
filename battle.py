@@ -165,7 +165,6 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer):
                           f"{my_pokemon['Name']} got {calculate_acquiring_exp(foe_pokemon['Level'])}exp.\n")
                     my_pokemon['Exp'] += calculate_acquiring_exp(foe_pokemon['Level'])
                     my_pokemon['Exp to next level'] -= calculate_acquiring_exp(foe_pokemon['Level'])
-
                     # determine level up
                     determine_level_up(my_pokemon)
                     return True

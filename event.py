@@ -253,20 +253,20 @@ def bcit_pokemon_gym(character):
         print(f"\nReceptionist \"You need to bring at least five Pokémon with you to challenge the Gym Leader.\"\n")
         input("Press Enter to continue.\n")
     else:
-        print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\"",
-              f"                \"If you can defeat me, I'll give you a Gym Badge. Let's battle!\"")
+        print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\n",
+              f"                If you can defeat me, I'll give you a Gym Badge. Let's battle!\"\n")
         rahul = {'Name': 'Gym Leader Rahul',
                  'Pokemon': [battle.generate_pokemon(11, 12),
                              battle.generate_pokemon(10, 12),
                              battle.generate_pokemon(9, 14)]}
         win_battle = battle.battle_with_trainer(character, rahul)
         if win_battle:
-            print("\nGym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"")
+            print("\nGym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"\n")
             print(f"You've gotten 'BCIT Gym Badge'!\n")
             character['Item']['BCIT Gym Badge'] = 1
             input("Press Enter to continue.\n")
-            print(f"Gym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"")
-            print(f"               \"Good luck, young Pokémon trainer!\"\n")
+            print(f"Gym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"",
+                  f"               \"Good luck, young Pokémon trainer!\"\n")
             input("Press Enter to continue.\n")
             character['Trainer rank'] = 3
             character['Next goal'] = "Let's explore this world, and eventually go to Cypress Mountain!"
@@ -280,23 +280,26 @@ def bcit_pokemon_gym(character):
 
 def science_world(character):
     print("\n\"Here is 'Science World'. Everyone can enjoy science here.\"\n")
-    if ['BCIT Gym Badge'] not in character['Item']:
+    if 'BCIT Gym Badge' not in character['Item']:
         print(f"Construction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
         character["Location"] = (19, 17)
+        input("Press Enter to continue.\n")
 
 
 def burrard_street_bridge(character):
     print("\n\"Here is 'Burrard Street Bridge'. The oldest bridge in Vancouver, boasting a history of 100 years.\"\n")
-    if ['BCIT Gym Badge'] not in character['Item']:
+    if 'BCIT Gym Badge' not in character['Item']:
         print(f"Construction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
         character["Location"] = (12, 19)
+        input("Press Enter to continue.\n")
 
 
 def granville_island(character):
     print("\n\"Here is 'Granville Island'. You can enjoy shopping here.\"\n")
-    if ['BCIT Gym Badge'] not in character['Item']:
+    if 'BCIT Gym Badge' not in character['Item']:
         print(f"Construction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
         character["Location"] = (15, 20)
+        input("Press Enter to continue.\n")
 
 
 def cypress_top(character):
