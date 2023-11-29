@@ -1,3 +1,8 @@
+"""
+This module contains poke_dex() function which is used to store information of Pokémon.
+"""
+
+
 def poke_dex():
     pokemon_dic = {1: {'Name': 'Bulbasaur', 'HP': 45, 'Attack': 49, 'Defense': 49},
                    2: {'Name': 'Charmander', 'HP': 39, 'Attack': 52, 'Defense': 43},

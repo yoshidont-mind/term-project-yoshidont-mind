@@ -1,3 +1,8 @@
+"""
+This module is the main module of this game.
+Ths module contains main(), game(), and some functions directly related to game().
+"""
+
 import time
 import json
 
@@ -7,7 +12,7 @@ import characters
 
 def load_save_data():
     try:
-        with open('save_data.json', 'r') as file_object:
+        with open('save_data_files/before cypress_top()/save_data.json', 'r') as file_object:
             save_data = json.load(file_object)
             save_data['Location'] = tuple(save_data['Location'])  # jsonではタプルを保存できないため、リストに変換している
         return save_data
@@ -33,9 +38,9 @@ def generate_map_dictionary():
 ▓@@@@i@@@@@@@@@@@@@@▓
 ▓@@@@!@@@@@@@@@@@@@@▓
 ▓@@@.i..@@@@@@@@@@@@▓
-▓@@.. ......@@@@@@@@▓
-▓@@.. ....@@@@@@@@  ▓
-▓@@..  .@@@@@@@@   #▓
+▓@@.........@@@@@@@@▓
+▓@@.......@@@@@@@@  ▓
+▓@@.....@@@@@@@@   #▓
 ▓@@@..        !  #  ▓
 ▓@@@@.. #### # #    ▓
 ▓@@@@@@       !   @ ▓
@@ -97,7 +102,7 @@ def get_user_choice(character):
 
 
 def save_data_as_json(character):
-    with open('save_data.json', 'w') as f:
+    with open('save_data_files/before cypress_top()/save_data.json', 'w') as f:
         json.dump(character, f)
 
 

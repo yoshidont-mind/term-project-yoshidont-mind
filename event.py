@@ -1,3 +1,6 @@
+"""
+This module contains functions that are invoked when the player moves to a specific location.
+"""
 import random
 import time
 
@@ -299,8 +302,8 @@ def granville_island(character):
 
 
 def cypress_top(character):
-    print("\nTats \"Hi, I'm Tats. I'm the strongest Pokémon trainer in Vancouver.\"",
-          "      \"You made it here, impressive. Let's battle right away!\"")
+    print("\nTats \"Hi, I'm Tats. I'm the strongest Pokémon trainer in Vancouver.\n",
+          "      You made it here, impressive. Let's battle right away!\"")
     tats = {'Name': 'Tats',
             'Pokemon': [battle.generate_pokemon(12, 24),
                         battle.generate_pokemon(13, 26),

@@ -1,3 +1,7 @@
+"""
+This module contains functions related to the battle system.
+"""
+
 import random
 import time
 
@@ -214,7 +218,7 @@ def battle_with_trainer(character, trainer):
         foe_pokemon = trainer['Pokemon'][index]
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon['Number']]['Ascii art']
         if foe_pokemon_changed:
-            print(f"Number of remaining Pokémon: {len(character['Pokemon']) - index}")
+            print(f"Number of remaining Pokémon: {len(trainer['Pokemon']) - index}")
             print(foe_pokemon_ascii_art)
             print(f"\nTrainer {trainer['Name']} sent out {foe_pokemon['Name']} (Lv.{foe_pokemon['Level']})!")
             foe_pokemon_changed = False
