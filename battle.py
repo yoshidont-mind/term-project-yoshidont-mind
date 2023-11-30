@@ -19,6 +19,44 @@ def generate_pokemon(pokemon_number, level):
     :precondition: level must be a positive integer
     :postcondition: a dictionary that represents a Pokémon is correctly generated
     :return: a dictionary that represents a Pokémon
+    >>> doctest_pokemon = generate_pokemon(1, 5)
+    >>> doctest_pokemon['Number']
+    1
+    >>> doctest_pokemon['Name']
+    'Bulbasaur'
+    >>> doctest_pokemon['Level']
+    5
+    >>> doctest_pokemon['Max HP']
+    22
+    >>> doctest_pokemon['HP']
+    22
+    >>> doctest_pokemon['Attack']
+    12
+    >>> doctest_pokemon['Defense']
+    12
+    >>> doctest_pokemon['Exp to next level']
+    100
+    >>> doctest_pokemon['Exp']
+    0
+    >>> doctest_pokemon = generate_pokemon(17, 50)
+    >>> doctest_pokemon['Number']
+    17
+    >>> doctest_pokemon['Name']
+    'Mew'
+    >>> doctest_pokemon['Level']
+    50
+    >>> doctest_pokemon['Max HP']
+    184
+    >>> doctest_pokemon['HP']
+    184
+    >>> doctest_pokemon['Attack']
+    128
+    >>> doctest_pokemon['Defense']
+    128
+    >>> doctest_pokemon['Exp to next level']
+    100000
+    >>> doctest_pokemon['Exp']
+    0
     """
     pokemon_status = {'Number': pokemon_number,
                       'Name': characters.poke_dex()[pokemon_number]['Name'],
@@ -47,6 +85,46 @@ def append_pokemon(character, pokemon_number, level, hp):
     :precondition: hp must be a positive integer
     :precondition: hp must be less than or equal to the max HP of the Pokémon
     :postcondition: a Pokémon is correctly appended to the character's Pokémon list
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': []}
+    >>> append_pokemon(doctest_character, 1, 5, 22)
+    >>> doctest_character['Pokemon'][0]['Number']
+    1
+    >>> doctest_character['Pokemon'][0]['Name']
+    'Bulbasaur'
+    >>> doctest_character['Pokemon'][0]['Level']
+    5
+    >>> doctest_character['Pokemon'][0]['Max HP']
+    22
+    >>> doctest_character['Pokemon'][0]['HP']
+    22
+    >>> doctest_character['Pokemon'][0]['Attack']
+    12
+    >>> doctest_character['Pokemon'][0]['Defense']
+    12
+    >>> doctest_character['Pokemon'][0]['Exp to next level']
+    100
+    >>> doctest_character['Pokemon'][0]['Exp']
+    0
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': []}
+    >>> append_pokemon(doctest_character, 17, 50, 184)
+    >>> doctest_character['Pokemon'][0]['Number']
+    17
+    >>> doctest_character['Pokemon'][0]['Name']
+    'Mew'
+    >>> doctest_character['Pokemon'][0]['Level']
+    50
+    >>> doctest_character['Pokemon'][0]['Max HP']
+    184
+    >>> doctest_character['Pokemon'][0]['HP']
+    184
+    >>> doctest_character['Pokemon'][0]['Attack']
+    128
+    >>> doctest_character['Pokemon'][0]['Defense']
+    128
+    >>> doctest_character['Pokemon'][0]['Exp to next level']
+    100000
+    >>> doctest_character['Pokemon'][0]['Exp']
+    0
     """
     pokemon_dic = generate_pokemon(pokemon_number, level)
     pokemon_dic['HP'] = hp
@@ -64,6 +142,10 @@ def calculate_max_hp(pokemon_number, level):
     :precondition: level must be a positive integer
     :postcondition: the max HP of a Pokémon is correctly calculated
     :return: an integer which is the max HP of a Pokémon
+    >>> calculate_max_hp(1, 5)
+    22
+    >>> calculate_max_hp(17, 50)
+    184
     """
     base_stats = characters.poke_dex()[pokemon_number]['HP']
     max_hp = round((base_stats * 2 + 47) * level / 100 + 10 + level)
@@ -81,6 +163,10 @@ def calculate_attack(pokemon_number, level):
     :precondition: level must be a positive integer
     :postcondition: the attack of a Pokémon is correctly calculated
     :return: an integer which is the attack of a Pokémon
+    >>> calculate_attack(1, 5)
+    12
+    >>> calculate_attack(17, 50)
+    128
     """
     base_stats = characters.poke_dex()[pokemon_number]['Attack']
     attack = round((base_stats * 2 + 47) * level / 100 + 5)
@@ -98,6 +184,10 @@ def calculate_defense(pokemon_number, level):
     :precondition: level must be a positive integer
     :postcondition: the defense of a Pokémon is correctly calculated
     :return: an integer which is the defense of a Pokémon
+    >>> calculate_defense(1, 5)
+    12
+    >>> calculate_defense(17, 50)
+    128
     """
     base_stats = characters.poke_dex()[pokemon_number]['Defense']
     defense = round((base_stats * 2 + 47) * level / 100 + 5)
@@ -112,6 +202,10 @@ def calculate_exp_to_next_level(level):
     :precondition: level must be a positive integer
     :postcondition: the exp to next level of a Pokémon is correctly calculated
     :return: an integer which is the exp to next level of a Pokémon
+    >>> calculate_exp_to_next_level(5)
+    100
+    >>> calculate_exp_to_next_level(50)
+    100000
     """
     return round((level ** 3) * 0.8)
 
@@ -124,6 +218,10 @@ def calculate_acquiring_exp(level):
     :precondition: level must be a positive integer
     :postcondition: the acquiring exp is correctly calculated
     :return: an integer which is acquiring exp
+    >>> calculate_acquiring_exp(5)
+    107
+    >>> calculate_acquiring_exp(50)
+    1071
     """
     return round(level * 150 / 7)
 
@@ -171,6 +269,31 @@ def attacks(offense, defense):
     :precondition: offense must be a dictionary that represents a Pokémon
     :precondition: defense must be a dictionary that represents a Pokémon
     :postcondition: an attack is correctly executed
+    :postcondition: the defense's HP is correctly updated
+    >>> doctest_offense = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> doctest_defense = {'Number': 2, 'Name': 'Squirtle', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> attacks(doctest_offense, doctest_defense)
+    <BLANKLINE>
+    Bulbasaur attacks Squirtle!
+    The Squirtle is damaged by 5!
+    HP of Squirtle: 17/22
+    <BLANKLINE>
+    >>> doctest_defense['HP']
+    17
+    >>> doctest_offense = {'Number': 17, 'Name': 'Mew', 'Level': 50, 'Max HP': 184, 'HP': 184, 'Attack': 128,
+    ... 'Defense': 128, 'Exp to next level': 100000, 'Exp': 0}
+    >>> doctest_defense = {'Number': 2, 'Name': 'Squirtle', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> attacks(doctest_offense, doctest_defense)
+    <BLANKLINE>
+    Mew attacks Squirtle!
+    The Squirtle is damaged by 207!
+    HP of Squirtle: 0/22
+    <BLANKLINE>
+    >>> doctest_defense['HP']
+    0
     """
     print(f"\n{offense['Name']} attacks {defense['Name']}!")
     move_power = 40
@@ -188,6 +311,14 @@ def is_alive(pokemon):
     :precondition: pokemon must be a dictionary that represents a Pokémon
     :postcondition: whether a Pokémon is alive is correctly determined
     :return: True if a Pokémon is alive, False otherwise
+    >>> doctest_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> is_alive(doctest_pokemon)
+    True
+    >>> doctest_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 0, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> is_alive(doctest_pokemon)
+    False
     """
     if pokemon['HP'] > 0:
         return True
@@ -203,6 +334,16 @@ def check_alive_pokemon_remains(character):
     :precondition: character must be a dictionary that represents a character
     :postcondition: whether there are any alive Pokémon in the character's Pokémon list is correctly determined
     :return: True if there are any alive Pokémon in the character's Pokémon list, False otherwise
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': [{'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22,
+    ... 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}, {'Number': 2, 'Name': 'Squirtle',
+    ... 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}]}
+    >>> check_alive_pokemon_remains(doctest_character)
+    True
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': [{'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22,
+    ... 'HP': 0, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}, {'Number': 2, 'Name': 'Squirtle',
+    ... 'Level': 5, 'Max HP': 22, 'HP': 0, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}]}
+    >>> check_alive_pokemon_remains(doctest_character)
+    False
     """
     for index in range(len(character['Pokemon'])):
         if character['Pokemon'][index]['HP'] > 0:
@@ -219,6 +360,18 @@ def next_pokemon(character):
     :precondition: there must be any alive Pokémon in the character's Pokémon list
     :postcondition: the next alive Pokémon in the character's Pokémon list is correctly returned
     :return: a dictionary that represents the next alive Pokémon in the character's Pokémon list
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': [{'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22,
+    ... 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}, {'Number': 2, 'Name': 'Squirtle',
+    ... 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}]}
+    >>> doctest_next_pokemon = next_pokemon(doctest_character)
+    >>> doctest_next_pokemon['Name']
+    'Bulbasaur'
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': [{'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22,
+    ... 'HP': 0, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}, {'Number': 2, 'Name': 'Squirtle',
+    ... 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}]}
+    >>> doctest_next_pokemon = next_pokemon(doctest_character)
+    >>> doctest_next_pokemon['Name']
+    'Squirtle'
     """
     # 生きてるポケモンいることが前提条件
     # 生きてるポケモンのうち先頭のものを返す
@@ -240,6 +393,60 @@ def determine_level_up(pokemon):
     :postcondition: if a Pokémon levels up, the Pokémon's status and difference are correctly printed
     :postcondition: if a Pokémon levels up, the Pokémon's ascii art is correctly printed
     :postcondition: Exp to next level of the Pokémon is bigger than 0
+    >>> doctest_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> determine_level_up(doctest_pokemon)
+    >>> doctest_pokemon['Level']
+    5
+    >>> doctest_pokemon['Exp to next level']
+    5
+    >>> doctest_pokemon['Exp']
+    0
+    >>> doctest_pokemon['Attack']
+    11
+    >>> doctest_pokemon['Defense']
+    11
+    >>> doctest_pokemon['Max HP']
+    22
+    >>> doctest_pokemon['HP']
+    22
+    >>> doctest_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': -20, 'Exp': 0}
+    >>> determine_level_up(doctest_pokemon)
+    <BLANKLINE>
+    Congratulations! Bulbasaur raised to level 6!
+    <BLANKLINE>
+    Attack raised by 3.
+    Defense raised by 3.
+    Max HP raised by 2.
+    <BLANKLINE>
+    <BLANKLINE>
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⡀⠈⡖⡤⠄⠀
+    ⠀⠀⢀⡀⠀⠀⠀⡐⠁⠀⠀⠠⠐⠂⠀⠁⠀⠀⠀⠀
+    ⠀⠰⡁⠐⢉⣉⣭⡍⠁⠂⠉⠘⡀⠀⠀⠀⠀⠂⠡⠀
+    ⢀⣊⠀⡄⠻⠿⠋⠀⠀⠀⠀⠀⢃⠀⠀⠀⠀⠀⠀⢀
+    ⡎⣾⠀⠁⣴⡆⠀⠡⢺⣿⣆⠀⢠⢱⣄⠀⠀⠀⠀⠈
+    ⡑⠟⠀⠀⠀⠀⠀⢀⣸⡿⠟⠀⠀⠈⢿⣿⡦⡀⠀⡰
+    ⠙⠔⠦⣤⣥⣤⣤⣤⡤⠆⠀⠀⠀⠀⢀⢀⠀⠈⠎⠀
+    ⠀⠀⠈⣰⡋⢉⠉⠁⠒⠂⢇⢠⡆⠀⠸⢴⣿⠀⠘⠀
+    ⠀⠀⠘⡿⠃⠀⠨⠒⢆⣸⣿⠁⠀⡠⡇⠈⠋⠀⠰⠀
+    ⠀⠀⠀⠛⠒⠒⠁⠀⠈⠷⡤⠤⠐⠀⠘⠒⠒⠖⠁⠀
+    Bulbasaur looks stronger!
+    <BLANKLINE>
+    >>> doctest_pokemon['Level']
+    6
+    >>> doctest_pokemon['Exp to next level']
+    153
+    >>> doctest_pokemon['Exp']
+    20
+    >>> doctest_pokemon['Attack']
+    14
+    >>> doctest_pokemon['Defense']
+    14
+    >>> doctest_pokemon['Max HP']
+    24
+    >>> doctest_pokemon['HP']
+    24
     """
     level_up = False
     while pokemon['Exp to next level'] <= 0:
@@ -278,6 +485,43 @@ def see_pokemon(character, my_pokemon):
     :precondition: my_pokemon must be a dictionary that represents a Pokémon
     :precondition: this function must be invoked during a battle
     :postcondition: the character's Pokémon list is correctly printed
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': [{'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22,
+    ... 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}]}
+    >>> doctest_my_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> see_pokemon(doctest_character, doctest_my_pokemon)
+    <BLANKLINE>
+    ----------
+    Now in battle: Bulbasaur
+    <BLANKLINE>
+    Pokemon:
+    1) Bulbasaur
+     - Level  : 5
+     - HP     : 22 / 22
+    <BLANKLINE>
+    ----------
+    <BLANKLINE>
+    >>> doctest_character = {'Name': 'Red', 'Pokemon': [{'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22,
+    ... 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}, {'Number': 2, 'Name': 'Squirtle',
+    ... 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11, 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}]}
+    >>> doctest_my_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> see_pokemon(doctest_character, doctest_my_pokemon)
+    <BLANKLINE>
+    ----------
+    Now in battle: Bulbasaur
+    <BLANKLINE>
+    Pokemon:
+    1) Bulbasaur
+     - Level  : 5
+     - HP     : 22 / 22
+    <BLANKLINE>
+    2) Squirtle
+     - Level  : 5
+     - HP     : 22 / 22
+    <BLANKLINE>
+    ----------
+    <BLANKLINE>
     """
     print(f"\n----------")
     print(f"Now in battle: {my_pokemon['Name']}")
@@ -303,6 +547,63 @@ def execute_both_attacks(my_pokemon, foe_pokemon):
     :postcondition: if my_pokemon defeats foe_pokemon and my_pokemon levels up, my_pokemon's status is correctly updated
     :postcondition: turn_result is correctly determined
     :return: a string which is either of "continue", "win", or "lose"
+    >>> doctest_my_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> doctest_foe_pokemon = {'Number': 2, 'Name': 'Squirtle', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> execute_both_attacks(doctest_my_pokemon, doctest_foe_pokemon)
+    <BLANKLINE>
+    Bulbasaur attacks Squirtle!
+    The Squirtle is damaged by 5!
+    HP of Squirtle: 17/22
+    <BLANKLINE>
+    <BLANKLINE>
+    Squirtle attacks Bulbasaur!
+    The Bulbasaur is damaged by 5!
+    HP of Bulbasaur: 17/22
+    <BLANKLINE>
+    'continue'
+    >>> doctest_my_pokemon['HP']
+    17
+    >>> doctest_foe_pokemon['HP']
+    17
+    >>> doctest_my_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> doctest_foe_pokemon = {'Number': 2, 'Name': 'Squirtle', 'Level': 5, 'Max HP': 22, 'HP': 3, 'Attack': 11,
+    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
+    >>> execute_both_attacks(doctest_my_pokemon, doctest_foe_pokemon)
+    <BLANKLINE>
+    Bulbasaur attacks Squirtle!
+    The Squirtle is damaged by 5!
+    HP of Squirtle: 0/22
+    <BLANKLINE>
+    Bulbasaur beat Squirtle! Bulbasaur got 107exp.
+    <BLANKLINE>
+    <BLANKLINE>
+    Congratulations! Bulbasaur raised to level 6!
+    <BLANKLINE>
+    Attack raised by 3.
+    Defense raised by 3.
+    Max HP raised by 2.
+    <BLANKLINE>
+    <BLANKLINE>
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣀⣀⡀⠈⡖⡤⠄⠀
+    ⠀⠀⢀⡀⠀⠀⠀⡐⠁⠀⠀⠠⠐⠂⠀⠁⠀⠀⠀⠀
+    ⠀⠰⡁⠐⢉⣉⣭⡍⠁⠂⠉⠘⡀⠀⠀⠀⠀⠂⠡⠀
+    ⢀⣊⠀⡄⠻⠿⠋⠀⠀⠀⠀⠀⢃⠀⠀⠀⠀⠀⠀⢀
+    ⡎⣾⠀⠁⣴⡆⠀⠡⢺⣿⣆⠀⢠⢱⣄⠀⠀⠀⠀⠈
+    ⡑⠟⠀⠀⠀⠀⠀⢀⣸⡿⠟⠀⠀⠈⢿⣿⡦⡀⠀⡰
+    ⠙⠔⠦⣤⣥⣤⣤⣤⡤⠆⠀⠀⠀⠀⢀⢀⠀⠈⠎⠀
+    ⠀⠀⠈⣰⡋⢉⠉⠁⠒⠂⢇⢠⡆⠀⠸⢴⣿⠀⠘⠀
+    ⠀⠀⠘⡿⠃⠀⠨⠒⢆⣸⣿⠁⠀⡠⡇⠈⠋⠀⠰⠀
+    ⠀⠀⠀⠛⠒⠒⠁⠀⠈⠷⡤⠤⠐⠀⠘⠒⠒⠖⠁⠀
+    Bulbasaur looks stronger!
+    <BLANKLINE>
+    'win'
+    >>> doctest_my_pokemon['HP']
+    24
+    >>> doctest_foe_pokemon['HP']
+    0
     """
     attacks(my_pokemon, foe_pokemon)
     turn_result = "continue"

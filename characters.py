@@ -10,6 +10,10 @@ def poke_dex():
 
     :postcondition: a dictionary that contains information of Pokémon is returned.
     :return: a dictionary that contains information of Pokémon.
+    >>> poke_dex()[1]['Name']
+    'Bulbasaur'
+    >>> poke_dex()[16]['HP']
+    78
     """
     pokemon_dic = {1: {'Name': 'Bulbasaur', 'HP': 45, 'Attack': 49, 'Defense': 49},
                    2: {'Name': 'Charmander', 'HP': 39, 'Attack': 52, 'Defense': 43},

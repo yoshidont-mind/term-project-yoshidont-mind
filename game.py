@@ -463,14 +463,15 @@ def game():
                 selected_number = gather_user_choice_to_heal_pokemon(character)
                 if selected_number:
                     index = selected_number - 1
-                    if character['Pokemon'][index]['HP'] == character['Pokemon'][index]['Max HP']:
-                        print(f"\n{character['Pokemon'][index]['Name']} is already in full health!")
+                    selected_pokemon = character['Pokemon'][index]
+                    if selected_pokemon['HP'] == selected_pokemon['Max HP']:
+                        print(f"\n{selected_pokemon['Name']} is already in full health!")
                     else:
-                        character['Pokemon'][index]['HP'] = character['Pokemon'][index]['Max HP']
+                        selected_pokemon['HP'] = selected_pokemon['Max HP']
                         character['Item']['Potion'] -= 1
-                        print(f"\nYou healed {character['Pokemon'][index]['Name']}!")
-                        print(characters.poke_dex()[character['Pokemon'][index]['Number']]['Ascii art'])
-                        print(f"{character['Pokemon'][index]['Name']} looks happy!")
+                        print(f"\nYou healed {selected_pokemon['Name']}!")
+                        print(characters.poke_dex()[selected_pokemon['Number']]['Ascii art'])
+                        print(f"{selected_pokemon['Name']} looks happy!")
                         print(f"Remaining Potion: {character['Item']['Potion']}\n")
                         input("Press Enter to continue.\n")
         elif user_choice == "8":
@@ -488,8 +489,9 @@ def game():
             selected_number = gather_user_choice_to_escape_pokemon(character)
             if selected_number:
                 index = selected_number - 1
-                print(f"\nYou escaped {character['Pokemon'][index]['Name']}."
-                      f" By-bye, {character['Pokemon'][index]['Name']}!")
+                selected_pokemon = character['Pokemon'][index]
+                print(f"\nYou escaped {selected_pokemon['Name']}."
+                      f" By-bye, {selected_pokemon['Name']}!")
                 character['Pokemon'].pop(index)  # escape Pokémon
                 input("Press Enter to continue.\n")
             else:
