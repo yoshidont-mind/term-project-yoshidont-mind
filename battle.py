@@ -53,14 +53,6 @@ def calculate_acquiring_exp(level):
     return round(level * 150 / 7)
 
 
-def check_for_wild_pokemon():
-    random_number = random.randint(1, 100)
-    if random_number <= 25:
-        return True
-    else:
-        return False
-
-
 def pokemon_catch(foe):
     random_number = random.randint(1, round(100 * foe['HP'] / foe['Max HP']))
     if random_number <= 10:

@@ -9,51 +9,68 @@ import characters
 
 
 def event(character):
-    if character['Location'] == (17, 4):
-        adventure_preparation(character)
-    elif character['Location'] == (14, 6):
-        lonsdale_quay(character)
-    elif character['Location'] == (5, 9):
-        lion_gate_bridge(character)
-    elif character['Location'] == (1, 4):
-        mount_cypress(character)
-    elif character['Location'] == (14, 14):
-        waterfront(character)
-    elif character['Location'] == (14, 16):
-        bcit_pokemon_gym(character)
-    elif character['Location'] == (19, 18):
-        science_world(character)
-    elif character['Location'] == (12, 20):
-        burrard_street_bridge(character)
-    elif character['Location'] == (15, 21):
-        granville_island(character)
-    elif character['Location'] == (1, 1):
-        cypress_top(character)
-    else:
-        pass
+    """
+    Invoke an event function according to the character's location.
+
+    :param character: a dictionary that contains the player's information
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be "!"
+    :postcondition: the function corresponding to the character's location is correctly invoked
+    """
+    event_dic = {
+        (17, 4): adventure_preparation,
+        (14, 6): lonsdale_quay,
+        (5, 9): lion_gate_bridge,
+        (1, 4): mount_cypress,
+        (14, 14): waterfront,
+        (14, 16): bcit_pokemon_gym,
+        (19, 18): science_world,
+        (12, 20): burrard_street_bridge,
+        (15, 21): granville_island,
+        (1, 1): cypress_top
+    }
+    event_function = event_dic.get(character['Location'])
+    if event_function:
+        event_function(character)
 
 
 def event_information(character, user_choice):
-    if character['Location'] == (5, 8):
-        print("\n\"Here is 'Lion Gate Bridge'. The gateway to the world.\"\n")
+    """
+    Print information about the location.
+
+    Some information is printed only when the player visits the location from a specific direction.
+
+    :param character: a dictionary that represents the character
+    :param user_choice: a string which is either of "1", "2", "3", or "4"
+    :precondition: character must be a dictionary that represents the character
+    :precondition: user_choice must be either of "1", "2", "3", or "4"
+    :postcondition: information about the location is correctly printed when the condition is met
+    """
+    location_information = {
+        (5, 8): "\n\"Here is 'Lion Gate Bridge'. The gateway to the world.\"\n",
+        (12, 4): "\n\"Here is 'Grouse Mountain'. Be careful for strong Pokémon.\"\n" if user_choice == "1" else None,
+        (5, 10): "\n\"Here is 'Stanley Park'. Many Pokémon are living here.\"\n" if user_choice == "2" else None,
+        (16, 17): "\n\"Here is 'BC Place'. Winter Olympic was held here in 2010.\"\n"
+    }
+
+    info = location_information.get(character['Location'])
+    if info:
+        print(info)
         input("Press Enter to continue.\n")
-    elif character['Location'] == (12, 4):
-        if user_choice == "1":
-            print("\n\"Here is 'Grouse Mountain'. Be careful for strong Pokémon.\"\n")
-            input("Press Enter to continue.\n")
-    elif character['Location'] == (5, 10):
-        if user_choice == "2":
-            print("\n\"Here is 'Stanley Park'. Many Pokémon are living here.\"\n")
-            input("Press Enter to continue.\n")
-    elif character['Location'] == (16, 17):
-        print("\n\"Here is 'BC Place'. Winter Olympic was held here in 2010.\"\n")
-        input("Press Enter to continue.\n")
-    else:
-        pass
 
 
 # events > events
 def event_home(character):
+    """
+    Execute an event when the player visits home.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be "H"
+    :postcondition: the event is correctly executed
+    :postcondition: the player's Pokémon are healed
+    :postcondition: the player is asked to press Enter
+    """
     print(f"\nMom \"Welcome home, {character['Name']}.\n",
           f"        You look tired. Take a rest.\"\n")
     time.sleep(1)
@@ -66,6 +83,18 @@ def event_home(character):
 
 
 def go_home(character):
+    """
+    Execute an event when the player loses a battle.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the player must lose a battle
+    :postcondition: the event is correctly executed
+    :postcondition: the player's Potion and Poké Ball are lost
+    :postcondition: the player's location is changed to (15, 1)
+    :postcondition: the player's Pokémon are healed
+    :postcondition: the player is asked to press Enter
+    """
     input("Press Enter to continue.\n")
     print(f"You lost your items being shocked...")
     character['Item']['Potion'] = 0
@@ -81,8 +110,36 @@ def go_home(character):
     input("Press Enter to continue.\n")
 
 
+def check_for_wild_pokemon():
+    """
+    Determine whether the player encounters a wild Pokémon.
+
+    :precondition: the character must be in a bush
+    :precondition: event_bush() must be invoked
+    :postcondition: whether the player encounters a wild Pokémon is correctly determined
+    :return: a boolean value that represents whether the player encounters a wild Pokémon
+    """
+    random_number = random.randint(1, 100)
+    if random_number <= 25:
+        return True
+    else:
+        return False
+
+
 def event_bush(character):
-    if battle.check_for_wild_pokemon():
+    """
+    Execute an event when the player visits a bush.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be "."
+    :postcondition: the event is correctly executed
+    :postcondition: whether the player encounters a wild Pokémon is correctly determined
+    :postcondition: whether the player lost a battle is correctly determined if the player encounters a wild Pokémon
+    :postcondition: go_home() is correctly invoked if the player loses a battle
+    :postcondition: the player is asked to press Enter if the player encounters a wild Pokémon and don't lose
+    """
+    if check_for_wild_pokemon():
         foe_pokemon_number = random.randint(1, character['Trainer rank'] * 3)
         foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
         foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
@@ -105,6 +162,18 @@ def event_bush(character):
 
 
 def event_path(character):
+    """
+    Execute an event when the player visits a path.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be " "
+    :postcondition: the event is correctly executed
+    :postcondition: whether the character finds a Potion is correctly determined
+    :postcondition: number of is incremented by 1 if the character finds a Potion
+    :postcondition: whether the character finds a Poké Ball is correctly determined
+    :postcondition: number of is incremented by 1 if the character finds a Poké Ball
+    """
     number = random.randint(1, 100)
     if number <= 10:
         print("\nYou found a 'Potion'!\n")
@@ -121,7 +190,54 @@ following functions are invoked by event()
 """
 
 
+def gather_user_choice_for_fist_pokemon():
+    """
+    Gather user's choice for the first Pokémon.
+
+    Keep asking the user for the choice until the user enters a valid choice.
+    :postcondition: the user's choice is correctly gathered
+    :return: a string which is either of "1", "2", "3", or "4"
+    """
+    numbers_expected = ["1", "2", "3", "4"]
+    while True:
+        print("Here are four Pokémon:\n1) Bulbasaur\n2) Charmander\n3) Squirtle\n4) Pikachu\n")
+        user_input = input("Please enter your choice:\n")
+        if user_input in numbers_expected:
+            pokemon_ascii_art = characters.poke_dex()[int(user_input)]['Ascii art']
+            print(pokemon_ascii_art)
+            print(f"Are you sure to choose {characters.poke_dex()[int(user_input)]['Name']}?")
+            print("1) Yes 2) No\n")
+            user_confirm = input("Please enter your choice:\n")
+            if user_confirm == "1":
+                return user_input
+            else:
+                continue
+        else:
+            print("\nYou're choice is not valid. Please try it again.\n")
+
+
 def adventure_preparation(character):
+    """
+    Execute an event when the player visits the entrance of the town.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (17, 4)
+    :precondition: the trainer rank of the character must be 0
+    :postcondition: the event is correctly executed
+    :postcondition: if trainer rank of the character is 0, the first Pokémon the user chooses is correctly appended to
+    the
+    character's Pokémon
+    :postcondition: if trainer rank of the character is 0, number of thc character's Potion is correctly incremented
+    by 3
+    :postcondition: if trainer rank of the character is 0, number of thc character's Poké Ball is correctly
+    incremented by 5
+    :postcondition: if trainer rank of the character is 0, the trainer rank of the character is incremented to 1
+    :postcondition: if trainer rank of the character is 0, the next goal of the character has changed to "Let's
+    catch two more Pokémon and go to Lion Gate"
+    :postcondition: if trainer rank of the character is 1 or bigger, a message from Dr.Nabil is correctly printed
+    :postcondition: the player is asked to press Enter
+    """
     if character['Trainer rank'] >= 1:
         print(f"\nDr.Nabil \"Hi {character['Name']}!\"\n")
     else:
@@ -130,27 +246,11 @@ def adventure_preparation(character):
               "         So, you should bring your own Pokémon.\n",
               "         Now, I give you a Pokémon. Which one do you choose?\"\n")
         input("Press Enter to continue.\n")
-        numbers_expected = ["1", "2", "3", "4"]
-        make_decision = False
-        while not make_decision:
-            print("Here are four Pokémon:\n1) Bulbasaur\n2) Charmander\n3) Squirtle\n4) Pikachu\n")
-            user_input = input("Please enter your choice:\n")
-            if user_input in numbers_expected:
-                pokemon_ascii_art = characters.poke_dex()[int(user_input)]['Ascii art']
-                print(pokemon_ascii_art)
-                print(f"Are you sure to choose {characters.poke_dex()[int(user_input)]['Name']}?")
-                print("1) Yes 2) No\n")
-                user_confirm = input("Please enter your choice:\n")
-                if user_confirm == "1":
-                    print(f"\nDr.Chris \"Good choice! {character['Name']}!\"")
-                    battle.append_pokemon(character, int(user_input), 5,
-                                          battle.calculate_max_hp(int(user_input), 5))
-                    print(f"You've gotten {characters.poke_dex()[int(user_input)]['Name']}!\n")
-                    make_decision = True
-                else:
-                    continue
-            else:
-                print("\nYou're choice is not valid. Please try it again.\n")
+        chosen_pokemon = gather_user_choice_for_fist_pokemon()
+        print(f"\nDr.Chris \"Good choice! {character['Name']}!\"")
+        battle.append_pokemon(character, int(chosen_pokemon), 5,
+                              battle.calculate_max_hp(int(chosen_pokemon), 5))
+        print(f"You've gotten {characters.poke_dex()[int(chosen_pokemon)]['Name']}!\n")
         input("Press Enter to continue.\n")
         print(f"Dr.Nabil \"Take these, too.\"\n")
         character['Item']['Potion'] = 3
@@ -174,6 +274,17 @@ def adventure_preparation(character):
 
 
 def lonsdale_quay(character):
+    """
+    Execute an event when the player visits Lonsdale Quay.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (14, 6)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has SeaBus Ticket, the location of the character is changed to (14, 14)
+    :postcondition: if the character has not SeaBus Ticket, a message from the clerk is correctly printed
+    :postcondition: the player is asked to press Enter
+    """
     print("\n\"Here is 'Lonsdale Quay', the north shore terminal of 'SeaBus'.\"\n")
     if 'SeaBus Ticket' in character['Item']:
         print("Clerk at the gate \"Welcome to SeaBus!\"\n",
@@ -187,6 +298,27 @@ def lonsdale_quay(character):
 
 
 def lion_gate_bridge(character):
+    """
+    Execute an event when the player visits Lion Gate Bridge.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (5, 9)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character's trainer rank is 2 or bigger, the message from the construction worker is
+    correctly printed
+    :postcondition: if the character's trainer rank is less than 2 and the character has less than 3 Pokémon, the
+    location of the character is changed to (5, 8)
+    :postcondition: if the character's trainer rank is less than 2 and the character has 3 or more Pokémon, whether
+    the character wins a battle with the construction worker is correctly determined
+    :postcondition: if the character wins a battle with the construction worker, SeaBus Ticket is correctly appended
+    to the character's item
+    :postcondition: if the character wins a battle with the construction worker, the character's trainer rank is
+    correctly incremented to 2
+    :postcondition: if the character wins a battle with the construction worker, the character's next goal is correctly
+    updated to "Let's go to BCIT Pokémon Gym!"
+    :postcondition: if the character loses a battle with the construction worker, go_home() is correctly invoked
+    """
     if character['Trainer rank'] >= 2:
         print(f"\nConstruction Worker Sam \"Hi {character['Name']}!\"\n")
     elif len(character['Pokemon']) < 3:
@@ -226,18 +358,39 @@ def lion_gate_bridge(character):
 
 
 def mount_cypress(character):
-    print("\nGate keeper \"Here is 'Cypress Mountain', where top Pokémon trainers gather.")
+    """
+    Execute an event when the player visits Mount Cypress.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (1, 4)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has BCIT Gym Badge, the message from the gatekeeper is correctly printed
+    :postcondition: if the character has not BCIT Gym Badge, the location of the character is changed to (1, 5)
+    :postcondition: the player is asked to press Enter
+    """
+    print("\nGatekeeper \"Here is 'Cypress Mountain', where top Pokémon trainers gather.")
     if 'BCIT Gym Badge' in character['Item']:
         print(f"            You can proceed pass through the gate.\"\n")
-        input("Press Enter to continue.\n")
     else:
         print(f"        For now, you cannot proceed further.\"\n")
         print(f"        Come back after you've gotten 'BCIT Gym Badge'.\"\n")
-        input("Press Enter to continue.\n")
         character["Location"] = (1, 5)
+    input("Press Enter to continue.\n")
 
 
 def waterfront(character):
+    """
+    Execute an event when the player visits Waterfront.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (14, 14)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has SeaBus Ticket, the location of the character is changed to (14, 6)
+    :postcondition: if the character has not SeaBus Ticket, a message from the clerk is correctly printed
+    :postcondition: the player is asked to press Enter
+    """
     print("\n\"Here is 'Waterfront', the south shore terminal of 'SeaBus'.\"\n")
     if 'SeaBus Ticket' in character['Item']:
         print("Clerk at the gate \"Welcome to SeaBus!\"\n",
@@ -251,6 +404,26 @@ def waterfront(character):
 
 
 def bcit_pokemon_gym(character):
+    """
+    Execute an event when the player visits BCIT Pokémon Gym.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (14, 16)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has BCIT Gym Badge, the message from the gym leader is correctly printed
+    :postcondition: if the character has not BCIT Gym Badge and the character has less than 5 Pokémon, a message from
+    the receptionist is correctly printed
+    :postcondition: if the character has not BCIT Gym Badge and the character has 5 or more Pokémon, whether the
+    character wins a battle with the gym leader is correctly determined
+    :postcondition: if the character wins a battle with the gym leader, BCIT Gym Badge is correctly appended to the
+    character's item
+    :postcondition: if the character wins a battle with the gym leader, the character's trainer rank is correctly
+    incremented to 3
+    :postcondition: if the character wins a battle with the gym leader, the character's next goal is correctly updated
+    to "Let's explore this world, and eventually go to Cypress Mountain!"
+    :postcondition: if the character loses a battle with the gym leader, go_home() is correctly invoked
+    """
     if 'BCIT Gym Badge' in character['Item']:
         print(f"\nGym Leader Rahul \"Hey {character['Name']}, how are you doing?\"\n")
     elif len(character['Pokemon']) < 5:
@@ -283,6 +456,17 @@ def bcit_pokemon_gym(character):
 
 
 def science_world(character):
+    """
+    Execute an event when the player visits Science World.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (19, 18)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has BCIT Gym Badge, the information about Science World is correctly printed
+    :postcondition: if the character has not BCIT Gym Badge, the location of the character is changed to (19, 17)
+    :postcondition: if the character has not BCIT Gym Badge, the player is asked to press Enter
+    """
     print("\n\"Here is 'Science World'. Everyone can enjoy science here.\"\n")
     if 'BCIT Gym Badge' not in character['Item']:
         print(f"Construction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
@@ -291,6 +475,17 @@ def science_world(character):
 
 
 def burrard_street_bridge(character):
+    """
+    Execute an event when the player visits Burrard Street Bridge.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (12, 20)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has BCIT Gym Badge, the information about Burrard Street Bridge is correctly
+    :postcondition: if the character has not BCIT Gym Badge, the location of the character is changed to (12, 19)
+    :postcondition: if the character has not BCIT Gym Badge, the player is asked to press Enter
+    """
     print("\n\"Here is 'Burrard Street Bridge'. The oldest bridge in Vancouver, boasting a history of 100 years.\"\n")
     if 'BCIT Gym Badge' not in character['Item']:
         print(f"Construction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
@@ -299,6 +494,17 @@ def burrard_street_bridge(character):
 
 
 def granville_island(character):
+    """
+    Execute an event when the player visits Granville Island.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (15, 21)
+    :postcondition: the event is correctly executed
+    :postcondition: if the character has BCIT Gym Badge, the information about Granville Island is correctly printed
+    :postcondition: if the character has not BCIT Gym Badge, the location of the character is changed to (15, 20)
+    :postcondition: if the character has not BCIT Gym Badge, the player is asked to press Enter
+    """
     print("\n\"Here is 'Granville Island'. You can enjoy shopping here.\"\n")
     if 'BCIT Gym Badge' not in character['Item']:
         print(f"Construction Worker \"Sorry, you cannot proceed further unless you have 'BCIT Gym Badge'.\"\n")
@@ -307,6 +513,22 @@ def granville_island(character):
 
 
 def cypress_top(character):
+    """
+    Execute an event when the player visits the top of Cypress Mountain.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the location of the character must be (1, 1)
+    :postcondition: the event is correctly executed
+    :postcondition: whether the character wins a battle with Tats is correctly determined
+    :postcondition: if the character wins a battle with Tats, the character's trainer rank is correctly incremented to 4
+    :postcondition: if the character wins a battle with Tats, the character's next goal is correctly updated to
+    "You've completed the game! Congratulations! Thank you so much for playing!"
+    :postcondition: if the character wins a battle with Tats, the player is asked to press Enter
+    :postcondition: if the character wins a battle with Tats, characters.print_thank_you_for_playing() is correctly
+    invoked
+    :postcondition: if the character loses a battle with Tats, go_home() is correctly invoked
+    """
     print("\nTats \"Hi, I'm Tats. I'm the strongest Pokémon trainer in Vancouver.\n",
           "      You made it here, impressive. Let's battle right away!\"")
     tats = {'Name': 'Tats',
