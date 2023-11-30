@@ -5,6 +5,7 @@ Ths module contains main(), game(), and some functions directly related to game(
 
 import time
 import json
+from io import StringIO
 
 import event
 import characters
