@@ -326,8 +326,8 @@ def game():
                   "There are still places you haven't visited, right?\n",
                   "For instance, how about going to Cypress Mountain?\n",
                   "It seems there is an incredibly strong Pokémon trainer at the top of the mountain...?\n",
-                  "\n Anyway, thank you so much for playing this game so far!\n",
-                  "I hope you enjoyed it, and I'm looking forward to seeing you again soon!\n")
+                  "\nAnyway, thank you so much for playing this game so far!\n",
+                  "I hope you enjoyed it, and I'm looking forward to seeing you again soon!\n", sep='')
             character['End roll'] = True
             save_data_as_json(character)
             continue_game = False

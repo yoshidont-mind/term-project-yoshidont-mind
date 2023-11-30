@@ -66,7 +66,8 @@ def event_home(character):
 
 
 def go_home(character):
-    print(f"\nYou lost your items being shocked...\n")
+    input("Press Enter to continue.\n")
+    print(f"You lost your items being shocked...")
     character['Item']['Potion'] = 0
     character['Item']['Poke Ball'] = 0
     print(f"You rush your home...\n")
@@ -98,9 +99,7 @@ def event_bush(character):
                 input("Press Enter to continue.\n")
             else:
                 if not battle.check_alive_pokemon_remains(character):
-                    print(f"\nAll of your Pokémon are defeated!")
-                    print(f"\nYou rush your home...\n")
-                    input("Press Enter to continue.\n")
+                    print(f"\nAll of your Pokémon are defeated!\n")
                     go_home(character)
                     event_continues = False
 
@@ -229,7 +228,7 @@ def lion_gate_bridge(character):
 def mount_cypress(character):
     print("\nGate keeper \"Here is 'Cypress Mountain', where top Pokémon trainers gather.")
     if 'BCIT Gym Badge' in character['Item']:
-        print(f"        You can proceed pass through the gate.\"\n")
+        print(f"            You can proceed pass through the gate.\"\n")
         input("Press Enter to continue.\n")
     else:
         print(f"        For now, you cannot proceed further.\"\n")
@@ -261,16 +260,16 @@ def bcit_pokemon_gym(character):
         print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\n",
               f"                If you can defeat me, I'll give you a Gym Badge. Let's battle!\"\n")
         rahul = {'Name': 'Gym Leader Rahul',
-                 'Pokemon': [battle.generate_pokemon(11, 12),
-                             battle.generate_pokemon(10, 12),
-                             battle.generate_pokemon(9, 14)]}
+                 'Pokemon': [battle.generate_pokemon(11, 10),
+                             battle.generate_pokemon(10, 10),
+                             battle.generate_pokemon(9, 12)]}
         win_battle = battle.battle_with_trainer(character, rahul)
         if win_battle:
-            print("\nGym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"\n")
+            print("Gym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"\n")
             print(f"You've gotten 'BCIT Gym Badge'!\n")
             character['Item']['BCIT Gym Badge'] = 1
             input("Press Enter to continue.\n")
-            print(f"Gym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"",
+            print(f"Gym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"\n",
                   f"               \"Good luck, young Pokémon trainer!\"\n")
             input("Press Enter to continue.\n")
             character['Trainer rank'] = 3
@@ -311,12 +310,12 @@ def cypress_top(character):
     print("\nTats \"Hi, I'm Tats. I'm the strongest Pokémon trainer in Vancouver.\n",
           "      You made it here, impressive. Let's battle right away!\"")
     tats = {'Name': 'Tats',
-            'Pokemon': [battle.generate_pokemon(12, 24),
-                        battle.generate_pokemon(13, 26),
-                        battle.generate_pokemon(14, 28),
-                        battle.generate_pokemon(15, 30),
-                        battle.generate_pokemon(16, 36),
-                        battle.generate_pokemon(17, 40)]}
+            'Pokemon': [battle.generate_pokemon(12, 12),
+                        battle.generate_pokemon(13, 12),
+                        battle.generate_pokemon(14, 14),
+                        battle.generate_pokemon(15, 14),
+                        battle.generate_pokemon(16, 16),
+                        battle.generate_pokemon(17, 18)]}
     win_battle = battle.battle_with_trainer(character, tats)
     if win_battle:
         print("\nTats \"Unbelievable! The world of Pokémon is still full of mysteries. Continue enjoying your "
