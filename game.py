@@ -5,7 +5,6 @@ Ths module contains main(), game(), and some functions directly related to game(
 
 import time
 import json
-from io import StringIO
 
 import event
 import characters
@@ -97,7 +96,26 @@ def describe_current_location(map_dic, character):
     :param character: a dictionary that represents the character
     :precondition: map_dic must be a dictionary that represents the map
     :precondition: character must be a dictionary that represents the character
+    :precondition: the current location of the character must be in map_dic
     :postcondition: the current location of the character along with the surrounding area is displayed
+    >>> doctest_character = {'Location': (15, 1)}
+    >>> doctest_map = generate_map_dictionary()
+    >>> describe_current_location(doctest_map, doctest_character)
+    ▓▓▓▓▓▓▓▓▓▓▓▓▓
+    ......#★    ▓
+    ......### ##▓
+    ......#     ▓
+    ####i####!##▓
+    Now, you are at "★".
+    >>> doctest_character = {'Location': (2, 1)}
+    >>> doctest_map = generate_map_dictionary()
+    >>> describe_current_location(doctest_map, doctest_character)
+    ▓▓▓▓▓▓▓▓▓
+    ▓!★ #....
+    ▓## #....
+    ▓   #....
+    ▓!#######
+    Now, you are at "★".
     """
     max_x = max(coord[0] for coord in map_dic.keys())
     max_y = max(coord[1] for coord in map_dic.keys())
@@ -166,6 +184,12 @@ def validate_move(map_dic, character, direction):
     :precondition: direction must be a string which is either of "1", "2", "3", or "4"
     :postcondition: True or False of whether the character can move to the direction is determined
     :return: True if the character can move to the direction, False otherwise
+    >>> doctest_character = {'Location': (15, 1)}
+    >>> doctest_map = generate_map_dictionary()
+    >>> validate_move(doctest_map, doctest_character, "1")
+    False
+    >>> validate_move(doctest_map, doctest_character, "4")
+    True
     """
     coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
     estimated_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
@@ -190,6 +214,14 @@ def move_character(character, direction):
     :precondition: direction must be a string which is either of "1", "2", "3", or "4"
     :precondition: the result of validate_move(map_dic, character, direction) must be True
     :postcondition: the location of the character is correctly updated
+    >>> doctest_character = {'Location': (15, 1)}
+    >>> move_character(doctest_character, "4")
+    >>> doctest_character['Location']
+    (16, 1)
+    >>> doctest_character = {'Location': (17, 1)}
+    >>> move_character(doctest_character, "2")
+    >>> doctest_character['Location']
+    (17, 2)
     """
     coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
     new_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
@@ -292,6 +324,17 @@ def change_order(character, index):
     :precondition: index must be positive
     :precondition: index must be less than the length of character['Pokemon']
     :postcondition: the order of the Pokémon in the list is correctly changed
+    >>> doctest_character = {'Pokemon': [{'Name': 'Bulbasaur', 'Level': 5, 'Number': 1, 'Exp': 0,
+    ...  'Exp to next level': 5, 'HP': 20, 'Max HP': 20, 'Attack': 5, 'Defense': 5}, {'Name': 'Charmander',
+    ... 'Level': 5, 'Number': 4, 'Exp': 0, 'Exp to next level': 5, 'HP': 20, 'Max HP': 20, 'Attack': 5, 'Defense':
+    ... 5}, {'Name': 'Squirtle', 'Level': 5, 'Number': 7, 'Exp': 0, 'Exp to next level': 5, 'HP': 20, 'Max HP': 20,
+    ... 'Attack': 5, 'Defense': 5}]}
+    >>> change_order(doctest_character, 2)
+    >>> doctest_character['Pokemon'][0]['Name']
+    'Squirtle'
+    >>> change_order(doctest_character, 1)
+    >>> doctest_character['Pokemon'][0]['Name']
+    'Charmander'
     """
     # 選択されたindexのpokemonを先頭に持ってくる
     selected_pokemon = character['Pokemon'].pop(index)
