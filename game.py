@@ -39,6 +39,13 @@ def generate_map_dictionary():
 
     :postcondition: a dictionary that represents the map is generated
     :return: a dictionary that represents the map
+    >>> doctest_map = generate_map_dictionary()
+    >>> doctest_map[(0, 0)]
+    '▓'
+    >>> doctest_map[(15, 1)]
+    'H'
+    >>> doctest_map[(16, 17)]
+    'i'
     """
     # マップデータを文字列として定義
     map_data = """
