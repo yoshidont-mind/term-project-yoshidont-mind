@@ -5,6 +5,12 @@ ascii arts.
 
 
 def poke_dex():
+    """
+    This function returns a dictionary that contains information of Pokémon.
+
+    :postcondition: a dictionary that contains information of Pokémon is returned.
+    :return: a dictionary that contains information of Pokémon.
+    """
     pokemon_dic = {1: {'Name': 'Bulbasaur', 'HP': 45, 'Attack': 49, 'Defense': 49},
                    2: {'Name': 'Charmander', 'HP': 39, 'Attack': 52, 'Defense': 43},
                    3: {'Name': 'Squirtle', 'HP': 44, 'Attack': 48, 'Defense': 65},
@@ -319,6 +325,11 @@ def poke_dex():
 
 
 def print_title():
+    """
+    Prints the title of the game.
+
+    :postcondition: the title of the game is displayed
+    """
     print("""
  ____       _     __                                          
 |  _ \ ___ | | __/_/ _ __ ___   ___  _ __                     
@@ -332,6 +343,11 @@ def print_title():
 
 
 def print_congratulations():
+    """
+    Prints the congratulations message.
+
+    :postcondition: the congratulations message is displayed
+    """
     print("""
   ____                            _         _       _   _                 _ 
  / ___|___  _ __   __ _ _ __ __ _| |_ _   _| | __ _| |_(_) ___  _ __  ___| |
@@ -342,6 +358,11 @@ def print_congratulations():
 
 
 def print_thank_you_for_playing():
+    """
+    Prints the thank you for playing message.
+
+    :return: the thank you for playing message is displayed
+    """
     print("""
  _____ _                 _                           __            
 |_   _| |__   __ _ _ __ | | __  _   _  ___  _   _   / _| ___  _ __ 
