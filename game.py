@@ -11,6 +11,14 @@ import characters
 
 
 def load_save_data():
+    """
+    Load save data from save_data.json.
+
+    :raises FileNotFoundError: if save_data.json is not found
+    :raises json.JSONDecodeError: if save_data.json is corrupted
+    :postcondition: save_data is converted from json to dictionary or error is raised
+    :return: save_data converted from json to dictionary
+    """
     try:
         with open('save_data.json', 'r') as file_object:
             save_data = json.load(file_object)
@@ -25,6 +33,12 @@ def load_save_data():
 
 
 def generate_map_dictionary():
+    """
+    Generate a dictionary containing tuples of coordinates as keys and characters as values.
+
+    :postcondition: a dictionary that represents the map is generated
+    :return: a dictionary that represents the map
+    """
     # マップデータを文字列として定義
     map_data = """
 ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
@@ -68,6 +82,15 @@ def generate_map_dictionary():
 
 
 def describe_current_location(map_dic, character):
+    """
+    Display the current location of the character along with the surrounding area.
+
+    :param map_dic: a dictionary that represents the map
+    :param character: a dictionary that represents the character
+    :precondition: map_dic must be a dictionary that represents the map
+    :precondition: character must be a dictionary that represents the character
+    :postcondition: the current location of the character along with the surrounding area is displayed
+    """
     max_x = max(coord[0] for coord in map_dic.keys())
     max_y = max(coord[1] for coord in map_dic.keys())
     for y in range(max(0, character['Location'][1] - 4), min(max_y + 1, character['Location'][1] + 4)):
@@ -82,6 +105,16 @@ def describe_current_location(map_dic, character):
 
 
 def get_user_choice(character):
+    """
+    Get user's choice of direction or action.
+
+    Keep asking for user's choice until the user enters a valid choice.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :postcondition: user's choice of direction or action is gathered
+    :return: user's choice of direction or action
+    """
     numbers_expected = ["1", "2", "3", "4", "5", "6"]
     option_menu = ""
     if character['Pokemon']:
@@ -102,11 +135,30 @@ def get_user_choice(character):
 
 
 def save_data_as_json(character):
+    """
+    Save character data as json file.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :postcondition: character data is saved as json file
+    """
     with open('save_data.json', 'w') as f:
         json.dump(character, f)
 
 
 def validate_move(map_dic, character, direction):
+    """
+    Validate if the character can move to the direction.
+
+    :param map_dic: a dictionary that represents the map
+    :param character: a dictionary that represents the character
+    :param direction: a string which is either of "1", "2", "3", or "4"
+    :precondition: map_dic must be a dictionary that represents the map
+    :precondition: character must be a dictionary that represents the character
+    :precondition: direction must be a string which is either of "1", "2", "3", or "4"
+    :postcondition: True or False of whether the character can move to the direction is determined
+    :return: True if the character can move to the direction, False otherwise
+    """
     coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
     estimated_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
     estimated_y_coordinate = character['Location'][1] + coordinate_changes[direction][1]
@@ -121,6 +173,16 @@ def validate_move(map_dic, character, direction):
 
 
 def move_character(character, direction):
+    """
+    Move the character to the direction.
+
+    :param character: a dictionary that represents the character
+    :param direction: a string which is either of "1", "2", "3", or "4"
+    :precondition: character must be a dictionary that represents the character
+    :precondition: direction must be a string which is either of "1", "2", "3", or "4"
+    :precondition: the result of validate_move(map_dic, character, direction) must be True
+    :postcondition: the location of the character is correctly updated
+    """
     coordinate_changes = {"1": (0, -1), "2": (0, 1), "3": (-1, 0), "4": (1, 0)}
     new_x_coordinate = character['Location'][0] + coordinate_changes[direction][0]
     new_y_coordinate = character['Location'][1] + coordinate_changes[direction][1]
@@ -129,6 +191,16 @@ def move_character(character, direction):
 
 
 def open_map(map_dic, character):
+    """
+    Display the whole map and the current location of the character on it.
+
+    :param map_dic: a dictionary that represents the map
+    :param character: a dictionary that represents the character
+    :precondition: map_dic must be a dictionary that represents the map
+    :precondition: character must be a dictionary that represents the character
+    :postcondition: the whole map and the current location of the character on it are displayed
+    :postcondition: the user is asked to press Enter to close the map
+    """
     # マップの幅と高さを決定
     max_x = max(coord[0] for coord in map_dic.keys())
     max_y = max(coord[1] for coord in map_dic.keys())
@@ -147,6 +219,13 @@ def open_map(map_dic, character):
 
 
 def check_status(character):
+    """
+    Display the status of the character.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :postcondition: the status of the character is displayed
+    """
     print(f"\n--------------------")
     print(f"Name        : {character['Name']}")
     print(f"Trainer rank: {character['Trainer rank']}")
@@ -169,6 +248,17 @@ def check_status(character):
 
 
 def gather_user_choice_to_change_order(character):
+    """
+    Gather user's choice of Pokémon to move to the top of the list.
+
+    Return 0 if the user's choice is not valid.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: character must have at least 2 Pokémon
+    :postcondition: user's choice of Pokémon to move to the top of the list is gathered
+    :return: user's choice of Pokémon to move to the top of the list, or 0 if the user's choice is not valid
+    """
     pokemon_list = ""
     for index in range(len(character['Pokemon'])):
         pokemon_list += f"{index + 1}) {character['Pokemon'][index]['Name']}\n"
@@ -183,6 +273,18 @@ def gather_user_choice_to_change_order(character):
 
 
 def change_order(character, index):
+    """
+    Change the order of the Pokémon in the list.
+
+    :param character: a dictionary that represents the character
+    :param index: an integer which is the index of the Pokémon to move to the top of the list
+    :precondition: character must be a dictionary that represents the character
+    :precondition: character must have at least 2 Pokémon
+    :precondition: index must be an integer
+    :precondition: index must be positive
+    :precondition: index must be less than the length of character['Pokemon']
+    :postcondition: the order of the Pokémon in the list is correctly changed
+    """
     # 選択されたindexのpokemonを先頭に持ってくる
     selected_pokemon = character['Pokemon'].pop(index)
     top_pokemon = character['Pokemon'].pop(0)
@@ -191,6 +293,17 @@ def change_order(character, index):
 
 
 def gather_user_choice_to_escape_pokemon(character):
+    """
+    Gather user's choice of Pokémon to escape.
+
+    Return 0 if the user's choice is not valid.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: character must have at least 2 Pokémon
+    :postcondition: user's choice of Pokémon to escape is gathered
+    :return: user's choice of Pokémon to escape, or 0 if the user's choice is not valid
+    """
     pokemon_list = ""
     for index in range(len(character['Pokemon'])):
         pokemon_list += f"{index + 1}) {character['Pokemon'][index]['Name']}\n"
@@ -205,6 +318,17 @@ def gather_user_choice_to_escape_pokemon(character):
 
 
 def gather_user_choice_to_heal_pokemon(character):
+    """
+    Gather user's choice of Pokémon to heal.
+
+    Return 0 if the user's choice is not valid.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: character must have at least 1 Pokémon
+    :postcondition: user's choice of Pokémon to heal is gathered
+    :return: user's choice of Pokémon to heal, or 0 if the user's choice is not valid
+    """
     print("\nNow you're bringing:")
     for index in range(len(character['Pokemon'])):
         print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
@@ -220,6 +344,9 @@ def gather_user_choice_to_heal_pokemon(character):
 
 
 def game():
+    """
+    Execute the game.
+    """
     save_data = load_save_data()
     if save_data:
         character = save_data
