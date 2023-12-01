@@ -373,8 +373,6 @@ def next_pokemon(character):
     >>> doctest_next_pokemon['Name']
     'Squirtle'
     """
-    # 生きてるポケモンいることが前提条件
-    # 生きてるポケモンのうち先頭のものを返す
     for index in range(len(character['Pokemon'])):
         if character['Pokemon'][index]['HP'] > 0:
             return character['Pokemon'][index]
