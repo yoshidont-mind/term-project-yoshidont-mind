@@ -168,8 +168,8 @@ def save_data_as_json(character):
     :precondition: character must be a dictionary that represents the character
     :postcondition: character data is saved as json file
     """
-    with open('save_data.json', 'w') as f:
-        json.dump(character, f)
+    with open('save_data.json', 'w') as file_object:
+        json.dump(character, file_object)
 
 
 def validate_move(map_dic, character, direction):
