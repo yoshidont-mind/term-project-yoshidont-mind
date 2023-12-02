@@ -1,4 +1,7 @@
+import io
 from unittest import TestCase
+from unittest.mock import patch
+
 from battle import attacks
 
 
@@ -26,3 +29,12 @@ class TestAttacks(TestCase):
         actual = defense['HP']
         expected = 3
         self.assertEqual(actual, expected)
+
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_print_output(self, mock_output):
+        offense = {'Name': 'Pikachu', 'Level': 10, 'Attack': 1}
+        defense = {'Name': 'Mew', 'Defense': 1, 'HP': 10, 'Max HP': 10}
+        attacks(offense, defense)
+        actual = mock_output.getvalue()
+        expected = "\nThe Mew is damaged by 7!"
+        self.assertIn(expected, actual)
