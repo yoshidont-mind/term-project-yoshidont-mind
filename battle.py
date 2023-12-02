@@ -251,11 +251,25 @@ def run_success(my_pokemon, foe):
     :postcondition: whether the player successes to run from a Pokémon is correctly determined
     :return: True if the player successes to run from a Pokémon, False otherwise
     """
-    random_number = random.randint(1, max(20, 100 - 20 * (my_pokemon['Level'] - foe['Level'])))
-    if random_number <= 20:
-        return True
-    else:
-        return False
+    escape_difficulty = max(20, 100 - 20 * (my_pokemon['Level'] - foe['Level']))
+    random_number = random.randint(1, escape_difficulty)
+    return random_number <= 20
+
+
+def calculate_damage(offense, defense):
+    """
+    Calculate the damage of an attack.
+
+    :param offense: a dictionary that represents a Pokémon
+    :param defense: a dictionary that represents a Pokémon
+    :precondition: offense must be a dictionary that represents a Pokémon
+    :precondition: defense must be a dictionary that represents a Pokémon
+    :postcondition: the damage of an attack is correctly calculated
+    :return: an integer which is the damage of an attack
+    """
+    move_power = 40
+    damage = round((offense['Level'] * 2 / 5 + 2) * move_power * offense['Attack'] / defense['Defense'] / 50 + 2)
+    return damage
 
 
 def attacks(offense, defense):
@@ -294,34 +308,10 @@ def attacks(offense, defense):
     0
     """
     print(f"\n{offense['Name']} attacks {defense['Name']}!")
-    move_power = 40
-    damage = round((offense['Level'] * 2 / 5 + 2) * move_power * offense['Attack'] / defense['Defense'] / 50 + 2)
+    damage = calculate_damage(offense, defense)
     print(f"The {defense['Name']} is damaged by {damage}!")
     defense['HP'] = max(defense['HP'] - damage, 0)
     print(f"HP of {defense['Name']}: {defense['HP']}/{defense['Max HP']}\n")
-
-
-def is_alive(pokemon):
-    """
-    Determine whether a Pokémon is alive.
-
-    :param pokemon: a dictionary that represents a Pokémon
-    :precondition: pokemon must be a dictionary that represents a Pokémon
-    :postcondition: whether a Pokémon is alive is correctly determined
-    :return: True if a Pokémon is alive, False otherwise
-    >>> doctest_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 22, 'Attack': 11,
-    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
-    >>> is_alive(doctest_pokemon)
-    True
-    >>> doctest_pokemon = {'Number': 1, 'Name': 'Bulbasaur', 'Level': 5, 'Max HP': 22, 'HP': 0, 'Attack': 11,
-    ... 'Defense': 11, 'Exp to next level': 5, 'Exp': 0}
-    >>> is_alive(doctest_pokemon)
-    False
-    """
-    if pokemon['HP'] > 0:
-        return True
-    else:
-        return False
 
 
 def check_alive_pokemon_remains(character):
@@ -603,9 +593,9 @@ def execute_both_attacks(my_pokemon, foe_pokemon):
     """
     attacks(my_pokemon, foe_pokemon)
     turn_result = "continue"
-    if is_alive(foe_pokemon):
+    if foe_pokemon['HP'] > 0:
         attacks(foe_pokemon, my_pokemon)
-        if not is_alive(my_pokemon):
+        if my_pokemon['HP'] <= 0:
             print(f"{my_pokemon['Name']} is defeated!\n")
             turn_result = "lose"
     else:
@@ -659,7 +649,7 @@ def execute_catch(character, my_pokemon, foe_pokemon):
             print(f"Woops, you failed to catch {foe_pokemon['Name']}.")
             print(f"Remaining Poké Ball: {character['Item']['Poke Ball']}\n")
             attacks(foe_pokemon, my_pokemon)
-            if not is_alive(my_pokemon):
+            if my_pokemon['HP'] <= 0:
                 turn_result = "lose"
     return turn_result
 
@@ -685,7 +675,7 @@ def execute_run(my_pokemon, foe_pokemon):
     else:
         print(f"\nWoops, you failed to run from {foe_pokemon['Name']}.")
         attacks(foe_pokemon, my_pokemon)
-        if not is_alive(my_pokemon):
+        if my_pokemon['HP'] <= 0:
             turn_result = "lose"
     return turn_result
 
