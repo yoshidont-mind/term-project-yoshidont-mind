@@ -267,6 +267,8 @@ def calculate_damage(offense, defense):
     :param defense: a dictionary that represents a Pokémon
     :precondition: offense must be a dictionary that represents a Pokémon
     :precondition: defense must be a dictionary that represents a Pokémon
+    :precondition: Attack of offense must be positive
+    :precondition: Defense of defense must be positive
     :postcondition: the damage of an attack is correctly calculated
     :return: an integer which is the damage of an attack
     """
