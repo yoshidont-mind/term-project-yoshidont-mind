@@ -341,7 +341,7 @@ def check_alive_pokemon_remains(character):
 
 def next_pokemon(character):
     """
-    Return the next alive Pokémon in the character's Pokémon list.
+    Return the index of the next alive Pokémon in the character's Pokémon list.
 
     :param character: a dictionary that represents a character
     :precondition: character must be a dictionary that represents a character
@@ -599,10 +599,11 @@ def execute_both_attacks(my_pokemon, foe_pokemon):
             print(f"{my_pokemon['Name']} is defeated!\n")
             turn_result = "lose"
     else:
+        acquired_exp = calculate_acquiring_exp(foe_pokemon['Level'])
         print(f"{my_pokemon['Name']} beat {foe_pokemon['Name']}!",
-              f"{my_pokemon['Name']} got {calculate_acquiring_exp(foe_pokemon['Level'])}exp.\n")
-        my_pokemon['Exp'] += calculate_acquiring_exp(foe_pokemon['Level'])
-        my_pokemon['Exp to next level'] -= calculate_acquiring_exp(foe_pokemon['Level'])
+              f"{my_pokemon['Name']} got {acquired_exp}exp.\n")
+        my_pokemon['Exp'] += acquired_exp
+        my_pokemon['Exp to next level'] -= acquired_exp
         # determine level up
         determine_level_up(my_pokemon)
         turn_result = "win"
@@ -637,7 +638,7 @@ def execute_catch(character, my_pokemon, foe_pokemon):
     elif len(character['Pokemon']) >= 6:
         print("\nYou cannot bring more than six Pokémon!")
     else:
-        print(f"\nYou threw a Poké Ball!\n")
+        print(f"\n{character['Name']} threw a Poké Ball!\n")
         character['Item']['Poke Ball'] -= 1
         time.sleep(1)
         if pokemon_catch(foe_pokemon):
@@ -739,8 +740,7 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer_battle):
     :postcondition: if my_pokemon is defeated or not is correctly determined
     :return: False if my_pokemon is defeated, True otherwise
     """
-    turn_result = "continue"
-    while turn_result == "continue":
+    while True:
         user_input = input("\nWhat do you do?: 1) Fight, 2) See Pokémon, 3) Catch, 4) Run\n")
         numbers_expected = ["1", "2", "3", "4"]
         if user_input in numbers_expected:
