@@ -431,11 +431,7 @@ def game():
     while continue_game:
         describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
-        if user_choice == "0":
-            save_data_as_json(character)
-            print("\nYour data is saved. See you again!\n")
-            continue_game = False
-        elif user_choice in ["1", "2", "3", "4"]:
+        if user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
                 if map_dic[character['Location']] == '.':
@@ -496,6 +492,10 @@ def game():
                 input("Press Enter to continue.\n")
             else:
                 print("\nYour choice is not valid. The request to escape Pokémon is canceled.\n")
+        elif user_choice == "0":
+            save_data_as_json(character)
+            print("\nYour data is saved. See you again!\n")
+            continue_game = False
         else:
             print("\nWhoops, something went wrong. Please try it again.\n")
         if character['Trainer rank'] == 3 and not character['End roll']:

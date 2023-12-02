@@ -102,12 +102,7 @@ def go_home(character):
     print(f"You rush your home...\n")
     time.sleep(1)
     character['Location'] = (15, 1)
-    print(f"\nMon \"Take care of yourself, {character['Name']}.\"\n")
-    for pokemon in character['Pokemon']:
-        pokemon['HP'] = pokemon['Max HP']
-    print(f"Pokémon have been healed!\n")
-    print(f"Mon \"Take care of yourself, {character['Name']}.\"\n")
-    input("Press Enter to continue.\n")
+    event_home(character)
 
 
 def check_for_wild_pokemon():
@@ -140,7 +135,7 @@ def event_bush(character):
     :postcondition: the player is asked to press Enter if the player encounters a wild Pokémon and don't lose
     """
     if check_for_wild_pokemon():
-        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 3)
+        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 4)
         foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
         foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
@@ -248,8 +243,8 @@ def adventure_preparation(character):
         input("Press Enter to continue.\n")
         chosen_pokemon = gather_user_choice_for_fist_pokemon()
         print(f"\nDr.Chris \"Good choice! {character['Name']}!\"")
-        battle.append_pokemon(character, int(chosen_pokemon), 5,
-                              battle.calculate_max_hp(int(chosen_pokemon), 5))
+        max_hp = battle.calculate_max_hp(int(chosen_pokemon), 5)
+        battle.append_pokemon(character, int(chosen_pokemon), 5, max_hp)
         print(f"You've gotten {characters.poke_dex()[int(chosen_pokemon)]['Name']}!\n")
         input("Press Enter to continue.\n")
         print(f"Dr.Nabil \"Take these, too.\"\n")
