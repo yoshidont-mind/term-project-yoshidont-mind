@@ -232,6 +232,8 @@ def pokemon_catch(foe):
 
     :param foe: a dictionary that represents a Pokémon
     :precondition: foe must be a dictionary that represents a Pokémon
+    :precondition: this function must be invoked during a battle with a wild Pokémon
+    :precondition: HP of the foe must be positive
     :postcondition: whether the player successes to catch a Pokémon is correctly determined
     :return: True if the player successes to catch a Pokémon, False otherwise
     """
