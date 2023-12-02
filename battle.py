@@ -237,10 +237,7 @@ def pokemon_catch(foe):
     """
     random_number = random.randint(1, 100)
     possibility = 10 * (foe['Max HP'] / foe['HP'])
-    if random_number <= possibility:
-        return True
-    else:
-        return False
+    return random_number <= possibility
 
 
 def run_success(my_pokemon, foe):
