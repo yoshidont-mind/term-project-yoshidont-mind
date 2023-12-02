@@ -317,7 +317,7 @@ def change_order(character, index):
     Change the order of the Pokémon in the list.
 
     :param character: a dictionary that represents the character
-    :param index: an integer which is the index of the Pokémon to move to the top of the list
+    :param index: a positive integer which is the index of the Pokémon to move to the top of the list
     :precondition: character must be a dictionary that represents the character
     :precondition: character must have at least 2 Pokémon
     :precondition: index must be an integer
