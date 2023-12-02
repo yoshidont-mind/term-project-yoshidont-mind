@@ -235,8 +235,9 @@ def pokemon_catch(foe):
     :postcondition: whether the player successes to catch a Pokémon is correctly determined
     :return: True if the player successes to catch a Pokémon, False otherwise
     """
-    random_number = random.randint(1, round(100 * foe['HP'] / foe['Max HP']))
-    if random_number <= 10:
+    random_number = random.randint(1, 100)
+    possibility = 10 * (foe['Max HP'] / foe['HP'])
+    if random_number <= possibility:
         return True
     else:
         return False
