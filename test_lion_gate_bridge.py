@@ -48,13 +48,23 @@ class TestLionGateBridge(TestCase):
                      'Pokemon': [{'Name': 'Pikachu'}, {'Name': 'Charmander'}, {'Name': 'Squirtle'}]}
         lion_gate_bridge(character)
         expected = 2
-        actual = character['Item']['Trainer rank']
+        actual = character['Trainer rank']
+        self.assertEqual(expected, actual)
+
+    @patch('battle.battle_with_trainer', return_value=True)
+    @patch('builtins.input', return_value='')
+    def test_next_goal_when_win_the_battle(self, _, __):
+        character = {'Name': 'Ash', 'Trainer rank': 1, 'Item': {},
+                     'Pokemon': [{'Name': 'Pikachu'}, {'Name': 'Charmander'}, {'Name': 'Squirtle'}]}
+        lion_gate_bridge(character)
+        expected = "Let's go to BCIT Pokémon Gym!"
+        actual = character['Next goal']
         self.assertEqual(expected, actual)
 
     @patch('sys.stdout', new_callable=io.StringIO)
     @patch('battle.battle_with_trainer', return_value=True)
     @patch('builtins.input', return_value='')
-    def test_trainer_rank_when_win_the_battle(self, _, __, mock_output):
+    def test_message_when_win_the_battle(self, _, __, mock_output):
         character = {'Name': 'Ash', 'Trainer rank': 1, 'Item': {},
                      'Pokemon': [{'Name': 'Pikachu'}, {'Name': 'Charmander'}, {'Name': 'Squirtle'}]}
         lion_gate_bridge(character)
