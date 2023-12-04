@@ -514,6 +514,9 @@ def game():
 
 
 def main():
+    """
+    Execute the game.
+    """
     game()
 
 
