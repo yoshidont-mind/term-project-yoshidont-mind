@@ -24,7 +24,7 @@ class TestLionGateBridge(TestCase):
 
     @patch('sys.stdout', new_callable=io.StringIO)
     @patch('builtins.input', return_value='')
-    def test_location_when_number_of_pokemon_is_less_than_three(self, _, mock_output):
+    def test_message_when_number_of_pokemon_is_less_than_three(self, _, mock_output):
         character = {'Name': 'Ash', 'Pokemon': [{'Name': 'Pikachu'}], 'Trainer rank': 1, 'Location': (5, 9)}
         lion_gate_bridge(character)
         expected = "\"Sorry, you cannot proceed unless you have at least three Pokémon with you.\"\n"
