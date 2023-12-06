@@ -34,183 +34,6 @@ def event(character):
         event_function(character)
 
 
-def event_information(character, user_choice):
-    """
-    Print information about the location.
-
-    Some information is printed only when the player visits the location from a specific direction.
-
-    :param character: a dictionary that represents the character
-    :param user_choice: a string which is either of "1", "2", "3", or "4"
-    :precondition: character must be a dictionary that represents the character
-    :precondition: user_choice must be either of "1", "2", "3", or "4"
-    :postcondition: information about the location is correctly printed when the condition is met
-    """
-    location_information = {
-        (5, 8): "\n\"Here is 'Lion Gate Bridge'. The gateway to the world.\"\n",
-        (12, 4): "\n\"Here is 'Grouse Mountain'. Be careful for strong Pokémon.\"\n" if user_choice == "1" else None,
-        (5, 10): "\n\"Here is 'Stanley Park'. Many Pokémon are living here.\"\n" if user_choice == "2" else None,
-        (16, 17): "\n\"Here is 'BC Place'. Winter Olympic was held here in 2010.\"\n"
-    }
-
-    info = location_information.get(character['Location'])
-    if info:
-        print(info)
-        input("Press Enter to continue.\n")
-
-
-# events > events
-def event_home(character):
-    """
-    Execute an event when the player visits home.
-
-    :param character: a dictionary that represents the character
-    :precondition: character must be a dictionary that represents the character
-    :precondition: the letter on the map corresponding to the character's location must be "H"
-    :postcondition: the event is correctly executed
-    :postcondition: the player's Pokémon are healed
-    :postcondition: the player is asked to press Enter
-    """
-    print(f"\nMom \"Welcome home, {character['Name']}.\n",
-          f"        You look tired. Take a rest.\"\n")
-    time.sleep(1)
-    if character['Pokemon']:
-        for pokemon in character['Pokemon']:
-            pokemon['HP'] = pokemon['Max HP']
-        print(f"Pokémon have been healed!\n")
-    print(f"Mon \"Take care of yourself, {character['Name']}.\"\n")
-    input("Press Enter to continue.\n")
-
-
-def go_home(character):
-    """
-    Execute an event when the player loses a battle.
-
-    :param character: a dictionary that represents the character
-    :precondition: character must be a dictionary that represents the character
-    :precondition: the player must lose a battle
-    :postcondition: the event is correctly executed
-    :postcondition: the player's Potion and Poké Ball are lost
-    :postcondition: the player's location is changed to (15, 1)
-    :postcondition: the player's Pokémon are healed
-    :postcondition: the player is asked to press Enter
-    """
-    input("Press Enter to continue.\n")
-    print(f"You lost your items being shocked...")
-    character['Item']['Potion'] = 0
-    character['Item']['Poke Ball'] = 0
-    print(f"You rush your home...\n")
-    time.sleep(1)
-    character['Location'] = (15, 1)
-    event_home(character)
-
-
-def check_for_wild_pokemon():
-    """
-    Determine whether the player encounters a wild Pokémon.
-
-    :precondition: the character must be in a bush
-    :precondition: event_bush() must be invoked
-    :postcondition: whether the player encounters a wild Pokémon is correctly determined
-    :return: a boolean value that represents whether the player encounters a wild Pokémon
-    """
-    random_number = random.randint(1, 100)
-    if random_number <= 25:
-        return True
-    else:
-        return False
-
-
-def event_bush(character):
-    """
-    Execute an event when the player visits a bush.
-
-    :param character: a dictionary that represents the character
-    :precondition: character must be a dictionary that represents the character
-    :precondition: the letter on the map corresponding to the character's location must be "."
-    :postcondition: the event is correctly executed
-    :postcondition: whether the player encounters a wild Pokémon is correctly determined
-    :postcondition: whether the player lost a battle is correctly determined if the player encounters a wild Pokémon
-    :postcondition: go_home() is correctly invoked if the player loses a battle
-    :postcondition: the player is asked to press Enter if the player encounters a wild Pokémon and don't lose
-    """
-    if check_for_wild_pokemon():
-        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 4)
-        foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
-        foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
-        foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
-        print(foe_pokemon_ascii_art)
-        print(f"Wild {foe_pokemon['Name']} (Lv. {foe_pokemon['Level']}) appeared!")
-        event_continues = True
-        while event_continues:
-            my_pokemon = battle.next_pokemon(character)
-            print(f"\nLet's go, {my_pokemon['Name']}!")
-            my_pokemon_wins = battle.pokemon_battle(character, my_pokemon, foe_pokemon, False)
-            if my_pokemon_wins:
-                event_continues = False
-                input("Press Enter to continue.\n")
-            else:
-                if not battle.check_alive_pokemon_remains(character):
-                    print(f"\nAll of your Pokémon are defeated!\n")
-                    go_home(character)
-                    event_continues = False
-
-
-def event_path(character):
-    """
-    Execute an event when the player visits a path.
-
-    :param character: a dictionary that represents the character
-    :precondition: character must be a dictionary that represents the character
-    :precondition: the letter on the map corresponding to the character's location must be " "
-    :postcondition: the event is correctly executed
-    :postcondition: whether the character finds a Potion is correctly determined
-    :postcondition: number of is incremented by 1 if the character finds a Potion
-    :postcondition: whether the character finds a Poké Ball is correctly determined
-    :postcondition: number of is incremented by 1 if the character finds a Poké Ball
-    """
-    number = random.randint(1, 100)
-    if number <= 10:
-        print("\nYou found a 'Potion'!\n")
-        character['Item']['Potion'] += 1
-    elif number <= 20:
-        print("\nYou found a 'Poke Ball'!\n")
-        character['Item']['Poke Ball'] += 1
-    else:
-        pass
-
-
-"""
-following functions are invoked by event()
-"""
-
-
-def gather_user_choice_for_fist_pokemon():
-    """
-    Gather user's choice for the first Pokémon.
-
-    Keep asking the user for the choice until the user enters a valid choice.
-    :postcondition: the user's choice is correctly gathered
-    :return: a string which is either of "1", "2", "3", or "4"
-    """
-    numbers_expected = ["1", "2", "3", "4"]
-    while True:
-        print("Here are four Pokémon:\n1) Bulbasaur\n2) Charmander\n3) Squirtle\n4) Pikachu\n")
-        user_input = input("Please enter your choice:\n")
-        if user_input in numbers_expected:
-            pokemon_ascii_art = characters.poke_dex()[int(user_input)]['Ascii art']
-            print(pokemon_ascii_art)
-            print(f"Are you sure to choose {characters.poke_dex()[int(user_input)]['Name']}?")
-            print("1) Yes 2) No\n")
-            user_confirm = input("Please enter your choice:\n")
-            if user_confirm == "1":
-                return user_input
-            else:
-                continue
-        else:
-            print("\nYou're choice is not valid. Please try it again.\n")
-
-
 def adventure_preparation(character):
     """
     Execute an event when the player visits the entrance of the town.
@@ -266,6 +89,32 @@ def adventure_preparation(character):
         character['Next goal'] = "Let's catch two more Pokémon and go to Lion Gate Bridge!"
         print(f"Your next goal has been updated to '{character['Next goal']}'!\n")
         input("Press Enter to continue.\n")
+
+
+def gather_user_choice_for_fist_pokemon():
+    """
+    Gather user's choice for the first Pokémon.
+
+    Keep asking the user for the choice until the user enters a valid choice.
+    :postcondition: the user's choice is correctly gathered
+    :return: a string which is either of "1", "2", "3", or "4"
+    """
+    numbers_expected = ["1", "2", "3", "4"]
+    while True:
+        print("Here are four Pokémon:\n1) Bulbasaur\n2) Charmander\n3) Squirtle\n4) Pikachu\n")
+        user_input = input("Please enter your choice:\n")
+        if user_input in numbers_expected:
+            pokemon_ascii_art = characters.poke_dex()[int(user_input)]['Ascii art']
+            print(pokemon_ascii_art)
+            print(f"Are you sure to choose {characters.poke_dex()[int(user_input)]['Name']}?")
+            print("1) Yes 2) No\n")
+            user_confirm = input("Please enter your choice:\n")
+            if user_confirm == "1":
+                return user_input
+            else:
+                continue
+        else:
+            print("\nYou're choice is not valid. Please try it again.\n")
 
 
 def lonsdale_quay(character):
@@ -350,6 +199,29 @@ def lion_gate_bridge(character):
             input("Press Enter to continue.\n")
         else:
             go_home(character)
+
+
+def go_home(character):
+    """
+    Execute an event when the player loses a battle.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the player must lose a battle
+    :postcondition: the event is correctly executed
+    :postcondition: the player's Potion and Poké Ball are lost
+    :postcondition: the player's location is changed to (15, 1)
+    :postcondition: the player's Pokémon are healed
+    :postcondition: the player is asked to press Enter
+    """
+    input("Press Enter to continue.\n")
+    print(f"You lost your items being shocked...")
+    character['Item']['Potion'] = 0
+    character['Item']['Poke Ball'] = 0
+    print(f"You rush your home...\n")
+    time.sleep(1)
+    character['Location'] = (15, 1)
+    event_home(character)
 
 
 def mount_cypress(character):
@@ -548,3 +420,126 @@ def cypress_top(character):
             input("Press Enter to continue.\n")
     else:
         go_home(character)
+
+
+def event_information(character, user_choice):
+    """
+    Print information about the location.
+
+    Some information is printed only when the player visits the location from a specific direction.
+
+    :param character: a dictionary that represents the character
+    :param user_choice: a string which is either of "1", "2", "3", or "4"
+    :precondition: character must be a dictionary that represents the character
+    :precondition: user_choice must be either of "1", "2", "3", or "4"
+    :postcondition: information about the location is correctly printed when the condition is met
+    """
+    location_information = {
+        (5, 8): "\n\"Here is 'Lion Gate Bridge'. The gateway to the world.\"\n",
+        (12, 4): "\n\"Here is 'Grouse Mountain'. Be careful for strong Pokémon.\"\n" if user_choice == "1" else None,
+        (5, 10): "\n\"Here is 'Stanley Park'. Many Pokémon are living here.\"\n" if user_choice == "2" else None,
+        (16, 17): "\n\"Here is 'BC Place'. Winter Olympic was held here in 2010.\"\n"
+    }
+
+    info = location_information.get(character['Location'])
+    if info:
+        print(info)
+        input("Press Enter to continue.\n")
+# events > events
+
+
+def event_home(character):
+    """
+    Execute an event when the player visits home.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be "H"
+    :postcondition: the event is correctly executed
+    :postcondition: the player's Pokémon are healed
+    :postcondition: the player is asked to press Enter
+    """
+    print(f"\nMom \"Welcome home, {character['Name']}.\n",
+          f"        You look tired. Take a rest.\"\n")
+    time.sleep(1)
+    if character['Pokemon']:
+        for pokemon in character['Pokemon']:
+            pokemon['HP'] = pokemon['Max HP']
+        print(f"Pokémon have been healed!\n")
+    print(f"Mon \"Take care of yourself, {character['Name']}.\"\n")
+    input("Press Enter to continue.\n")
+
+
+def event_bush(character):
+    """
+    Execute an event when the player visits a bush.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be "."
+    :postcondition: the event is correctly executed
+    :postcondition: whether the player encounters a wild Pokémon is correctly determined
+    :postcondition: whether the player lost a battle is correctly determined if the player encounters a wild Pokémon
+    :postcondition: go_home() is correctly invoked if the player loses a battle
+    :postcondition: the player is asked to press Enter if the player encounters a wild Pokémon and don't lose
+    """
+    if check_for_wild_pokemon():
+        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 4)
+        foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
+        foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
+        foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
+        print(foe_pokemon_ascii_art)
+        print(f"Wild {foe_pokemon['Name']} (Lv. {foe_pokemon['Level']}) appeared!")
+        event_continues = True
+        while event_continues:
+            my_pokemon = battle.next_pokemon(character)
+            print(f"\nLet's go, {my_pokemon['Name']}!")
+            my_pokemon_wins = battle.pokemon_battle(character, my_pokemon, foe_pokemon, False)
+            if my_pokemon_wins:
+                event_continues = False
+                input("Press Enter to continue.\n")
+            else:
+                if not battle.check_alive_pokemon_remains(character):
+                    print(f"\nAll of your Pokémon are defeated!\n")
+                    go_home(character)
+                    event_continues = False
+
+
+def check_for_wild_pokemon():
+    """
+    Determine whether the player encounters a wild Pokémon.
+
+    :precondition: the character must be in a bush
+    :precondition: event_bush() must be invoked
+    :postcondition: whether the player encounters a wild Pokémon is correctly determined
+    :return: a boolean value that represents whether the player encounters a wild Pokémon
+    """
+    random_number = random.randint(1, 100)
+    if random_number <= 25:
+        return True
+    else:
+        return False
+
+
+def event_path(character):
+    """
+    Execute an event when the player visits a path.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be " "
+    :postcondition: the event is correctly executed
+    :postcondition: whether the character finds a Potion is correctly determined
+    :postcondition: number of is incremented by 1 if the character finds a Potion
+    :postcondition: whether the character finds a Poké Ball is correctly determined
+    :postcondition: number of is incremented by 1 if the character finds a Poké Ball
+    """
+    number = random.randint(1, 100)
+    if number <= 10:
+        print("\nYou found a 'Potion'!\n")
+        character['Item']['Potion'] += 1
+    elif number <= 20:
+        print("\nYou found a 'Poke Ball'!\n")
+        character['Item']['Poke Ball'] += 1
+    else:
+        pass
