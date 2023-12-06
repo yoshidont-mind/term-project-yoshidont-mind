@@ -224,6 +224,28 @@ def go_home(character):
     event_home(character)
 
 
+def event_home(character):
+    """
+    Execute an event when the player visits home.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: the letter on the map corresponding to the character's location must be "H"
+    :postcondition: the event is correctly executed
+    :postcondition: the player's Pokémon are healed
+    :postcondition: the player is asked to press Enter
+    """
+    print(f"\nMom \"Welcome home, {character['Name']}.\n",
+          f"        You look tired. Take a rest.\"\n")
+    time.sleep(1)
+    if character['Pokemon']:
+        for pokemon in character['Pokemon']:
+            pokemon['HP'] = pokemon['Max HP']
+        print(f"Pokémon have been healed!\n")
+    print(f"Mon \"Take care of yourself, {character['Name']}.\"\n")
+    input("Press Enter to continue.\n")
+
+
 def mount_cypress(character):
     """
     Execute an event when the player visits Mount Cypress.
@@ -445,29 +467,6 @@ def event_information(character, user_choice):
     if info:
         print(info)
         input("Press Enter to continue.\n")
-# events > events
-
-
-def event_home(character):
-    """
-    Execute an event when the player visits home.
-
-    :param character: a dictionary that represents the character
-    :precondition: character must be a dictionary that represents the character
-    :precondition: the letter on the map corresponding to the character's location must be "H"
-    :postcondition: the event is correctly executed
-    :postcondition: the player's Pokémon are healed
-    :postcondition: the player is asked to press Enter
-    """
-    print(f"\nMom \"Welcome home, {character['Name']}.\n",
-          f"        You look tired. Take a rest.\"\n")
-    time.sleep(1)
-    if character['Pokemon']:
-        for pokemon in character['Pokemon']:
-            pokemon['HP'] = pokemon['Max HP']
-        print(f"Pokémon have been healed!\n")
-    print(f"Mon \"Take care of yourself, {character['Name']}.\"\n")
-    input("Press Enter to continue.\n")
 
 
 def event_bush(character):
