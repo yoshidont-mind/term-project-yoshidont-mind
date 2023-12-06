@@ -40,7 +40,7 @@ def battle_with_trainer(character, trainer):
         # if my Pokémon has changed, print the message
         if my_pokemon_changed:
             print(f"Let's go, {my_pokemon['Name']}!\n")
-            foe_pokemon_changed = False
+            my_pokemon_changed = False
 
         # execute a battle and determine whether the player wins or loses
         my_pokemon_wins = pokemon_battle(character, my_pokemon, foe_pokemon, True)
