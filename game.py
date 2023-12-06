@@ -398,6 +398,7 @@ def game():
     """
     Execute the game.
     """
+    # load save data
     save_data = load_save_data()
     if save_data:
         character = save_data
@@ -406,6 +407,8 @@ def game():
         characters.print_title()
         print(f"Welcome back, {character['Name']}!\n")
         input("Press Enter to continue.\n")
+
+    # if save data is not found, start a new game
     else:
         time.sleep(1)
         characters.print_title()
@@ -426,11 +429,17 @@ def game():
               f"       Oh, Dr. Nabil wanted to see you before you leave. He's waiting at the entrance of the town.\n"
               f"       Take care, and have a nice journey.\"\n")
         input("Press Enter to continue.\n")
+
+    # set the map
     map_dic = generate_map_dictionary()
     continue_game = True
     while continue_game:
+
+        # describe the current location and gather user's choice
         describe_current_location(map_dic, character)
         user_choice = get_user_choice(character)
+
+        # if user chooses to move, move the character and execute the event at the new location
         if user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
@@ -448,10 +457,16 @@ def game():
                     pass
             else:
                 print("\nYou cannot go this way. Please try it again.\n")
+
+        # if user chooses to open map, open map
         elif user_choice == "5":
             open_map(map_dic, character)
+
+        # if user chooses to check status, check status
         elif user_choice == "6":
             check_status(character)
+
+        # if user chooses to heal Pokémon, heal Pokémon
         elif user_choice == "7":
             if character['Item']['Potion'] <= 0:
                 print("\nYou don't have any Potion!\n")
@@ -470,6 +485,8 @@ def game():
                         print(f"{selected_pokemon['Name']} looks happy!")
                         print(f"Remaining Potion: {character['Item']['Potion']}\n")
                         input("Press Enter to continue.\n")
+
+        # if user chooses to change order, change order
         elif user_choice == "8":
             selected_number = gather_user_choice_to_change_order(character)
             if selected_number:
@@ -481,6 +498,8 @@ def game():
                 input("Press Enter to continue.\n")
             else:
                 print("\nYour choice is not valid. The request to change order is canceled.\n")
+
+        # if user chooses to escape Pokémon, escape Pokémon
         elif user_choice == "9":
             selected_number = gather_user_choice_to_escape_pokemon(character)
             if selected_number:
@@ -492,12 +511,18 @@ def game():
                 input("Press Enter to continue.\n")
             else:
                 print("\nYour choice is not valid. The request to escape Pokémon is canceled.\n")
+
+        # if user chooses to save game and quit, save game and quit
         elif user_choice == "0":
             save_data_as_json(character)
             print("\nYour data is saved. See you again!\n")
             continue_game = False
+
+        # if somehow user's choice is not valid, print error message
         else:
             print("\nWhoops, something went wrong. Please try it again.\n")
+
+        # if user achieves the goal, display end roll and congratulations message, then end the program
         if character['Trainer rank'] == 3 and not character['End roll']:
             characters.print_congratulations()
             print("\nCongratulations! You achieved your goal in this game. With this, the game comes to an end.\n",

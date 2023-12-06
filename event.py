@@ -59,17 +59,22 @@ def adventure_preparation(character):
     if character['Trainer rank'] >= 1:
         print(f"\nDr.Nabil \"Hi {character['Name']}!\"\n")
     else:
+        # print the initial message
         print(f"\nDr.Nabil \"Hi {character['Name']}!\n",
               "         The outside of the town is full of Pokémon. They sometimes attack you!\n",
               "         So, you should bring your own Pokémon.\n",
               "         Now, I give you a Pokémon. Which one do you choose?\"\n")
         input("Press Enter to continue.\n")
+
+        # choose the first Pokémon
         chosen_pokemon = gather_user_choice_for_fist_pokemon()
         print(f"\nDr.Chris \"Good choice! {character['Name']}!\"")
         max_hp = battle.calculate_max_hp(int(chosen_pokemon), 5)
         battle.append_pokemon(character, int(chosen_pokemon), 5, max_hp)
         print(f"You've gotten {characters.poke_dex()[int(chosen_pokemon)]['Name']}!\n")
         input("Press Enter to continue.\n")
+
+        # give the player items
         print(f"Dr.Nabil \"Take these, too.\"\n")
         character['Item']['Potion'] = 3
         print(f"You've gotten three 'Potion'!")
@@ -79,11 +84,15 @@ def adventure_preparation(character):
               f"         'Poke Ball' is used to catch wild Pokémon during battle.\n",
               f"         However, to catch a Pokémon for sure, you need to weaken it before throwing a Poké Ball\"\n")
         input("Press Enter to continue...\n")
+
+        # print the message after the player gets the first Pokémon and items
         print(f"Dr.Nabil \"Now, you're ready to go on an adventure!\"\n",
               f"         \"To go to BCIT Pokémon Gym, you should pass through Lion Gate Bridge.\"\n",
               f"         \"The construction worker at the bridge wouldn't let you pass through unless you have at least"
               f" three Pokémon with you.\"\n")
         input("Press Enter to continue.\n")
+
+        # increment trainer rank
         character['Trainer rank'] = 1
         print(f"Your trainer rank has increased to {character['Trainer rank']}!")
         character['Next goal'] = "Let's catch two more Pokémon and go to Lion Gate Bridge!"
@@ -171,17 +180,24 @@ def lion_gate_bridge(character):
         input("Press Enter to continue.\n")
         character["Location"] = (5, 8)
     else:
+        # print the initial message
         print(f"\nConstruction Worker Sam \"If you can defeat me, I'll let you pass through this way!\"")
+
+        # execute battle
         sam = {'Name': 'Construction Worker Sam',
                'Pokemon': [battle.generate_pokemon(5, 7),
                            battle.generate_pokemon(6, 8)]}
         win_battle = battle.battle_with_trainer(character, sam)
+
         if win_battle:
+            # print the message after the player wins the battle
             print("\nConstruction Worker Sam \"Passable! Now, you can go to BCIT Pokémon Gym!\n",
                   "                     The Gym Leader there is tough,"
                   " and won't accept a challenge unless you bring five or more Pokémon with you.\n",
                   "                     Make sure to train enough before you go.\"\n")
             input("Press Enter to continue.\n")
+
+            # give the player SeaBus Ticket
             print(f"Construction Worker Sam \"Take this, too.\"\n")
             character['Item']['SeaBus Ticket'] = 1
             print(f"You've gotten 'SeaBus Ticket'!\n")
@@ -191,12 +207,16 @@ def lion_gate_bridge(character):
                   f"                        If you hop on the SeaBus, it's a quick trip between Waterfront and Lonsdale"
                   f" Quay.\"\n")
             input("Press Enter to continue.\n")
+
+            # increment trainer rank
             character['Trainer rank'] = 2
             character["Next goal"] = "Let's go to BCIT Pokémon Gym!"
             print(f"Your trainer rank has increased to {character['Trainer rank']}!\n",
                   f"The variety of Pokémon appearing in the bush has increased!\n",
                   f"Your next goal has been updated to '{character['Next goal']}'!\n", sep="")
             input("Press Enter to continue.\n")
+
+        # if the player loses the battle, go home
         else:
             go_home(character)
 
@@ -319,14 +339,19 @@ def bcit_pokemon_gym(character):
         print(f"\nReceptionist \"You need to bring at least five Pokémon with you to challenge the Gym Leader.\"\n")
         input("Press Enter to continue.\n")
     else:
+        # print the initial message
         print(f"\nGym Leader Rahul \"Welcome to the BCIT Pokémon Gym. I'm Rahul, the Gym Leader.\n",
               f"                If you can defeat me, I'll give you a Gym Badge. Let's battle!\"\n")
+
+        # execute battle
         rahul = {'Name': 'Gym Leader Rahul',
                  'Pokemon': [battle.generate_pokemon(11, 10),
                              battle.generate_pokemon(10, 10),
                              battle.generate_pokemon(9, 12)]}
         win_battle = battle.battle_with_trainer(character, rahul)
+
         if win_battle:
+            # give the player BCIT Gym Badge
             print("Gym Leader Rahul \"I'm totally defeated. Please take this Gym Badge.\"\n")
             print(f"You've gotten 'BCIT Gym Badge'!\n")
             character['Item']['BCIT Gym Badge'] = 1
@@ -334,12 +359,16 @@ def bcit_pokemon_gym(character):
             print(f"Gym Leader Rahul \"With this Gym Badge, you can go to all the places on the map.\"\n",
                   f"               \"Good luck, young Pokémon trainer!\"\n")
             input("Press Enter to continue.\n")
+
+            # increment trainer rank
             character['Trainer rank'] = 3
             character['Next goal'] = "Let's explore this world, and eventually go to Cypress Mountain!"
             print(f"Your trainer rank has increased to {character['Trainer rank']}!\n",
                   f"The variety of Pokémon appearing in the bush has increased!\n",
                   f"Your next goal has been updated to '{character['Next goal']}'!\n", sep="")
             input("Press Enter to continue.\n")
+
+        # if the player loses the battle, go home
         else:
             go_home(character)
 
@@ -483,14 +512,19 @@ def event_bush(character):
     :postcondition: the player is asked to press Enter if the player encounters a wild Pokémon and don't lose
     """
     if check_for_wild_pokemon():
+        # generate a wild Pokémon
         foe_pokemon_number = random.randint(1, character['Trainer rank'] * 4)
         foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
         foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
+
+        # print the initial message
         print(foe_pokemon_ascii_art)
         print(f"Wild {foe_pokemon['Name']} (Lv. {foe_pokemon['Level']}) appeared!")
+
         event_continues = True
         while event_continues:
+            # execute battle
             my_pokemon = battle.next_pokemon(character)
             print(f"\nLet's go, {my_pokemon['Name']}!")
             my_pokemon_wins = battle.pokemon_battle(character, my_pokemon, foe_pokemon, False)

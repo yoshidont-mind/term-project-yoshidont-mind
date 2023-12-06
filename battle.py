@@ -25,24 +25,35 @@ def battle_with_trainer(character, trainer):
     my_pokemon_changed = True
     foe_pokemon_changed = True
     while True:
+        # determine the next Pokémon
         my_pokemon = next_pokemon(character)
         foe_pokemon = next_pokemon(trainer)
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon['Number']]['Ascii art']
+
+        # if foe's Pokémon has changed, print the message
         if foe_pokemon_changed:
             print(f"Remaining foe Pokémon: {len(trainer['Pokemon']) - index}\n")
             print(foe_pokemon_ascii_art)
             print(f"Trainer {trainer['Name']} sent out {foe_pokemon['Name']} (Lv.{foe_pokemon['Level']})!\n")
             foe_pokemon_changed = False
+
+        # if my Pokémon has changed, print the message
         if my_pokemon_changed:
             print(f"Let's go, {my_pokemon['Name']}!\n")
             foe_pokemon_changed = False
+
+        # execute a battle and determine whether the player wins or loses
         my_pokemon_wins = pokemon_battle(character, my_pokemon, foe_pokemon, True)
+
+        # if the player wins, print the message, and check whether the player has defeated the trainer
         if my_pokemon_wins:
             foe_pokemon_changed = True
             index += 1
             if not check_alive_pokemon_remains(trainer):
                 print(f"You defeated {trainer['Name']}!\n")
                 return True
+
+        # if the player loses, print the message, and check whether the player has any alive Pokémon
         else:
             my_pokemon_changed = True
             if not check_alive_pokemon_remains(character):
@@ -221,13 +232,21 @@ def execute_both_attacks(my_pokemon, foe_pokemon):
     >>> doctest_foe_pokemon['HP']
     0
     """
+    # execute my_pokemon's attack
     attacks(my_pokemon, foe_pokemon)
     turn_result = "continue"
+
+    # if foe_pokemon is alive, execute foe_pokemon's attack
     if foe_pokemon['HP'] > 0:
         attacks(foe_pokemon, my_pokemon)
+
+        # if my_pokemon is defeated, print the message and return "lose"
         if my_pokemon['HP'] <= 0:
             print(f"{my_pokemon['Name']} is defeated!\n")
             turn_result = "lose"
+
+    # if foe_pokemon is defeated, print message, add exp to my_pokemon, determine whether my_pokemon levels up,
+    # and return "win"
     else:
         acquired_exp = calculate_acquiring_exp(foe_pokemon['Level'])
         print(f"{my_pokemon['Name']} beat {foe_pokemon['Name']}!",
@@ -385,13 +404,18 @@ def determine_level_up(pokemon):
     24
     """
     level_up = False
+
+    # loop until Exp to next level is bigger than 0
     while pokemon['Exp to next level'] <= 0:
         level_up = True
         pokemon['Level'] += 1
+
+        # print the message, and update 'Exp to next level' and 'Exp'
         print(f"\nCongratulations! {pokemon['Name']} raised to level {pokemon['Level']}!\n")
         pokemon['Exp'] = -pokemon['Exp to next level']
         pokemon['Exp to next level'] = calculate_exp_to_next_level(pokemon['Level']) - pokemon['Exp']
 
+        # update the status of the Pokémon
         new_attack = calculate_attack(pokemon['Number'], pokemon['Level'])
         print(f"Attack raised by {new_attack - pokemon['Attack']}.")
         pokemon['Attack'] = new_attack
@@ -406,6 +430,8 @@ def determine_level_up(pokemon):
         pokemon['Max HP'] = new_max_hp
 
         pokemon['HP'] += max_hp_difference
+
+    # if the Pokémon levels up, print message and ascii art
     if level_up:
         print(f"{characters.poke_dex()[pokemon['Number']]['Ascii art']}")
         print(f"{pokemon['Name']} looks stronger!\n")
