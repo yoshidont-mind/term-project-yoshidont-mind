@@ -5,6 +5,7 @@ Ths module contains main(), game(), and some functions directly related to game(
 
 import time
 import json
+from itertools import count
 
 import event
 import characters
@@ -288,17 +289,15 @@ def gather_user_choice_to_heal_pokemon(character):
     :return: user's choice of Pokémon to heal, or 0 if the user's choice is not valid
     """
     print("\nNow you're bringing:")
-    for index in range(len(character['Pokemon'])):
-        print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
-        print(f" - Level  : {character['Pokemon'][index]['Level']}")
-        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}\n")
+    # Using itertools.count() to create an iterable for pokemon indexes
+    for index, pokemon in zip(count(1), character['Pokemon']):
+        print(f"{index}) {pokemon['Name']}")
+        print(f" - Level  : {pokemon['Level']}")
+        print(f" - HP     : {pokemon['HP']} / {pokemon['Max HP']}\n")
+
     selected_number_str = input("Which Pokémon do you want to heal?:\n")
-    expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
-    if selected_number_str in expected:
-        selected_number_int = int(selected_number_str)
-        return selected_number_int
-    else:
-        return 0
+    expected = map(str, range(1, len(character['Pokemon']) + 1))
+    return int(selected_number_str) if selected_number_str in expected else 0
 
 
 def gather_user_choice_to_change_order(character):
@@ -313,17 +312,11 @@ def gather_user_choice_to_change_order(character):
     :postcondition: user's choice of Pokémon to move to the top of the list is gathered
     :return: user's choice of Pokémon to move to the top of the list, or 0 if the user's choice is not valid
     """
-    pokemon_list = ""
-    for index in range(len(character['Pokemon'])):
-        pokemon_list += f"{index + 1}) {character['Pokemon'][index]['Name']}\n"
+    pokemon_list = "".join(f"{i}) {pokemon['Name']}\n" for i, pokemon in zip(count(1), character['Pokemon']))
     print(f"\nNow, you're bringing:\n{pokemon_list}")
     selected_number_str = input("Which Pokémon do you move to the top?:\n")
-    expected = [str(number) for number in range(2, len(character['Pokemon']) + 1)]
-    if selected_number_str in expected:
-        selected_number_int = int(selected_number_str)
-        return selected_number_int
-    else:
-        return 0
+    expected = map(str, range(2, len(character['Pokemon']) + 1))
+    return int(selected_number_str) if selected_number_str in expected else 0
 
 
 def change_order(character, index):
@@ -350,7 +343,6 @@ def change_order(character, index):
     >>> doctest_character['Pokemon'][0]['Name']
     'Charmander'
     """
-    # 選択されたindexのpokemonを先頭に持ってくる
     selected_pokemon = character['Pokemon'].pop(index)
     top_pokemon = character['Pokemon'].pop(0)
     character['Pokemon'].insert(0, selected_pokemon)
@@ -369,17 +361,11 @@ def gather_user_choice_to_escape_pokemon(character):
     :postcondition: user's choice of Pokémon to escape is gathered
     :return: user's choice of Pokémon to escape, or 0 if the user's choice is not valid
     """
-    pokemon_list = ""
-    for index in range(len(character['Pokemon'])):
-        pokemon_list += f"{index + 1}) {character['Pokemon'][index]['Name']}\n"
+    pokemon_list = "".join(f"{i}) {pokemon['Name']}\n" for i, pokemon in zip(count(1), character['Pokemon']))
     print(f"\nNow, you're bringing:\n{pokemon_list}")
     selected_number_str = input("Which Pokémon do you want to escape?:\n")
-    expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
-    if selected_number_str in expected:
-        selected_number_int = int(selected_number_str)
-        return selected_number_int
-    else:
-        return 0
+    expected = map(str, range(1, len(character['Pokemon']) + 1))
+    return int(selected_number_str) if selected_number_str in expected else 0
 
 
 def save_data_as_json(character):
