@@ -434,14 +434,14 @@ def game():
         if user_choice in ["1", "2", "3", "4"]:
             if validate_move(map_dic, character, user_choice):
                 move_character(character, user_choice)
-                if map_dic[character['Location']] == '.':
-                    event.event_bush(character)
-                elif map_dic[character['Location']] == '!':
+                if map_dic[character['Location']] == '!':
                     event.event(character)
                 elif map_dic[character['Location']] == 'i':
                     event.event_information(character, user_choice)
                 elif map_dic[character['Location']] == 'H':
                     event.event_home(character)
+                elif map_dic[character['Location']] == '.':
+                    event.event_bush(character)
                 elif map_dic[character['Location']] == ' ':
                     event.event_path(character)
                 else:
