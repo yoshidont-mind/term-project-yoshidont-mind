@@ -450,12 +450,12 @@ def cypress_top(character):
     print("\nTats \"Hi, I'm Tats. I'm the strongest Pokémon trainer in Vancouver.\n",
           "      You made it here, impressive. Let's battle right away!\"")
     tats = {'Name': 'Tats',
-            'Pokemon': [battle.generate_pokemon(12, 12),
-                        battle.generate_pokemon(13, 12),
-                        battle.generate_pokemon(14, 14),
-                        battle.generate_pokemon(15, 14),
-                        battle.generate_pokemon(16, 16),
-                        battle.generate_pokemon(17, 18)]}
+            'Pokemon': [battle.generate_pokemon(12, 10),
+                        battle.generate_pokemon(13, 10),
+                        battle.generate_pokemon(14, 10),
+                        battle.generate_pokemon(15, 10),
+                        battle.generate_pokemon(16, 12),
+                        battle.generate_pokemon(17, 12)]}
     win_battle = battle.battle_with_trainer(character, tats)
     if win_battle:
         print("\nTats \"Unbelievable! The world of Pokémon is still full of mysteries. Continue enjoying your "

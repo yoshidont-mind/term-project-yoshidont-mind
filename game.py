@@ -131,14 +131,16 @@ def describe_current_location(map_dic, character):
     print(f"Now, you are at \"★\".")
 
 
-def get_user_choice(character):
+def get_user_choice(map_dic, character):
     """
     Get user's choice of direction or action.
 
     Keep asking for user's choice until the user enters a valid choice.
 
     :param character: a dictionary that represents the character
+    :param map_dic: a dictionary that represents the map
     :precondition: character must be a dictionary that represents the character
+    :precondition: map_dic must be a dictionary that represents the map
     :postcondition: user's choice of direction or action is gathered
     :return: user's choice of direction or action
     """
@@ -159,6 +161,7 @@ def get_user_choice(character):
             return user_input
         else:
             print("\nYou're choice is not valid. Please try it again.\n")
+            describe_current_location(map_dic, character)
 
 
 def validate_move(map_dic, character, direction):
@@ -423,7 +426,7 @@ def game():
 
         # describe the current location and gather user's choice
         describe_current_location(map_dic, character)
-        user_choice = get_user_choice(character)
+        user_choice = get_user_choice(map_dic, character)
 
         # if user chooses to move, move the character and execute the event at the new location
         if user_choice in ["1", "2", "3", "4"]:
