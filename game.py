@@ -160,18 +160,6 @@ def get_user_choice(character):
             print("\nYou're choice is not valid. Please try it again.\n")
 
 
-def save_data_as_json(character):
-    """
-    Save character data as json file.
-
-    :param character: a dictionary that represents the character
-    :precondition: character must be a dictionary that represents the character
-    :postcondition: character data is saved as json file
-    """
-    with open('save_data.json', 'w') as file_object:
-        json.dump(character, file_object)
-
-
 def validate_move(map_dic, character, direction):
     """
     Validate if the character can move to the direction.
@@ -241,19 +229,19 @@ def open_map(map_dic, character):
     :postcondition: the whole map and the current location of the character on it are displayed
     :postcondition: the user is asked to press Enter to close the map
     """
-    # マップの幅と高さを決定
+    # define the size of the map
     max_x = max(coord[0] for coord in map_dic.keys())
     max_y = max(coord[1] for coord in map_dic.keys())
 
-    # 各行と列に対してループし、文字を取得して表示
+    # loop through each row and column
     for y in range(max_y + 1):
         for x in range(max_x):
             if (x, y) == character['Location']:
                 print("★ ", end='')
             else:
-                char = map_dic[(x, y)]  # 各マスの文字を取得
-                print(char * 2, end='')  # 同じ行の文字を連続して表示
-        print()  # 行の終わりに改行を追加
+                char = map_dic[(x, y)]  # retrieve the character at each coordinates
+                print(char * 2, end='')  # print the character twice to make it square
+        print()  # add a new line at the end of each row
     print(f"Now, you are at \"★\".\n")
     input("Press Enter to close map.\n")
 
@@ -285,6 +273,32 @@ def check_status(character):
         print(f" - Defense: {character['Pokemon'][index]['Defense']}\n")
     print(f"--------------------\n")
     input("Press Enter to close status.\n")
+
+
+def gather_user_choice_to_heal_pokemon(character):
+    """
+    Gather user's choice of Pokémon to heal.
+
+    Return 0 if the user's choice is not valid.
+
+    :param character: a dictionary that represents the character
+    :precondition: character must be a dictionary that represents the character
+    :precondition: character must have at least 1 Pokémon
+    :postcondition: user's choice of Pokémon to heal is gathered
+    :return: user's choice of Pokémon to heal, or 0 if the user's choice is not valid
+    """
+    print("\nNow you're bringing:")
+    for index in range(len(character['Pokemon'])):
+        print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
+        print(f" - Level  : {character['Pokemon'][index]['Level']}")
+        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}\n")
+    selected_number_str = input("Which Pokémon do you want to heal?:\n")
+    expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
+    if selected_number_str in expected:
+        selected_number_int = int(selected_number_str)
+        return selected_number_int
+    else:
+        return 0
 
 
 def gather_user_choice_to_change_order(character):
@@ -368,30 +382,16 @@ def gather_user_choice_to_escape_pokemon(character):
         return 0
 
 
-def gather_user_choice_to_heal_pokemon(character):
+def save_data_as_json(character):
     """
-    Gather user's choice of Pokémon to heal.
-
-    Return 0 if the user's choice is not valid.
+    Save character data as json file.
 
     :param character: a dictionary that represents the character
     :precondition: character must be a dictionary that represents the character
-    :precondition: character must have at least 1 Pokémon
-    :postcondition: user's choice of Pokémon to heal is gathered
-    :return: user's choice of Pokémon to heal, or 0 if the user's choice is not valid
+    :postcondition: character data is saved as json file
     """
-    print("\nNow you're bringing:")
-    for index in range(len(character['Pokemon'])):
-        print(f"{index + 1}) {character['Pokemon'][index]['Name']}")
-        print(f" - Level  : {character['Pokemon'][index]['Level']}")
-        print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}\n")
-    selected_number_str = input("Which Pokémon do you want to heal?:\n")
-    expected = [str(number) for number in range(1, len(character['Pokemon']) + 1)]
-    if selected_number_str in expected:
-        selected_number_int = int(selected_number_str)
-        return selected_number_int
-    else:
-        return 0
+    with open('save_data.json', 'w') as file_object:
+        json.dump(character, file_object)
 
 
 def game():
