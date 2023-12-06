@@ -454,8 +454,8 @@ def cypress_top(character):
                         battle.generate_pokemon(13, 10),
                         battle.generate_pokemon(14, 10),
                         battle.generate_pokemon(15, 10),
-                        battle.generate_pokemon(16, 12),
-                        battle.generate_pokemon(17, 12)]}
+                        battle.generate_pokemon(16, 10),
+                        battle.generate_pokemon(17, 10)]}
     win_battle = battle.battle_with_trainer(character, tats)
     if win_battle:
         print("\nTats \"Unbelievable! The world of Pokémon is still full of mysteries. Continue enjoying your "
