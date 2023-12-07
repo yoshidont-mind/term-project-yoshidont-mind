@@ -73,13 +73,13 @@ Once an event ends, the map around the character is displayed again, and the pla
 #### __1-4. To complete the game:__
 While the character aims for the BCIT Pokémon Gym and clear events, the trainer rank increases and the Next goal 
 changes accordingly. Finally, when you defeat the Gym Leader and get the Gym Badge, the Trainer rank reaches 3, 
-and the game gracefully ends.
+and the game gracefully ends. <br> <br> 
 However, you know what? the Trainer rank actually can be up to 4, and you can revoke the game to enjoy the rest of the 
 story!
-(Of course, if you are interested.(Please say yes..!)) <br> <br> 
+Of course, if you are interested. (Please say yes..!) <br> <br> 
 
 ### __2. Some other things to note:__
-#### __Battle with wild Pokémon__
+#### __2-1. Battle with wild Pokémon__
 When the character enters a bush, a wild Pokémon randomly appears and a battle starts. The character can choose from 
 the following actions each turn:
 - 1: Attack 
@@ -97,17 +97,20 @@ the following actions each turn:
   
 The battle ends when you defeat or capture the wild Pokémon, or successfully run away. <br>  <br> 
 
-#### __Battle with Pokémon trainer__
+#### __2-2. Battle with Pokémon trainer__
 At some places with "!", you might battle Pokémon trainers. Trainers will send out several Pokémon in 
 succession. Defeating all of them ends the battle. <br> <br> 
 
-#### __What happens when you lose a battle__
+#### __2-3. What happens when you lose a battle__
 If all your Pokémon are defeated in battle, the battle ends. In this case, you are returned to your home and lose 
 all your Potions and Poké Balls. <br> <br> 
 
+#### __2-4. What happens when your trainer rank goes up?__
+As well as you gain access to new areas, the variety of Pokémon you encounter in bush expands! <br> (Initially you can 
+see only four different species, but eventually, there will be 8, 12, and ultimately 16 different Pokémon appears!) 
+<br> <br>
+
 That's all for now. I hope you enjoy the game!
-
-
 
 
 
