@@ -4,7 +4,7 @@ ascii arts.
 """
 
 
-def print_title():
+def print_title() -> None:
     """
     Prints the title of the game.
 
@@ -22,7 +22,7 @@ def print_title():
 |_|_| |_|    \_/ \__,_|_| |_|\___\___/ \__,_| \_/ \___|_|  (_)""")
 
 
-def print_congratulations():
+def print_congratulations() -> None:
     """
     Prints the congratulations message.
 
@@ -37,7 +37,7 @@ def print_congratulations():
                   |___/                                                     """)
 
 
-def print_thank_you_for_playing():
+def print_thank_you_for_playing() -> None:
     """
     Prints the thank you for playing message.
 
@@ -57,7 +57,7 @@ def print_thank_you_for_playing():
 |_|            |___/         |___/                                 """)
 
 
-def poke_dex():
+def poke_dex() -> dict:
     """
     This function returns a dictionary that contains information of Pokémon.
 

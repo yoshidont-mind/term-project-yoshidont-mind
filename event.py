@@ -8,7 +8,7 @@ import battle
 import characters
 
 
-def event(character):
+def event(character: dict) -> None:
     """
     Invoke an event function according to the character's location.
 
@@ -34,7 +34,7 @@ def event(character):
         event_function(character)
 
 
-def adventure_preparation(character):
+def adventure_preparation(character: dict) -> None:
     """
     Execute an event when the player visits the entrance of the town.
 
@@ -100,7 +100,7 @@ def adventure_preparation(character):
         input("Press Enter to continue.\n")
 
 
-def gather_user_choice_for_fist_pokemon():
+def gather_user_choice_for_fist_pokemon() -> str:
     """
     Gather user's choice for the first Pokémon.
 
@@ -126,7 +126,7 @@ def gather_user_choice_for_fist_pokemon():
             print("\nYou're choice is not valid. Please try it again.\n")
 
 
-def lonsdale_quay(character):
+def lonsdale_quay(character: dict) -> None:
     """
     Execute an event when the player visits Lonsdale Quay.
 
@@ -150,7 +150,7 @@ def lonsdale_quay(character):
     input("Press Enter to continue.\n")
 
 
-def lion_gate_bridge(character):
+def lion_gate_bridge(character: dict) -> None:
     """
     Execute an event when the player visits Lion Gate Bridge.
 
@@ -221,7 +221,7 @@ def lion_gate_bridge(character):
             go_home(character)
 
 
-def go_home(character):
+def go_home(character: dict) -> None:
     """
     Execute an event when the player loses a battle.
 
@@ -244,7 +244,7 @@ def go_home(character):
     event_home(character)
 
 
-def event_home(character):
+def event_home(character: dict) -> None:
     """
     Execute an event when the player visits home.
 
@@ -266,7 +266,7 @@ def event_home(character):
     input("Press Enter to continue.\n")
 
 
-def mount_cypress(character):
+def mount_cypress(character: dict) -> None:
     """
     Execute an event when the player visits Mount Cypress.
 
@@ -288,7 +288,7 @@ def mount_cypress(character):
     input("Press Enter to continue.\n")
 
 
-def waterfront(character):
+def waterfront(character: dict) -> None:
     """
     Execute an event when the player visits Waterfront.
 
@@ -312,7 +312,7 @@ def waterfront(character):
     input("Press Enter to continue.\n")
 
 
-def bcit_pokemon_gym(character):
+def bcit_pokemon_gym(character: dict) -> None:
     """
     Execute an event when the player visits BCIT Pokémon Gym.
 
@@ -373,7 +373,7 @@ def bcit_pokemon_gym(character):
             go_home(character)
 
 
-def science_world(character):
+def science_world(character: dict) -> None:
     """
     Execute an event when the player visits Science World.
 
@@ -392,7 +392,7 @@ def science_world(character):
         input("Press Enter to continue.\n")
 
 
-def burrard_street_bridge(character):
+def burrard_street_bridge(character: dict) -> None:
     """
     Execute an event when the player visits Burrard Street Bridge.
 
@@ -411,7 +411,7 @@ def burrard_street_bridge(character):
         input("Press Enter to continue.\n")
 
 
-def granville_island(character):
+def granville_island(character: dict) -> None:
     """
     Execute an event when the player visits Granville Island.
 
@@ -430,7 +430,7 @@ def granville_island(character):
         input("Press Enter to continue.\n")
 
 
-def cypress_top(character):
+def cypress_top(character: dict) -> None:
     """
     Execute an event when the player visits the top of Cypress Mountain.
 
@@ -473,7 +473,7 @@ def cypress_top(character):
         go_home(character)
 
 
-def event_information(character, user_choice):
+def event_information(character: dict, user_choice: str) -> None:
     """
     Print information about the location.
 
@@ -498,7 +498,7 @@ def event_information(character, user_choice):
         input("Press Enter to continue.\n")
 
 
-def event_bush(character):
+def event_bush(character: dict) -> None:
     """
     Execute an event when the player visits a bush.
 
@@ -538,7 +538,7 @@ def event_bush(character):
                     event_continues = False
 
 
-def check_for_wild_pokemon():
+def check_for_wild_pokemon() -> bool:
     """
     Determine whether the player encounters a wild Pokémon.
 
@@ -554,7 +554,7 @@ def check_for_wild_pokemon():
         return False
 
 
-def event_path(character):
+def event_path(character: dict) -> None:
     """
     Execute an event when the player visits a path.
 

@@ -8,7 +8,7 @@ import time
 import characters
 
 
-def battle_with_trainer(character, trainer):
+def battle_with_trainer(character: dict, trainer: dict) -> bool:
     """
     Execute a battle with a trainer.
 
@@ -61,7 +61,7 @@ def battle_with_trainer(character, trainer):
                 return False
 
 
-def next_pokemon(character):
+def next_pokemon(character: dict) -> dict:
     """
     Return the index of the next alive Pokémon in the character's Pokémon list.
 
@@ -88,7 +88,7 @@ def next_pokemon(character):
             return character['Pokemon'][index]
 
 
-def pokemon_battle(character, my_pokemon, foe_pokemon, trainer_battle):
+def pokemon_battle(character: dict, my_pokemon: dict, foe_pokemon: dict, trainer_battle: bool) -> bool:
     """
     Execute a battle with a Pokémon.
 
@@ -117,7 +117,7 @@ def pokemon_battle(character, my_pokemon, foe_pokemon, trainer_battle):
             print("\nYou're choice is not valid. Please try it again.\n")
 
 
-def execute_turn(user_input, character, my_pokemon, foe_pokemon, trainer_battle):
+def execute_turn(user_input: str, character: dict, my_pokemon: dict, foe_pokemon: dict, trainer_battle: bool) -> str:
     """
     Execute a turn.
 
@@ -160,7 +160,7 @@ def execute_turn(user_input, character, my_pokemon, foe_pokemon, trainer_battle)
     return turn_result
 
 
-def execute_both_attacks(my_pokemon, foe_pokemon):
+def execute_both_attacks(my_pokemon: dict, foe_pokemon: dict) -> str:
     """
     Execute both attacks.
 
@@ -259,7 +259,7 @@ def execute_both_attacks(my_pokemon, foe_pokemon):
     return turn_result
 
 
-def attacks(offense, defense):
+def attacks(offense: dict, defense: dict) -> None:
     """
     Execute an attack.
 
@@ -301,7 +301,7 @@ def attacks(offense, defense):
     print(f"HP of {defense['Name']}: {defense['HP']}/{defense['Max HP']}\n")
 
 
-def calculate_damage(offense, defense):
+def calculate_damage(offense: dict, defense: dict) -> int:
     """
     Calculate the damage of an attack.
 
@@ -319,7 +319,7 @@ def calculate_damage(offense, defense):
     return damage
 
 
-def calculate_acquiring_exp(level):
+def calculate_acquiring_exp(level: int) -> int:
     """
     Calculate the acquiring exp of a Pokémon.
 
@@ -335,7 +335,7 @@ def calculate_acquiring_exp(level):
     return round(level * 150 / 7)
 
 
-def determine_level_up(pokemon):
+def determine_level_up(pokemon: dict) -> None:
     """
     Determine whether a Pokémon levels up.
 
@@ -437,7 +437,7 @@ def determine_level_up(pokemon):
         print(f"{pokemon['Name']} looks stronger!\n")
 
 
-def see_pokemon(character, my_pokemon):
+def see_pokemon(character: dict, my_pokemon: dict) -> None:
     """
     Print the character's Pokémon list.
 
@@ -495,7 +495,7 @@ def see_pokemon(character, my_pokemon):
         print(f" - HP     : {character['Pokemon'][index]['HP']} / {character['Pokemon'][index]['Max HP']}\n")
 
 
-def execute_catch(character, my_pokemon, foe_pokemon):
+def execute_catch(character: dict, my_pokemon: dict, foe_pokemon: dict) -> str:
     """
     Execute catching a Pokémon.
 
@@ -540,7 +540,7 @@ def execute_catch(character, my_pokemon, foe_pokemon):
     return turn_result
 
 
-def pokemon_catch(foe):
+def pokemon_catch(foe: dict) -> bool:
     """
     Determine whether the player successes to catch a Pokémon.
 
@@ -557,7 +557,7 @@ def pokemon_catch(foe):
     return random_number <= possibility
 
 
-def execute_run(my_pokemon, foe_pokemon):
+def execute_run(my_pokemon: dict, foe_pokemon: dict) -> str:
     """
     Execute running away from a Pokémon.
 
@@ -583,7 +583,7 @@ def execute_run(my_pokemon, foe_pokemon):
     return turn_result
 
 
-def run_success(my_pokemon, foe):
+def run_success(my_pokemon: dict, foe: dict) -> bool:
     """
     Determine whether the player successes to run from a Pokémon.
 
@@ -599,7 +599,7 @@ def run_success(my_pokemon, foe):
     return random_number <= 20
 
 
-def check_alive_pokemon_remains(character):
+def check_alive_pokemon_remains(character: dict) -> bool:
     """
     Determine whether there are any alive Pokémon in the character's Pokémon list.
 
@@ -624,7 +624,7 @@ def check_alive_pokemon_remains(character):
     return False
 
 
-def append_pokemon(character, pokemon_number, level, hp):
+def append_pokemon(character: dict, pokemon_number: int, level: int, hp: int) -> None:
     """
     Append a Pokémon to the character's Pokémon list.
 
@@ -685,7 +685,7 @@ def append_pokemon(character, pokemon_number, level, hp):
     character['Pokemon'].append(pokemon_dic)
 
 
-def generate_pokemon(pokemon_number, level):
+def generate_pokemon(pokemon_number: int, level: int) -> dict:
     """
     Generate a dictionary that represents a Pokémon.
 
@@ -747,7 +747,7 @@ def generate_pokemon(pokemon_number, level):
     return pokemon_status
 
 
-def calculate_max_hp(pokemon_number, level):
+def calculate_max_hp(pokemon_number: int, level: int) -> int:
     """
     Calculate the max HP of a Pokémon.
 
@@ -768,7 +768,7 @@ def calculate_max_hp(pokemon_number, level):
     return max_hp
 
 
-def calculate_attack(pokemon_number, level):
+def calculate_attack(pokemon_number: int, level: int) -> int:
     """
     Calculate the attack of a Pokémon.
 
@@ -789,7 +789,7 @@ def calculate_attack(pokemon_number, level):
     return attack
 
 
-def calculate_defense(pokemon_number, level):
+def calculate_defense(pokemon_number: int, level: int) -> int:
     """
     Calculate the defense of a Pokémon.
 
@@ -810,7 +810,7 @@ def calculate_defense(pokemon_number, level):
     return defense
 
 
-def calculate_exp_to_next_level(level):
+def calculate_exp_to_next_level(level: int) -> int:
     """
     Calculate the exp to next level of a Pokémon.
 

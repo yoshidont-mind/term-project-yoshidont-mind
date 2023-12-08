@@ -11,7 +11,7 @@ import event
 import characters
 
 
-def load_save_data():
+def load_save_data() -> dict:
     """
     Load save data from save_data.json.
 
@@ -33,7 +33,7 @@ def load_save_data():
         return None
 
 
-def generate_map_dictionary():
+def generate_map_dictionary() -> dict:
     """
     Generate a dictionary containing tuples of coordinates as keys and characters as values.
 
@@ -89,7 +89,7 @@ def generate_map_dictionary():
     return map_dic
 
 
-def describe_current_location(map_dic, character):
+def describe_current_location(map_dic: dict, character: dict) -> None:
     """
     Display the current location of the character along with the surrounding area.
 
@@ -131,7 +131,7 @@ def describe_current_location(map_dic, character):
     print(f"Now, you are at \"★\".")
 
 
-def get_user_choice(map_dic, character):
+def get_user_choice(map_dic: dict, character: dict) -> str:
     """
     Get user's choice of direction or action.
 
@@ -164,7 +164,7 @@ def get_user_choice(map_dic, character):
             describe_current_location(map_dic, character)
 
 
-def validate_move(map_dic, character, direction):
+def validate_move(map_dic: dict, character: dict, direction: str) -> bool:
     """
     Validate if the character can move to the direction.
 
@@ -196,7 +196,7 @@ def validate_move(map_dic, character, direction):
         return False
 
 
-def move_character(character, direction):
+def move_character(character: dict, direction: str) -> None:
     """
     Move the character to the direction.
 
@@ -222,7 +222,7 @@ def move_character(character, direction):
     character['Location'] = new_location
 
 
-def open_map(map_dic, character):
+def open_map(map_dic: dict, character: dict) -> None:
     """
     Display the whole map and the current location of the character on it.
 
@@ -250,7 +250,7 @@ def open_map(map_dic, character):
     input("Press Enter to close map.\n")
 
 
-def check_status(character):
+def check_status(character: dict) -> None:
     """
     Display the status of the character.
 
@@ -279,7 +279,7 @@ def check_status(character):
     input("Press Enter to close status.\n")
 
 
-def gather_user_choice_to_heal_pokemon(character):
+def gather_user_choice_to_heal_pokemon(character: dict) -> int:
     """
     Gather user's choice of Pokémon to heal.
 
@@ -303,7 +303,7 @@ def gather_user_choice_to_heal_pokemon(character):
     return int(selected_number_str) if selected_number_str in expected else 0
 
 
-def gather_user_choice_to_change_order(character):
+def gather_user_choice_to_change_order(character: dict) -> int:
     """
     Gather user's choice of Pokémon to move to the top of the list.
 
@@ -322,7 +322,7 @@ def gather_user_choice_to_change_order(character):
     return int(selected_number_str) if selected_number_str in expected else 0
 
 
-def change_order(character, index):
+def change_order(character: dict, index: int) -> None:
     """
     Change the order of the Pokémon in the list.
 
@@ -352,7 +352,7 @@ def change_order(character, index):
     character['Pokemon'].insert(index, top_pokemon)
 
 
-def gather_user_choice_to_escape_pokemon(character):
+def gather_user_choice_to_escape_pokemon(character: dict) -> int:
     """
     Gather user's choice of Pokémon to escape.
 
@@ -371,7 +371,7 @@ def gather_user_choice_to_escape_pokemon(character):
     return int(selected_number_str) if selected_number_str in expected else 0
 
 
-def save_data_as_json(character):
+def save_data_as_json(character: dict) -> None:
     """
     Save character data as json file.
 
@@ -383,7 +383,7 @@ def save_data_as_json(character):
         json.dump(character, file_object)
 
 
-def game():
+def game() -> None:
     """
     Execute the game.
     """
@@ -527,7 +527,7 @@ def game():
             continue_game = False
 
 
-def main():
+def main() -> None:
     """
     Execute the game.
     """
