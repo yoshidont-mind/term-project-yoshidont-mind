@@ -513,7 +513,7 @@ def event_bush(character: dict) -> None:
     """
     if check_for_wild_pokemon():
         # generate a wild Pokémon
-        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 4)
+        foe_pokemon_number = random.randint(1, character['Trainer rank'] * 4)  # variety depends on trainer rank
         foe_level = random.randint(2, battle.next_pokemon(character)['Level'])
         foe_pokemon = battle.generate_pokemon(foe_pokemon_number, foe_level)
         foe_pokemon_ascii_art = characters.poke_dex()[foe_pokemon_number]['Ascii art']
