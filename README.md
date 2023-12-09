@@ -22,7 +22,7 @@ yoshidont-mind
 For commits prior to 'COPY code from pokemon-in-vancouver!', please refer to the other repository (pokemon-in-vancouver).
 https://github.com/yoshidont-mind/pokemon-in-vancouver
 
-## About this game:
+## About this game
 
 ### __0. Overview：__
 I grew up with Pokémon. I still remember, as if it were yesterday,
@@ -112,24 +112,38 @@ see only four different species, but eventually, there will be 8, 12, and ultima
 
 That's all for now. I hope you enjoy the game!
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## Indices for mandatory elements
+| No.   | Element                                                                            | Where you can find it                                                                                                                                                                                                               |
+|-------|------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | main function in game.py                                                           | game.py: line 530-534                                                                                                                                                                                                               |
+| 2     | game.pdf                                                                           | /pdfs/game.pdf                                                                                                                                                                                                                      |
+| 3 (a) | whimsical, descriptive, and engaging scenario                                      | game.py: line 409-420, 515-525 <br/>(game()) <br> event.py: line 63-100, 175-217, 336-369, 450-471, etc.                                                                                                                            |
+| 3 (b) | environment with 5 × 5 or more grids                                               | game.py: line 36 (generate_map_dictionary())                                                                                                                                                                                        |
+| 3 (c) | a character who has a name, level, HP, and other meaningful attributes             | game.py: line 405-408 (game()) <br> battle.py: line 688-747 (generate_pokemon())                                                                                                                                                    |
+| 3 (d) | character movement in the four cardinal directions                                 | game.py: line 158 (get_user_choice())                                                                                                                                                                                               |
+| 3 (e) | obstacle when character moves                                                      | game.py: line 432-446 <br> line 557-578 (event.path()), etc.                                                                                                                                                                        |
+| 3 (f) | given opportunity to overcome (battle, riddle, etc.)                               | event.py: line 501-538 (event.bush())                                                                                                                                                                                               |
+| 3 (g) | the game ends when the character achieves a final goal                             | game.py: line 515-525 (game())                                                                                                                                                                                                      |
+| 4 (a) | character start at level one, and be able to reach level three                     | event.py: line 96, 212, 364, 465                                                                                                                                                                                                    |
+| 4 (b) | each level needs name and certain amount of experience to reach                    | event.py: line 153-221 (lion_gate_bridge()), 315-373 (bcit_pokemon_gym()) <br> - Character need to win battles to reach the next level.                                                                                             |
+| 4 (c) | when character reaches next level, some attributes increase and something improves | event.py: line 215, 367, 468, 516 <br> - When character reaches next level, the variety of Pokémon appearing in bush increases. <br> battle.py: line 338-437, 750-810 <br> - When Pokémon reaches next level, its status increases. |
+| 4 (d) | when character reached level three, they should be able to take on the boss        | game.py: line 517-524, event.py: line 269-288, 433-472 <br> - When character reaches level three, they can challenge the strongest Pokémon trainer.                                                                                 |
+| 5     | a coherent, rich ecosystem of challenges                                           | event.py: line 517 <br> - maximum level of wild Pokémon increases as the level of character's Pokémon increases.                                                                                                                    |
+| 6     | If a character runs out of mojo, the game must end                                 | event.py: line 221, 373, 473, 537 <br> - If all Pokémon are defeated in battle, character returns home and loses all Potions and Poké Balls.                                                                                        |
+| 7 (a) | immutable data structure                                                           | game.py: line 36-89 (generate_map_dictionary()) etc.                                                                                                                                                                                |
+| 7 (b) | mutable data structure                                                             | game.py: line 405-408 (game() > character) <br> battle.py: line 688-747 (generate_pokemon()) etc.                                                                                                                                   |
+| 7 (c) | exception handling                                                                 | game.py: line 14-33 (load_save_data())                                                                                                                                                                                              |
+| 7 (d) | minimized scope                                                                    | game.py: line 429 (user_choice), 466 (selected_pokemon), etc.                                                                                                                                                                       |
+| 7 (e) | small, atomic, and reusable functions                                              | battle.py: line 262-301 (attacks()), 627-685 (append_pokemon()), 771-789 (calculate_attack()), etc.                                                                                                                                 |
+| 7 (f) | simple flat code                                                                   | for everything                                                                                                                                                                                                                      |
+| 7 (g) | list/dictionary comprehension                                                      | game.py: line 318, 367                                                                                                                                                                                                              |
+| 7 (h) | selection using if-statements                                                      | battle.py: line 91-117 (pokemon_battle()), etc.                                                                                                                                                                                     |
+| 7 (i) | repetition using for-loops                                                         | battle.py: line 64-88 (next_pokemon()), etc.                                                                                                                                                                                        |
+| 7 (j) | membership operators                                                               | event.py: line 282, 389, 408, 427, etc.                                                                                                                                                                                             |
+| 7 (k) | range function                                                                     | game.py: line 86, 492, 621, etc.                                                                                                                                                                                                    |
+| 7 (l) | one or more functions from itertools                                               | game.py: line 296, 318, 367, etc.                                                                                                                                                                                                   |
+| 7 (m) | random module                                                                      | event.py: line 516-517, 550, 570 <br> battle.py: line 555, 598                                                                                                                                                                      |
+| 7 (n) | function annotations                                                               | for every function                                                                                                                                                                                                                  |
+| 7 (o) | doctests and unit tests                                                            | for every function / unit tests are under the unittests folder                                                                                                                                                                      |
+| 7 (p) | f-strings, str.format, or %-formatting                                             | for most of print() (e.g. event.py: line 63-66)                                                                                                                                                                                     |
+| 8     | GUI                                                                                | not implemented                                                                                                                                                                                                                     |
